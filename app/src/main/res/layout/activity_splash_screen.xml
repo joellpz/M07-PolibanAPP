@@ -10,14 +10,14 @@
     <ImageView
         android:id="@+id/logoB_splash"
         android:layout_width="252dp"
-        android:layout_height="54dp"
-        android:contentDescription="logo"
+        android:layout_height="253dp"
         android:src="@drawable/logo_only_bank"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44" />
+        android:contentDescription="@string/logo" />
 
     <ImageView
         android:id="@+id/logoC_splash"
@@ -29,7 +29,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="logo" />
+        android:contentDescription="@string/logo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
