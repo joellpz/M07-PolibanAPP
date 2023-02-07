@@ -78,25 +78,30 @@ public class RegisterFragment extends Fragment {
 
         registerButton.setEnabled(false);
 
+        try {
 
-        mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
-                .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            actualizarUI(user);
-                            Map<String, Object> userData = new HashMap<>();
-                            userData.put("id", user.getUid());
-                            userData.put("profilePhoto", null);
-                            userData.put("profileName", nameEditText.getText().toString());
-                            mFirestore.collection("users").document(user.getUid()).set(userData);
-                        } else {
-                            Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
+            mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
+                    .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                actualizarUI(user);
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put("id", user.getUid());
+                                userData.put("profilePhoto", null);
+                                userData.put("profileName", nameEditText.getText().toString());
+                                mFirestore.collection("users").document(user.getUid()).set(userData);
+                            } else {
+                                Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
+                                System.out.println(task.getException());
+                            }
+                            registerButton.setEnabled(true);
                         }
-                        registerButton.setEnabled(true);
-                    }
-                });
+                    });
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
     }
 

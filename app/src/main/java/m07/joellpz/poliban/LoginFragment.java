@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,6 +22,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import m07.joellpz.poliban.databinding.ActivityMainBinding;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment #newInstance} factory method to
@@ -31,12 +34,13 @@ public class LoginFragment extends Fragment {
     NavController navController;
 
     private EditText emailEditText, passwordEditText;
-    private Button emailSignInButton;
+    private Button loginButton;
     private LinearLayout signInForm;
     private ProgressBar signInProgressBar;
 
     private FirebaseAuth mAuth;
 
+    private ActivityMainBinding binding;
 
 
     public LoginFragment() {}
@@ -51,17 +55,24 @@ public class LoginFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        view.findViewById(R.id.gotoCreateAccountTextView).setOnClickListener(view1 -> navController.navigate(R.id.registerFragment));
-
+        view.findViewById(R.id.toRegisterFragment).setOnClickListener(view1 -> navController.navigate(R.id.registerFragment));
 
         emailEditText = view.findViewById(R.id.emailEditText);
         passwordEditText = view.findViewById(R.id.passwordEditText);
+        loginButton= view.findViewById(R.id.loginButton);
         signInForm = view.findViewById(R.id.signInForm);
         signInProgressBar = view.findViewById(R.id.signInProgressBar);
 
-        emailSignInButton.setOnClickListener(view12 -> accederConEmail());
+        loginButton.setOnClickListener(view12 -> accederConEmail());
 
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
     }
 
     private void accederConEmail() {
@@ -74,6 +85,7 @@ public class LoginFragment extends Fragment {
                         actualizarUI(mAuth.getCurrentUser());
                     } else {
                         Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
+                        System.out.println(task.getException()+"*************************************************");
                     }
                     signInForm.setVisibility(View.VISIBLE);
                     signInProgressBar.setVisibility(View.GONE);

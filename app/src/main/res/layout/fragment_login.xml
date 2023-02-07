@@ -43,15 +43,10 @@
             android:text="Login"/>
 
         <Button
-            android:id="@+id/registerButton"
+            android:id="@+id/toRegisterFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Register"/>
-        <TextView
-            android:id="@+id/gotoCreateAccountTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create account here"/>
     </LinearLayout>
 
     <ProgressBar

@@ -31,7 +31,6 @@ public class SplashScreen extends AppCompatActivity {
         logo_bank = findViewById(R.id.logoB_splash);
         logo_bank.setVisibility(View.GONE);
 
-        Objects.requireNonNull(getSupportActionBar()).hide();
         new Handler().postDelayed(() -> {
             Animation fadeInAll = new AlphaAnimation(0, 1);  // the 1, 0 here notifies that we want the opacity to go from opaque (1) to transparent (0)
             Animation fadeInBank = new AlphaAnimation(0, 1);  // the 1, 0 here notifies that we want the opacity to go from opaque (1) to transparent (0)
@@ -52,6 +51,6 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashScreen.this,MainActivity.class);
             startActivity(i);
-        },3400);
+        },3200);
     }
 }
