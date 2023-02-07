@@ -47,11 +47,11 @@ public class SplashScreen extends AppCompatActivity {
             logo.setVisibility(View.VISIBLE);
             logo_bank.startAnimation(fadeInBank);
             logo.startAnimation(fadeInAll);
-        }, 1600);
+        }, 1100);
 
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashScreen.this,MainActivity.class);
             startActivity(i);
-        },4000);
+        },3400);
     }
 }
