@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Poliban"
         tools:targetApi="31">
         <activity
-            android:name=".SplashScreen"
+            android:name=".splashScreen.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.Poliban.NoActionBar">
             <intent-filter>

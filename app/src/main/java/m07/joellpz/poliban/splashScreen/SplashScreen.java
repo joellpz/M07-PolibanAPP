@@ -1,21 +1,18 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.splashScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.Fade;
-import androidx.transition.Transition;
-import androidx.transition.TransitionManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import java.util.Objects;
+import m07.joellpz.poliban.MainActivity;
+import m07.joellpz.poliban.R;
 
 public class SplashScreen extends AppCompatActivity {
     ImageView logo, logo_bank;
@@ -49,7 +46,7 @@ public class SplashScreen extends AppCompatActivity {
         }, 1100);
 
         new Handler().postDelayed(() -> {
-            Intent i = new Intent(SplashScreen.this,MainActivity.class);
+            Intent i = new Intent(SplashScreen.this, MainActivity.class);
             startActivity(i);
         },3200);
     }
