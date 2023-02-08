@@ -25,4 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    // https://www.geeksforgeeks.org/flexbox-layout-in-android/
+    // https://stackoverflow.com/questions/31250174/css-flexbox-difference-between-align-items-and-align-content
 }

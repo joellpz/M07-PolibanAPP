@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +36,7 @@ public class LoginFragment extends Fragment {
 
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
-    private LinearLayout signInForm;
+    private FlexboxLayout signInForm;
     private ProgressBar signInProgressBar;
 
     private FirebaseAuth mAuth;
@@ -62,6 +63,7 @@ public class LoginFragment extends Fragment {
         loginButton= view.findViewById(R.id.loginButton);
         signInForm = view.findViewById(R.id.signInForm);
         signInProgressBar = view.findViewById(R.id.signInProgressBar);
+        signInProgressBar.setVisibility(View.GONE);
 
         loginButton.setOnClickListener(view12 -> accederConEmail());
 
@@ -71,8 +73,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setVisibility(View.VISIBLE);
+//        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+//        toolbar.setVisibility(View.VISIBLE);
     }
 
     private void accederConEmail() {
