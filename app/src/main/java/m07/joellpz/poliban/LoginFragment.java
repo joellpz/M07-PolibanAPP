@@ -71,19 +71,11 @@ public class LoginFragment extends Fragment {
         polibanArcProgress = view.findViewById(R.id.custom_imageprogressBar);
 //        signInProgressBar = view.findViewById(R.id.signInProgressBar);
 
-        Bitmap polibanIcon = BitmapFactory.decodeResource(getResources(),R.drawable.icon_poliban);
-        polibanArcProgress.setProgressImage(polibanIcon,20.0f);
-        polibanArcProgress.setCircleSize(35.0f);
-        polibanArcProgress.setCircleColor(Color.parseColor("#5C7C9D"));
-        polibanArcProgress.setArchSize(40.0f);
-        polibanArcProgress.setArchColor(Color.parseColor("#FF9966"));
-        polibanArcProgress.setArchLength(150);
-        polibanArcProgress.setArchStroke(8.85f);
-        polibanArcProgress.setArchSpeed(5);
+        new ChargingImage(polibanArcProgress,this);
 //        signInProgressBar.setVisibility(View.GONE);
         polibanArcProgress.setVisibility(View.GONE);
 
-        loginButton.setOnClickListener(view12 -> accederConEmail());
+        loginButton.setOnClickListener(view1 -> accederConEmail());
 
         mAuth = FirebaseAuth.getInstance();
 

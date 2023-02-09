@@ -1,33 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterFragment"
-    android:orientation="vertical">
+    android:background="@color/blue_poliban">
 
-    <EditText
-        android:id="@+id/nameEditText"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/registerForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"/>
+        app:alignContent="center"
+        app:alignItems="center"
+        app:flexWrap="wrap"
+        app:justifyContent="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="Welcome To POLIBAN!"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"/>
+        <ImageView
+            android:id="@+id/icon_poliban"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/icon_poliban" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create account"/>
+        <ImageView
+            android:id="@+id/profileImg"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/profile_img" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="Email*"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_light"
+            android:hint="Email*"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_transparent" />
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="Name*"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_light"
+            android:hint="Name*"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_transparent" />
+
+        <EditText
+            android:id="@+id/directionEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="Direction*"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_light"
+            android:hint="Direction*"
+            android:inputType="textPostalAddress"
+            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_transparent" />
+
+        <EditText
+            android:id="@+id/cpEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="Postal Code*"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_light"
+            android:hint="Postal Code*"
+            android:inputType="number"
+            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_transparent" />
+
+        <EditText
+            android:id="@+id/phoneEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autofillHints="Phone*"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_light"
+            android:hint="Phone*"
+            android:inputType="phone"
+            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_transparent" />
+
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_light"
+            android:hint="Password*"
+            android:inputType="textPassword"
+            android:padding="5dp"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_transparent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/orange_light"
+                android:text="Register" />
+
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/blue_light"
+                android:text="Cancel" />
+        </LinearLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.mrtyvz.archedimageprogress.ArchedImageProgressBar
+        android:id="@+id/custom_imageprogressBar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
