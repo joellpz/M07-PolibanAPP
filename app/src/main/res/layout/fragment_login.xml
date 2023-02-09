@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_poliban">
@@ -10,6 +9,7 @@
         android:id="@+id/signInForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
         app:alignContent="center"
         app:alignItems="center"
         app:flexWrap="wrap"
@@ -17,8 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="-20dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/logoC_splash"
@@ -30,39 +29,43 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="50dp"
+            android:paddingStart="70dp"
             android:paddingTop="20dp"
-            android:text="Login with email/password"
+            android:paddingEnd="15dp"
+            android:text="@string/login_with_email_password"
             android:textColor="@color/white_transparent" />
 
         <EditText
             android:id="@+id/emailEditText"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:autofillHints="Email"
             android:background="@drawable/border_radius"
             android:backgroundTint="@color/blue_light"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="	textEmailAddress"
             android:padding="5dp"
             android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white_transparent" />
 
         <EditText
             android:id="@+id/passwordEditText"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/border_radius"
             android:backgroundTint="@color/blue_light"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="5dp"
             android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:textColor="@color/white"
-            android:textColorHint="@color/white_transparent" />
+            android:textColorHint="@color/white_transparent"
+            android:autofillHints="@string/password" />
 
 
         <LinearLayout
@@ -78,20 +81,24 @@
 
             <Button
                 android:id="@+id/loginButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/orange_light"
-                android:text="Login" />
+                android:text="@string/login"
+                android:textColor="@color/white" />
 
 
             <Button
                 android:id="@+id/toRegisterFragment"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:backgroundTint="@color/blue_light"
-                android:text="Register" />
+                android:text="@string/register"
+                android:textColor="@color/white" />
         </LinearLayout>
     </com.google.android.flexbox.FlexboxLayout>
 
@@ -105,7 +112,7 @@
     <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.mrtyvz.archedimageprogress.ArchedImageProgressBar
-        android:id="@+id/custom_imageprogressBar"
+        android:id="@+id/custom_imageProgressBar"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"

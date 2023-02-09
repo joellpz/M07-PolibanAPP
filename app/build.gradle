@@ -57,4 +57,8 @@ dependencies {
 
     //Charging Image
     implementation 'com.github.smrtyvz:ArchedImageProgressBar:2.01'
+
+    //Image Visualitzation
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

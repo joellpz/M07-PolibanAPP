@@ -1,4 +1,4 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.view;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

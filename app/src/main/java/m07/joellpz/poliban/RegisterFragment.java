@@ -1,5 +1,6 @@
 package m07.joellpz.poliban;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -26,6 +31,13 @@ import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import com.bumptech.glide.Glide;
+
+import m07.joellpz.poliban.tools.UpdateProfileImage;
+import m07.joellpz.poliban.view.AppViewModel;
+import m07.joellpz.poliban.view.ChargingImage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,11 +48,15 @@ public class RegisterFragment extends Fragment {
 
     private EditText emailEditText, passwordEditText, nameEditText, phoneEditText, directionEditText, cpEditText;
     NavController navController;
-    private Button registerButton, cancelButton;
+    private Button registerButton;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
     private FlexboxLayout registerForm;
     ArchedImageProgressBar polibanArcProgress;
+
+    private Uri photoURL;
+    public AppViewModel appViewModel;
+
 
     public RegisterFragment() {
     }
@@ -54,6 +70,7 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         navController = Navigation.findNavController(view);  // <-----------------
 
         registerForm = view.findViewById(R.id.registerForm);
@@ -64,32 +81,27 @@ public class RegisterFragment extends Fragment {
         cpEditText = view.findViewById(R.id.cpEditText);
         directionEditText = view.findViewById(R.id.directionEditText);
         phoneEditText = view.findViewById(R.id.phoneEditText);
-        polibanArcProgress = view.findViewById(R.id.custom_imageprogressBar);
-        new ChargingImage(polibanArcProgress,this);
+        polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
+        new ChargingImage(polibanArcProgress, this);
 
         polibanArcProgress.setVisibility(View.GONE);
         registerButton = view.findViewById(R.id.registerButton);
-        cancelButton = view.findViewById(R.id.cancelButton);
+        Button cancelButton = view.findViewById(R.id.cancelButton);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                crearCuenta();
-            }
-
-        });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.popBackStack();
-            }
-
-        });
+        registerButton.setOnClickListener(view1 -> crearCuenta());
+        cancelButton.setOnClickListener(view1 -> navController.popBackStack());
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
+
+        view.findViewById(R.id.profileImg).setOnClickListener(v -> galeria.launch("image/*"));
+        appViewModel.mediaSeleccionado.observe(getViewLifecycleOwner(), media -> {
+            if (media.uri != null) {
+                Glide.with(requireContext()).load(media.uri).circleCrop().into((ImageView) view.findViewById(R.id.profileImg));
+                photoURL = media.uri;
+            }
+        });
     }
 
-    //TODO profile Image
     private void crearCuenta() {
         if (!validarFormulario()) {
             return;
@@ -100,34 +112,32 @@ public class RegisterFragment extends Fragment {
 
         polibanArcProgress.setVisibility(View.VISIBLE);
 
-        try {
 
+        try {
             mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
-                    .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                actualizarUI(user);
-                                Map<String, Object> userData = new HashMap<>();
-                                userData.put("id", user.getUid());
-                                userData.put("profilePhoto", null);
-                                userData.put("profileName", nameEditText.getText().toString());
-                                userData.put("profilePhone", phoneEditText.getText().toString());
-                                userData.put("profileDirection", directionEditText.getText().toString());
-                                userData.put("profileCP", cpEditText.getText().toString());
-                                mFirestore.collection("users").document(user.getUid()).set(userData);
-                            } else {
-                                Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
-                                System.out.println(task.getException());
-                            }
-                            polibanArcProgress.setVisibility(View.GONE);
-                            registerForm.setVisibility(View.VISIBLE);
-                            registerButton.setEnabled(true);
+                    .addOnCompleteListener(requireActivity(), task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            actualizarUI(user);
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("id", Objects.requireNonNull(user).getUid());
+                            if (photoURL != null) {
+                                UpdateProfileImage.pujaIguardarEnFirestore(photoURL,user);
+                            } else userData.put("profilePhoto", "R.drawable.profile_img");
+                            userData.put("profileName", nameEditText.getText().toString());
+                            userData.put("profilePhone", phoneEditText.getText().toString());
+                            userData.put("profileDirection", directionEditText.getText().toString());
+                            userData.put("profileCP", cpEditText.getText().toString());
+                            mFirestore.collection("users").document(user.getUid()).set(userData);
+                        } else {
+                            Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
                         }
+                        polibanArcProgress.setVisibility(View.GONE);
+                        registerForm.setVisibility(View.VISIBLE);
+                        registerButton.setEnabled(true);
                     });
         } catch (Exception e) {
-            System.out.println(e);
+            e.getStackTrace();
         }
 
     }
@@ -154,7 +164,6 @@ public class RegisterFragment extends Fragment {
         } else {
             nameEditText.setError(null);
         }
-
 
         if (TextUtils.isEmpty(passwordEditText.getText().toString())) {
             passwordEditText.setError("Required.");
@@ -187,4 +196,7 @@ public class RegisterFragment extends Fragment {
         return valid;
 
     }
+
+    protected final ActivityResultLauncher<String> galeria =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> appViewModel.setMediaSeleccionado(uri, "image"));
 }

@@ -1,14 +1,9 @@
 package m07.joellpz.poliban;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -29,6 +23,8 @@ import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 //import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
+import m07.joellpz.poliban.tools.UpdateProfileImage;
+import m07.joellpz.poliban.view.ChargingImage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +36,6 @@ public class LoginFragment extends Fragment {
     NavController navController;
 
     private EditText emailEditText, passwordEditText;
-    private Button loginButton;
     private FlexboxLayout signInForm;
     private ProgressBar signInProgressBar;
     ArchedImageProgressBar polibanArcProgress;
@@ -66,9 +61,9 @@ public class LoginFragment extends Fragment {
 
         emailEditText = view.findViewById(R.id.emailEditText);
         passwordEditText = view.findViewById(R.id.passwordEditText);
-        loginButton= view.findViewById(R.id.loginButton);
+        Button loginButton = view.findViewById(R.id.loginButton);
         signInForm = view.findViewById(R.id.signInForm);
-        polibanArcProgress = view.findViewById(R.id.custom_imageprogressBar);
+        polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
 //        signInProgressBar = view.findViewById(R.id.signInProgressBar);
 
         new ChargingImage(polibanArcProgress,this);
@@ -77,7 +72,9 @@ public class LoginFragment extends Fragment {
 
         loginButton.setOnClickListener(view1 -> accederConEmail());
 
+
         mAuth = FirebaseAuth.getInstance();
+
 
 
     }
@@ -101,7 +98,6 @@ public class LoginFragment extends Fragment {
                         actualizarUI(mAuth.getCurrentUser());
                     } else {
                         Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
-                        System.out.println(task.getException()+"*************************************************");
                     }
                     signInForm.setVisibility(View.VISIBLE);
 //                    signInProgressBar.setVisibility(View.GONE);
