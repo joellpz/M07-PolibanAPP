@@ -1,4 +1,4 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.loginregister;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,10 +20,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,9 +32,10 @@ import java.util.Objects;
 
 import com.bumptech.glide.Glide;
 
+import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
 import m07.joellpz.poliban.view.AppViewModel;
-import m07.joellpz.poliban.view.ChargingImage;
+import m07.joellpz.poliban.tools.ChargingImage;
 
 /**
  * A simple {@link Fragment} subclass.

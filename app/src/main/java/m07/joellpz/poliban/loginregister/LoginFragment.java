@@ -1,4 +1,4 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.loginregister;
 
 import android.os.Bundle;
 
@@ -22,9 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 //import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
+import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
-import m07.joellpz.poliban.tools.UpdateProfileImage;
-import m07.joellpz.poliban.view.ChargingImage;
+import m07.joellpz.poliban.tools.ChargingImage;
 
 /**
  * A simple {@link Fragment} subclass.
