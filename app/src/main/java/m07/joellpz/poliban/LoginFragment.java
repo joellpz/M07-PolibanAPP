@@ -1,6 +1,9 @@
 package m07.joellpz.poliban;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,8 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
+//import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
 
@@ -38,6 +43,7 @@ public class LoginFragment extends Fragment {
     private Button loginButton;
     private FlexboxLayout signInForm;
     private ProgressBar signInProgressBar;
+    ArchedImageProgressBar polibanArcProgress;
 
     private FirebaseAuth mAuth;
 
@@ -62,12 +68,26 @@ public class LoginFragment extends Fragment {
         passwordEditText = view.findViewById(R.id.passwordEditText);
         loginButton= view.findViewById(R.id.loginButton);
         signInForm = view.findViewById(R.id.signInForm);
-        signInProgressBar = view.findViewById(R.id.signInProgressBar);
-        signInProgressBar.setVisibility(View.GONE);
+        polibanArcProgress = view.findViewById(R.id.custom_imageprogressBar);
+//        signInProgressBar = view.findViewById(R.id.signInProgressBar);
+
+        Bitmap polibanIcon = BitmapFactory.decodeResource(getResources(),R.drawable.icon_poliban);
+        polibanArcProgress.setProgressImage(polibanIcon,20.0f);
+        polibanArcProgress.setCircleSize(35.0f);
+        polibanArcProgress.setCircleColor(Color.parseColor("#5C7C9D"));
+        polibanArcProgress.setArchSize(40.0f);
+        polibanArcProgress.setArchColor(Color.parseColor("#FF9966"));
+        polibanArcProgress.setArchLength(150);
+        polibanArcProgress.setArchStroke(8.85f);
+        polibanArcProgress.setArchSpeed(5);
+//        signInProgressBar.setVisibility(View.GONE);
+        polibanArcProgress.setVisibility(View.GONE);
 
         loginButton.setOnClickListener(view12 -> accederConEmail());
 
         mAuth = FirebaseAuth.getInstance();
+
+
     }
 
     @Override
@@ -79,7 +99,9 @@ public class LoginFragment extends Fragment {
 
     private void accederConEmail() {
         signInForm.setVisibility(View.GONE);
-        signInProgressBar.setVisibility(View.VISIBLE);
+        //signInProgressBar.setVisibility(View.VISIBLE);
+        polibanArcProgress.setVisibility(View.VISIBLE);
+
 
         mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                 .addOnCompleteListener(requireActivity(), task -> {
@@ -90,7 +112,8 @@ public class LoginFragment extends Fragment {
                         System.out.println(task.getException()+"*************************************************");
                     }
                     signInForm.setVisibility(View.VISIBLE);
-                    signInProgressBar.setVisibility(View.GONE);
+//                    signInProgressBar.setVisibility(View.GONE);
+                    polibanArcProgress.setVisibility(View.GONE);
                 });
     }
 
