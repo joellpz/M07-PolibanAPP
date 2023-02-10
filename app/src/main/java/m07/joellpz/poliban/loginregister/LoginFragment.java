@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toolbar;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,7 +38,7 @@ public class LoginFragment extends Fragment {
 
     private EditText emailEditText, passwordEditText;
     private FlexboxLayout signInForm;
-    private ProgressBar signInProgressBar;
+//    private ProgressBar signInProgressBar;
     ArchedImageProgressBar polibanArcProgress;
 
     private FirebaseAuth mAuth;
@@ -77,13 +78,6 @@ public class LoginFragment extends Fragment {
 
 
 
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-//        toolbar.setVisibility(View.VISIBLE);
     }
 
     private void accederConEmail() {

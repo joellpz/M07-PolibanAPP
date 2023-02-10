@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toolbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -121,7 +122,7 @@ public class RegisterFragment extends Fragment {
                             userData.put("id", Objects.requireNonNull(user).getUid());
                             if (photoURL != null) {
                                 UpdateProfileImage.pujaIguardarEnFirestore(photoURL,user);
-                            } else userData.put("profilePhoto", "R.drawable.profile_img");
+                            } else userData.put("profilePhoto", null);
                             userData.put("profileName", nameEditText.getText().toString());
                             userData.put("profilePhone", phoneEditText.getText().toString());
                             userData.put("profileDirection", directionEditText.getText().toString());
