@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,6 +33,7 @@ import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.tools.ChargingImage;
@@ -60,6 +62,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         toolbar.setVisibility(View.GONE);
+        requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.GONE);
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         navController = Navigation.findNavController(view);
         editProfileForm = view.findViewById(R.id.editProfileForm);
@@ -91,28 +94,25 @@ public class ProfileFragment extends Fragment {
 
         FirebaseFirestore.getInstance().collection("users").document(user.getUid())
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot docSnap = task.getResult();
-                            if (docSnap.exists()) {
-                                emailEditText.setText(user.getEmail());
-                                nameEditText.setText(docSnap.get("profileName").toString());
-                                phoneEditText.setText(docSnap.get("profilePhone").toString());
-                                directionEditText.setText(docSnap.get("profileDirection").toString());
-                                cpEditText.setText(docSnap.get("profileCP").toString());
-                                Glide.with(requireContext()).load(docSnap.get("profilePhoto").toString()).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));
-                                System.out.println("ENCOTRADO");
-                            } else {
-                                System.out.println("Documento no encontrado");
-                            }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot docSnap = task.getResult();
+                        if (docSnap.exists()) {
+                            emailEditText.setText(user.getEmail());
+                            nameEditText.setText(Objects.requireNonNull(docSnap.get("profileName")).toString());
+                            phoneEditText.setText(Objects.requireNonNull(docSnap.get("profilePhone")).toString());
+                            directionEditText.setText(Objects.requireNonNull(docSnap.get("profileDirection")).toString());
+                            cpEditText.setText(Objects.requireNonNull(docSnap.get("profileCP")).toString());
+                            Glide.with(requireContext()).load(Objects.requireNonNull(docSnap.get("profilePhoto")).toString()).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));
+                            System.out.println("ENCOTRADO");
                         } else {
-                            System.out.println(task.getException().getMessage());
+                            System.out.println("Documento no encontrado");
                         }
-                        editProfileForm.setVisibility(View.VISIBLE);
-                        polibanArcProgress.setVisibility(View.GONE);
+                    } else {
+                        System.out.println(Objects.requireNonNull(task.getException()).getMessage());
                     }
+                    editProfileForm.setVisibility(View.VISIBLE);
+                    polibanArcProgress.setVisibility(View.GONE);
                 });
         //Map<String, Object> userData = UpdateProfileImage.getUserData(user);
 //        Glide.with(requireContext()).load(userData.get("profilePhoto")).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));

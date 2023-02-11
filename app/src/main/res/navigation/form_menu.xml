@@ -24,4 +24,19 @@
         android:name="m07.joellpz.poliban.userFragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="m07.joellpz.poliban.WalletFragment"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
+    <fragment
+        android:id="@+id/payFragment"
+        android:name="m07.joellpz.poliban.PayFragment"
+        android:label="fragment_pay"
+        tools:layout="@layout/fragment_pay" />
+    <fragment
+        android:id="@+id/settignsFragment"
+        android:name="m07.joellpz.poliban.SettignsFragment"
+        android:label="fragment_settigns"
+        tools:layout="@layout/fragment_settigns" />
 </navigation>

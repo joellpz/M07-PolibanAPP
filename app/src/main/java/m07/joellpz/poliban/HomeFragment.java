@@ -16,8 +16,11 @@ import android.widget.ScrollView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +28,7 @@ import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.Objects;
 
+import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.tools.ChargingImage;
 
 /**
@@ -40,6 +44,7 @@ public class HomeFragment extends Fragment {
 
     private FirebaseUser user;
     private Toolbar toolbar;
+    private BottomNavigationView bottomMenu;
     private ScrollView mainView;
     private Uri photoURL;
 
@@ -66,6 +71,7 @@ public class HomeFragment extends Fragment {
                         else
                             Glide.with(requireContext()).load(R.drawable.profile_img).circleCrop().into((ImageView) toolbar.findViewById(R.id.profileAppBarImage));
                     }
+                    bottomMenu.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     mainView.setVisibility(View.VISIBLE);
                     polibanArcProgress.setVisibility(View.GONE);
@@ -78,6 +84,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //TODO IMPORATNTE ESTO DE CAMBIAR LA TOOLBAR
         toolbar = (Toolbar) requireActivity().findViewById(R.id.toolbar);
+        bottomMenu = (BottomNavigationView) requireActivity().findViewById(R.id.bottomMainMenu);
 
     }
 
