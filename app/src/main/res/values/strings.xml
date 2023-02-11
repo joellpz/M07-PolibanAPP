@@ -24,4 +24,6 @@
     <string name="phone">Phone*</string>
     <string name="cancel">Cancel</string>
     <string name="name">Name*</string>
+    <string name="change_your_profile">Change your Profile</string>
+    <string name="update">Update</string>
 </resources>

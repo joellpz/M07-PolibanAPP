@@ -6,12 +6,12 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="m07.joellpz.poliban.loginregister.LoginFragment"
+        android:name="m07.joellpz.poliban.userFragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="m07.joellpz.poliban.loginregister.RegisterFragment"
+        android:name="m07.joellpz.poliban.userFragments.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <fragment
@@ -19,4 +19,9 @@
         android:name="m07.joellpz.poliban.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="m07.joellpz.poliban.userFragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

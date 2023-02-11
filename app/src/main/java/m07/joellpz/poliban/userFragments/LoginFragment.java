@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.loginregister;
+package m07.joellpz.poliban.userFragments;
 
 import android.os.Bundle;
 
@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toolbar;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -85,8 +83,8 @@ public class LoginFragment extends Fragment {
         //signInProgressBar.setVisibility(View.VISIBLE);
         polibanArcProgress.setVisibility(View.VISIBLE);
 
-
-        mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
+        mAuth.signInWithEmailAndPassword("joel@gmail.com", "joel2001")
+        //mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
                         actualizarUI(mAuth.getCurrentUser());

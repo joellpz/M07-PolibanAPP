@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.loginregister;
+package m07.joellpz.poliban.userFragments;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;

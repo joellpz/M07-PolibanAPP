@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/registerForm"
+            android:id="@+id/editProfileForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:alignContent="center"
@@ -23,51 +23,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:alignContent="center"
-            app:alignItems="center"
-            app:flexWrap="wrap"
-            app:justifyContent="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="@string/welcome_to_poliban"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
+                app:alignContent="center"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/icon_poliban"
-                android:layout_width="45dp"
-                android:layout_height="35dp"
-                android:contentDescription="@string/logo"
-                android:src="@drawable/icon_poliban" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/change_your_profile"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
 
-            <ImageView
-                android:id="@+id/profileImg"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:contentDescription="@string/logo"
-                android:src="@drawable/profile_img" />
-        </com.google.android.flexbox.FlexboxLayout>
+                <ImageView
+                    android:id="@+id/profileImgProfile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="@string/logo"
+                    android:src="@drawable/profile_img" />
+            </com.google.android.flexbox.FlexboxLayout>
 
             <EditText
-                android:id="@+id/emailEditText"
+                android:id="@+id/emailEditTextProfile"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
+                android:layout_marginBottom="15dp"
                 android:autofillHints="Email*"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_light"
+                android:enabled="false"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
@@ -77,10 +73,10 @@
                 android:textColorHint="@color/white_transparent" />
 
             <EditText
-                android:id="@+id/nameEditText"
+                android:id="@+id/nameEditTextProfile"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:autofillHints="Name*"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_light"
@@ -93,10 +89,10 @@
                 android:textColorHint="@color/white_transparent" />
 
             <EditText
-                android:id="@+id/directionEditText"
+                android:id="@+id/directionEditTextProfile"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:autofillHints="Direction*"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_light"
@@ -109,10 +105,10 @@
                 android:textColorHint="@color/white_transparent" />
 
             <EditText
-                android:id="@+id/cpEditText"
+                android:id="@+id/cpEditTextProfile"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:autofillHints="Postal Code*"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_light"
@@ -125,32 +121,15 @@
                 android:textColorHint="@color/white_transparent" />
 
             <EditText
-                android:id="@+id/phoneEditText"
+                android:id="@+id/phoneEditTextProfile"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="15dp"
                 android:autofillHints="Phone*"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_light"
                 android:hint="@string/phone"
                 android:inputType="phone"
-                android:padding="5dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white_transparent" />
-
-
-            <EditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:autofillHints="@string/password"
-                android:background="@drawable/border_radius"
-                android:backgroundTint="@color/blue_light"
-                android:hint="@string/password"
-                android:inputType="textPassword"
                 android:padding="5dp"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
@@ -170,18 +149,18 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <Button
-                    android:id="@+id/registerButton"
+                    android:id="@+id/updateButtonProfile"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/orange_light"
-                    android:text="@string/register"
+                    android:text="@string/update"
                     android:textColor="@color/white" />
 
 
                 <Button
-                    android:id="@+id/cancelButton"
+                    android:id="@+id/cancelButtonProfile"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
@@ -190,7 +169,6 @@
                     android:text="@string/cancel"
                     android:textColor="@color/white" />
             </LinearLayout>
-
 
         </com.google.android.flexbox.FlexboxLayout>
 
