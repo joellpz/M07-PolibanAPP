@@ -39,4 +39,9 @@
         android:name="m07.joellpz.poliban.SettignsFragment"
         android:label="fragment_settigns"
         tools:layout="@layout/fragment_settigns" />
+    <fragment
+        android:id="@+id/chatBotFragment"
+        android:name="m07.joellpz.poliban.ChatBotFragment"
+        android:label="fragment_chat_bot"
+        tools:layout="@layout/fragment_chat_bot" />
 </navigation>

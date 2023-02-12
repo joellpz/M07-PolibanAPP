@@ -58,14 +58,14 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        toolbar = (Toolbar) requireActivity().findViewById(R.id.toolbar);
+        toolbar = requireActivity().findViewById(R.id.toolbar);
         toolbar.findViewById(R.id.profileAppBarImage).setOnClickListener(l -> navController.navigate(R.id.profileFragment));
-        bottomMenu = (BottomNavigationView) requireActivity().findViewById(R.id.bottomMainMenu);
+        bottomMenu = requireActivity().findViewById(R.id.bottomMainMenu);
         mainView = view.findViewById(R.id.mainView);
         mainView.setVisibility(View.GONE);
 
         navController = Navigation.findNavController(view);
-        //view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> );
+        view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
         polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
         new ChargingImage(polibanArcProgress, this);
         viewPager = view.findViewById(R.id.viewPager);
@@ -101,9 +101,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO IMPORATNTE ESTO DE CAMBIAR LA TOOLBAR
-
-
     }
 
 
@@ -114,15 +111,16 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        private List<Fragment> fragmentList = new ArrayList<>();
+        private final List<Fragment> fragmentList = new ArrayList<>();
         //private List<String> titleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return fragmentList.get(position);
