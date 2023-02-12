@@ -4,6 +4,7 @@
     <color name="blue_light">#5C7C9D</color>
     <color name="orange_light">#CCFF9966</color>
     <color name="orange_poliban">#FF9966</color>
+    <color name="grey_background_poliban">#D2D3D5</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

@@ -1,13 +1,12 @@
 package m07.joellpz.poliban;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
 
 import java.util.Objects;
 
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.appBarMain.contentMain.bottomMainMenu, navController);
 
         setSupportActionBar(binding.appBarMain.toolbar);
+
 
 
     }
