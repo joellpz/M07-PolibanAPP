@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
-
     tools:context=".ChatBotFragment">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/chatBotTitle"
+        android:textColor="@color/orange_light"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idRVChats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/idLLMessage" />
+        android:layout_above="@id/idLLMessage"
+        app:layout_constraintBottom_toTopOf="@id/idLLMessage"
+        app:layout_constraintTop_toBottomOf="@id/goBackBtn"
+        tools:layout_editor_absoluteX="2dp" />
 
     <LinearLayout
         android:id="@+id/idLLMessage"
@@ -20,7 +36,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:weightSum="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!--edit text to enter message-->
         <EditText
@@ -28,7 +47,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:hint="Introduce tu mensaje" />
+            android:hint="@string/introduce_tu_mensaje"
+            android:autofillHints="@string/introduce_tu_mensaje"
+            android:inputType="text" />
 
         <!--button to send message-->
         <ImageButton
@@ -39,8 +60,21 @@
             android:layout_weight="1"
             android:background="@color/orange_light"
             android:src="@android:drawable/ic_menu_send"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:contentDescription="" />
 
     </LinearLayout>
 
-</RelativeLayout>
+    <ImageButton
+        android:id="@+id/goBackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/chatbot_btn"
+        android:contentDescription="@string/chatbot"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

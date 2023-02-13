@@ -35,4 +35,6 @@
     <string name="owner">Owner</string>
     <string name="credit">Credit</string>
     <string name="chatbot">ChatBot</string>
+    <string name="chatBotTitle">Chat con Poliban</string>
+    <string name="introduce_tu_mensaje">Introduce tu mensaje</string>
 </resources>

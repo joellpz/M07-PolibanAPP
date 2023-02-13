@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,10 +37,11 @@ public class ChatBotFragment extends Fragment {
 
     private EditText userMsgEdt;
     private final String BOT_KEY = "bot";
-
+    private NavController navController;
     // creating a variable for array list and adapter class.
     private ArrayList<MessageModal> messageModalArrayList;
     private MessageRVAdapter messageRVAdapter;
+
 
     public ChatBotFragment() {
         // Required empty public constructor
@@ -47,12 +50,13 @@ public class ChatBotFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("GOLA");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.GONE);
         View view = inflater.inflate(R.layout.fragment_chat_bot, container, false);
         RecyclerView chatsRV = view.findViewById(R.id.idRVChats);
         ImageButton sendMsgIB = view.findViewById(R.id.idIBSend);
@@ -105,6 +109,10 @@ public class ChatBotFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+
+        view.findViewById(R.id.goBackBtn).setOnClickListener(l -> navController.popBackStack());
+
     }
 
     private void sendMessage(String userMsg) {

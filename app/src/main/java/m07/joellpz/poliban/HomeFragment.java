@@ -3,7 +3,6 @@ package m07.joellpz.poliban;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -65,7 +64,6 @@ public class HomeFragment extends Fragment {
         bottomMenu = requireActivity().findViewById(R.id.bottomMainMenu);
         mainView = view.findViewById(R.id.mainView);
         mainView.setVisibility(View.GONE);
-        view.findViewById(R.id.chatbotFrame).setVisibility(View.GONE);
 
         navController = Navigation.findNavController(view);
 
@@ -76,17 +74,10 @@ public class HomeFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
 
-        chatBotFragment = new ChatBotFragment();
-        getChildFragmentManager().beginTransaction().add(R.id.chatbotFrame, chatBotFragment).commit();
-        view.findViewById(R.id.chatbotBtn).setOnClickListener(l ->view.findViewById(R.id.chatbotFrame).setVisibility(View.VISIBLE));
+//        chatBotFragment = new ChatBotFragment();
+//        getChildFragmentManager().beginTransaction().add(R.id.chatbotFrame, chatBotFragment).commit();
+        view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
 
-        mainView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Oculta el FrameLayout al hacer clic fuera de él
-                view.findViewById(R.id.chatbotFrame).setVisibility(View.GONE);
-            }
-        });
 
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());

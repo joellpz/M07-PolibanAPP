@@ -45,17 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tabLayout" />
 
-    <FrameLayout
-        android:id="@+id/chatbotFrame"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tabLayout">
-
-    </FrameLayout>
-
 
     <!--    <ScrollView-->
     <!--        android:layout_width="wrap_content"-->
