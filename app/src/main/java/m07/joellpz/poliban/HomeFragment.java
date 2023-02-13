@@ -3,6 +3,7 @@ package m07.joellpz.poliban;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    ChatBotFragment chatBotFragment;
 
     public HomeFragment() {
     }
@@ -63,13 +65,29 @@ public class HomeFragment extends Fragment {
         bottomMenu = requireActivity().findViewById(R.id.bottomMainMenu);
         mainView = view.findViewById(R.id.mainView);
         mainView.setVisibility(View.GONE);
+        view.findViewById(R.id.chatbotFrame).setVisibility(View.GONE);
 
         navController = Navigation.findNavController(view);
-        view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
+
         polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
+        polibanArcProgress.setVisibility(View.VISIBLE);
         new ChargingImage(polibanArcProgress, this);
+
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
+
+        chatBotFragment = new ChatBotFragment();
+        getChildFragmentManager().beginTransaction().add(R.id.chatbotFrame, chatBotFragment).commit();
+        view.findViewById(R.id.chatbotBtn).setOnClickListener(l ->view.findViewById(R.id.chatbotFrame).setVisibility(View.VISIBLE));
+
+        mainView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Oculta el FrameLayout al hacer clic fuera de él
+                view.findViewById(R.id.chatbotFrame).setVisibility(View.GONE);
+            }
+        });
+
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new IbanMainFragment());
@@ -95,6 +113,11 @@ public class HomeFragment extends Fragment {
                     polibanArcProgress.setVisibility(View.GONE);
                 });
 
+        // Create a new Fragment to be placed in the activity layout
+
+
+// Add the fragment to the 'loading_text_fragment_container' FrameLayout
+
 
     }
 
@@ -107,7 +130,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
