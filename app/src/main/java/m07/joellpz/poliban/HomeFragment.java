@@ -79,7 +79,6 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
 
 
-
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new IbanMainFragment());
         adapter.addFragment(new IbanMainFragment());
@@ -103,12 +102,6 @@ public class HomeFragment extends Fragment {
                     mainView.setVisibility(View.VISIBLE);
                     polibanArcProgress.setVisibility(View.GONE);
                 });
-
-        // Create a new Fragment to be placed in the activity layout
-
-
-// Add the fragment to the 'loading_text_fragment_container' FrameLayout
-
 
     }
 
