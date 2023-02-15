@@ -297,6 +297,18 @@
             </LinearLayout>
         </HorizontalScrollView>
 
+        <CalendarView
+            android:layout_marginTop="15dp"
+            android:id="@+id/calendarView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:dateTextAppearance="@style/CalenderViewDateCustomText"
+            android:maxDate="12/31/2023"
+            android:minDate="12/01/2022"
+            android:background="@drawable/border_radius"
+            android:theme="@style/CalenderViewCustom"
+            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
 
         <!--android:backgroundTint="@color/orange_poliban" -->
         <!--            //CONTENT-->
