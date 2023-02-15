@@ -1,9 +1,11 @@
 package m07.joellpz.poliban;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IbanMainFragment#newInstance} factory method to
+ * Use the {@link IbanMainFragment #newInstance} factory method to
  * create an instance of this fragment.
  */
 public class IbanMainFragment extends Fragment {
@@ -30,6 +32,7 @@ public class IbanMainFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -53,6 +56,13 @@ public class IbanMainFragment extends Fragment {
         LineData data = new LineData(dataSets);
         chartLoses.setData(data);
         chartWins.setData(data);
+
+        CalendarView simpleCalendarView = (CalendarView) view.findViewById(R.id.calendarView); // get the reference of CalendarView
+        simpleCalendarView.setDateTextAppearance(R.color.orange_poliban);
+        simpleCalendarView.setFocusedMonthDateColor(getContext().getColor(R.color.orange_poliban)); // set the red color for the dates of  focused month
+        simpleCalendarView.setUnfocusedMonthDateColor(getContext().getColor(R.color.orange_poliban)); // set the yellow color for the dates of an unfocused month
+        simpleCalendarView.setSelectedWeekBackgroundColor(getContext().getColor(R.color.orange_poliban)); // red color for the selected week's background
+        simpleCalendarView.setWeekSeparatorLineColor(getContext().getColor(R.color.orange_poliban));; // green color for the week separator line
     }
 
     @Override

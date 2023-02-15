@@ -30,10 +30,10 @@
                 android:id="@+id/bank_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/bank_data"
                 android:elevation="4dp"
                 android:orientation="vertical"
-                android:layout_marginBottom="10dp"
                 android:padding="20dp">
 
                 <TextView
@@ -147,8 +147,8 @@
 
             <HorizontalScrollView
                 android:layout_width="300dp"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:fillViewport="true">
 
                 <LinearLayout
@@ -160,9 +160,9 @@
                         android:id="@+id/chartRevenue"
                         android:layout_width="300dp"
                         android:layout_height="150dp"
-                        android:background="@drawable/border_radius"
                         android:layout_marginEnd="5dp"
-                        android:backgroundTint="@color/blue_poliban"/>
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="@color/blue_poliban" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/chartExped"
@@ -170,9 +170,22 @@
                         android:layout_height="150dp"
                         android:layout_marginStart="5dp"
                         android:background="@drawable/border_radius"
-                        android:backgroundTint="@color/blue_poliban"/>
+                        android:backgroundTint="@color/blue_poliban" />
                 </LinearLayout>
             </HorizontalScrollView>
+
+            <CalendarView
+                android:layout_marginTop="15dp"
+                android:id="@+id/calendarView"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:maxDate="12/31/2023"
+                android:minDate="12/01/2022"
+                android:background="@drawable/border_radius"
+                android:theme="@style/CalenderViewCustom"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
             <!--android:backgroundTint="@color/orange_poliban" -->
             <!--            //CONTENT-->
 
