@@ -111,208 +111,210 @@
         </LinearLayout>
 
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="300dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_height="wrap_content"
-        app:alignContent="center"
-        app:alignItems="center"
-        app:flexWrap="wrap"
-        app:justifyContent="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <Button
-            android:id="@+id/bizumButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:backgroundTint="@color/white"
-            android:drawableLeft="@drawable/icon_bizum" />
-
-        <Button
-            android:id="@+id/creditButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:backgroundTint="@color/white"
-            android:drawableLeft="@drawable/icon_credit"
-            android:text="@string/credit"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/investButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:backgroundTint="@color/white"
-            android:drawableLeft="@drawable/icon_invest" />
-
-        <HorizontalScrollView
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fillViewport="true">
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:alignContent="center"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-            <LinearLayout
+            <Button
+                android:id="@+id/bizumButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="55dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_bizum" />
+
+            <Button
+                android:id="@+id/creditButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_credit"
+                android:text="@string/credit"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/investButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_invest" />
+
+            <HorizontalScrollView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fillViewport="true">
 
                 <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/border_radius"
-                    android:backgroundTint="@color/blue_poliban"
-                    android:orientation="vertical"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_marginEnd="5dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="20dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:src="@drawable/icon_revenue" />
+                        android:layout_width="300dp"
+                        android:layout_height="150dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="@color/blue_poliban"
+                        android:orientation="vertical"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:paddingStart="20dp">
 
-                            <TextView
+                            <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="-10dp"
-                                android:text="Revenue"
-                                android:textColor="@color/white"
-                                android:textSize="18dp" />
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/icon_revenue" />
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Last Month"
-                                android:textColor="@color/grey_background_poliban"
-                                android:textSize="11dp" />
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="-10dp"
+                                    android:text="Revenue"
+                                    android:textColor="@color/white"
+                                    android:textSize="18dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Last Month"
+                                    android:textColor="@color/grey_background_poliban"
+                                    android:textSize="11dp" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/revenuePrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="-10dp"
+                            android:paddingStart="20dp"
+                            android:text="WINS €"
+                            android:textColor="@color/white"
+                            android:textSize="22dp" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chartRevenue"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginEnd="5dp" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/revenuePrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="-10dp"
-                        android:paddingStart="20dp"
-                        android:text="WINS €"
-                        android:textColor="@color/white"
-                        android:textSize="22dp" />
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/chartRevenue"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginEnd="5dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/border_radius"
-                    android:backgroundTint="@color/red"
-                    android:orientation="vertical"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_marginStart="5dp">
-
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="20dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:src="@drawable/icon_expediture" />
+                        android:layout_width="300dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="@color/red"
+                        android:orientation="vertical"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:paddingStart="20dp">
 
-                            <TextView
+                            <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="-10dp"
-                                android:text="Expediture"
-                                android:textColor="@color/white"
-                                android:textSize="18dp" />
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/icon_expediture" />
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Last Month"
-                                android:textColor="@color/grey_background_poliban"
-                                android:textSize="11dp" />
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="-10dp"
+                                    android:text="Expediture"
+                                    android:textColor="@color/white"
+                                    android:textSize="18dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Last Month"
+                                    android:textColor="@color/grey_background_poliban"
+                                    android:textSize="11dp" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
 
+                        <TextView
+                            android:id="@+id/expediturePrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="-10dp"
+                            android:paddingStart="20dp"
+                            android:text="LOSES €"
+                            android:textColor="@color/white"
+                            android:textSize="22dp" />
 
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chartExped"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginStart="5dp" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/expediturePrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="-10dp"
-                        android:text="LOSES €"
-                        android:textColor="@color/white"
-                        android:textSize="22dp"
-                        android:paddingStart="20dp"/>
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/chartExped"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginStart="5dp" />
                 </LinearLayout>
-            </LinearLayout>
-        </HorizontalScrollView>
+            </HorizontalScrollView>
 
-        <CalendarView
-            android:layout_marginTop="15dp"
-            android:id="@+id/calendarView"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:dateTextAppearance="@style/CalenderViewDateCustomText"
-            android:maxDate="12/31/2023"
-            android:minDate="12/01/2022"
-            android:background="@drawable/border_radius"
-            android:theme="@style/CalenderViewCustom"
-            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border_radius"
+                android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:maxDate="12/31/2023"
+                android:minDate="12/01/2022"
+                android:theme="@style/CalenderViewCustom"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
 
 
-        <!--android:backgroundTint="@color/orange_poliban" -->
-        <!--            //CONTENT-->
-    </com.google.android.flexbox.FlexboxLayout>
+            <!--android:backgroundTint="@color/orange_poliban" -->
+            <!--            //CONTENT-->
+
     </com.google.android.flexbox.FlexboxLayout>
 
 </ScrollView>
