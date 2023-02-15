@@ -54,6 +54,4 @@
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">@color/orange_poliban</item>
     </style>
-
-
 </resources>

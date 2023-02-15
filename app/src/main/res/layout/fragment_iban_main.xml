@@ -299,21 +299,74 @@
 
         </com.google.android.flexbox.FlexboxLayout>
 
-            <CalendarView
-                android:id="@+id/calendarView"
+        <!--  Calendar-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/border_radius"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/arrow_back" />
+
+                <TextView
+                    android:id="@+id/monthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:text="Hola"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/arrow_forward" />
+            </LinearLayout>
+
+            <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                android:id="@+id/compactcalendar_view"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/border_radius"
-                android:dateTextAppearance="@style/CalenderViewDateCustomText"
-                android:maxDate="12/31/2023"
-                android:minDate="12/01/2022"
-                android:theme="@style/CalenderViewCustom"
-                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:compactCalendarBackgroundColor="#00ff0000"
+                app:compactCalendarCurrentDayBackgroundColor="#00ff0000"
+                app:compactCalendarCurrentDayTextColor="@color/orange_poliban"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="@color/orange_poliban"
+                app:compactCalendarMultiEventIndicatorColor="@color/orange_poliban"
+                app:compactCalendarTextColor="#6C6B6B"
+                app:compactCalendarTextSize="12sp" />
+
+        </LinearLayout>
+
+<!--        <CalendarView-->
+<!--            android:id="@+id/calendarView"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:background="@drawable/border_radius"-->
+<!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
+<!--            android:maxDate="12/31/2023"-->
+<!--            android:minDate="12/01/2022"-->
+<!--            android:theme="@style/CalenderViewCustom"-->
+<!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />-->
 
 
-            <!--android:backgroundTint="@color/orange_poliban" -->
-            <!--            //CONTENT-->
+        <!--android:backgroundTint="@color/orange_poliban" -->
+        <!--            //CONTENT-->
 
     </com.google.android.flexbox.FlexboxLayout>
 
