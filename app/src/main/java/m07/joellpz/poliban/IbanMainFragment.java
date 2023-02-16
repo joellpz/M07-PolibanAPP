@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -44,8 +46,8 @@ public class IbanMainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        chartLoses = (LineChart) view.findViewById(R.id.chartExped);
-        chartWins = (LineChart) view.findViewById(R.id.chartRevenue);
+        chartLoses = view.findViewById(R.id.chartExped);
+        chartWins = view.findViewById(R.id.chartRevenue);
         setChartPropieties(chartLoses);
         setChartPropieties(chartWins);
 
@@ -83,10 +85,10 @@ public class IbanMainFragment extends Fragment {
         chartLoses.setData(new LineData(expediture));
         chartWins.setData(new LineData(revenue));
 
-        CompactCalendarView compactCalendar = (CompactCalendarView) view.findViewById(R.id.compactcalendar_view);
+        CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_view);
         SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy");
 
-        TextView monthText = (TextView) view.findViewById(R.id.monthText);
+        TextView monthText = view.findViewById(R.id.monthText);
         monthText.setText(dateFormatForMonth.format(compactCalendar.getFirstDayOfCurrentMonth()));
 
         compactCalendar.setUseThreeLetterAbbreviation(true);
@@ -122,6 +124,26 @@ public class IbanMainFragment extends Fragment {
             }
         });
 
+        /*RecyclerView Transactions*/
+
+        ArrayList<TransactionsAdapter.TransactionItem> exampleList = new ArrayList<>();
+        exampleList.add(new TransactionsAdapter.TransactionItem("Item 1"));
+        exampleList.add(new TransactionsAdapter.TransactionItem("Item 2"));
+        exampleList.add(new TransactionsAdapter.TransactionItem("Item 3"));
+        exampleList.add(new TransactionsAdapter.TransactionItem("Item 4"));
+        exampleList.add(new TransactionsAdapter.TransactionItem("Item 5"));
+        RecyclerView mRecyclerView;
+        TransactionsAdapter mAdapter;
+        RecyclerView.LayoutManager mLayoutManager;
+
+
+        mRecyclerView = view.findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mAdapter = new TransactionsAdapter(exampleList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
 
     }
@@ -149,4 +171,54 @@ public class IbanMainFragment extends Fragment {
         chart.getAxisRight().setEnabled(false);
         chart.getLegend().setEnabled(false);
     }
+
+    //TODO Cambiar por FirestoreRecyclerAdapter el RecyclerView
+    static class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
+
+        private ArrayList<TransactionItem> mExampleList;
+
+        public TransactionsAdapter(ArrayList<TransactionItem> exampleList) {
+            mExampleList = exampleList;
+        }
+
+        @NonNull
+        @Override
+        public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_money_transit, parent, false);
+            return new TransactionViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
+            TransactionItem currentItem = mExampleList.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mExampleList.size();
+        }
+
+        class TransactionViewHolder extends RecyclerView.ViewHolder {
+            public TextView mTextView;
+
+            public TransactionViewHolder(View itemView) {
+                super(itemView);
+                mTextView = itemView.findViewById(R.id.subject_transaction);
+            }
+        }
+        static class TransactionItem {
+
+            private String mText;
+
+            public TransactionItem(String text) {
+                mText = text;
+            }
+
+            public String getText() {
+                return mText;
+            }
+        }
+    }
+
+
 }

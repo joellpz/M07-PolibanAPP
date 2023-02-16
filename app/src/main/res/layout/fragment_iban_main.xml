@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_background_poliban"
@@ -11,7 +10,7 @@
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/registerForm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:alignContent="center"
         app:alignItems="center"
         app:flexWrap="wrap"
@@ -110,7 +109,7 @@
 
         </LinearLayout>
 
-
+        <!-- Buttons & Graphs-->
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -189,7 +188,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
-                                android:src="@drawable/icon_revenue" />
+                                android:src="@drawable/icon_revenue"
+                                android:contentDescription="TODO" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -202,14 +202,14 @@
                                     android:layout_marginBottom="-10dp"
                                     android:text="Revenue"
                                     android:textColor="@color/white"
-                                    android:textSize="18dp" />
+                                    android:textSize="18sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Last Month"
                                     android:textColor="@color/grey_background_poliban"
-                                    android:textSize="11dp" />
+                                    android:textSize="11sp" />
                             </LinearLayout>
 
 
@@ -221,9 +221,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="-10dp"
                             android:paddingStart="20dp"
+                            android:paddingEnd="0dp"
                             android:text="WINS €"
                             android:textColor="@color/white"
-                            android:textSize="22dp" />
+                            android:textSize="22sp" />
 
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/chartRevenue"
@@ -265,14 +266,14 @@
                                     android:layout_marginBottom="-10dp"
                                     android:text="Expediture"
                                     android:textColor="@color/white"
-                                    android:textSize="18dp" />
+                                    android:textSize="18sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Last Month"
                                     android:textColor="@color/grey_background_poliban"
-                                    android:textSize="11dp" />
+                                    android:textSize="11sp" />
                             </LinearLayout>
 
 
@@ -286,7 +287,7 @@
                             android:paddingStart="20dp"
                             android:text="LOSES €"
                             android:textColor="@color/white"
-                            android:textSize="22dp" />
+                            android:textSize="22sp" />
 
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/chartExped"
@@ -298,6 +299,20 @@
             </HorizontalScrollView>
 
         </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:minWidth="300dp"
+            android:layout_width="wrap_content"
+            android:minHeight="200dp"
+            app:layout_maxHeight="700dp"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/border_radius"
+            android:backgroundTint="@color/blue_poliban"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
 
         <!--  Calendar-->
         <LinearLayout
@@ -339,30 +354,32 @@
             <com.github.sundeepk.compactcalendarview.CompactCalendarView
                 android:id="@+id/compactcalendar_view"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                app:compactCalendarBackgroundColor="#00ff0000"
-                app:compactCalendarCurrentDayBackgroundColor="#00ff0000"
+                android:layout_marginBottom="-25dp"
+                app:compactCalendarBackgroundColor="@color/transparent"
+                app:compactCalendarCurrentDayBackgroundColor="@color/transparent"
                 app:compactCalendarCurrentDayTextColor="@color/orange_poliban"
                 app:compactCalendarCurrentSelectedDayBackgroundColor="@color/orange_poliban"
                 app:compactCalendarMultiEventIndicatorColor="@color/orange_poliban"
                 app:compactCalendarTextColor="#6C6B6B"
                 app:compactCalendarTextSize="12sp" />
 
-        </LinearLayout>
+        <!--        <CalendarView-->
+        <!--            android:id="@+id/calendarView"-->
+        <!--            android:layout_width="300dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="15dp"-->
+        <!--            android:background="@drawable/border_radius"-->
+        <!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
+        <!--            android:maxDate="12/31/2023"-->
+        <!--            android:minDate="12/01/2022"-->
+        <!--            android:theme="@style/CalenderViewCustom"-->
+        <!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
 
-<!--        <CalendarView-->
-<!--            android:id="@+id/calendarView"-->
-<!--            android:layout_width="300dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:background="@drawable/border_radius"-->
-<!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
-<!--            android:maxDate="12/31/2023"-->
-<!--            android:minDate="12/01/2022"-->
-<!--            android:theme="@style/CalenderViewCustom"-->
-<!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />-->
+                </LinearLayout>
+
 
 
         <!--android:backgroundTint="@color/orange_poliban" -->
