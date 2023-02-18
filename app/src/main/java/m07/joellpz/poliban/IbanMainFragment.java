@@ -23,6 +23,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,9 +40,10 @@ import java.util.List;
  * Use the {@link IbanMainFragment #newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IbanMainFragment extends Fragment {
+public class IbanMainFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
     LineChart chartWins, chartLoses;
+    private GoogleMap mMap;
 
     public IbanMainFragment() {
         // Required empty public constructor
@@ -45,6 +52,13 @@ public class IbanMainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Maps
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
+        //TODO PONER MARCADORES DE COLORES EN EL MAPA
+
 
         chartLoses = view.findViewById(R.id.chartExped);
         chartWins = view.findViewById(R.id.chartRevenue);
@@ -172,6 +186,39 @@ public class IbanMainFragment extends Fragment {
         chart.getLegend().setEnabled(false);
     }
 
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        this.mMap.setOnMapClickListener(this);
+        this.mMap.setOnMapLongClickListener(this);
+
+        LatLng badalona = new LatLng(41.455775193431435, 2.201906692392249);
+        mMap.addMarker(new MarkerOptions().position(badalona).title("Badalona"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(badalona));
+    }
+
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+        //txtLatitud.setText(String.valueOf(latLng.latitude));
+        //txtLongitud.setText(String.valueOf(latLng.longitude));
+
+        mMap.clear();
+        LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
+        mMap.addMarker(new MarkerOptions().position(mexico).title(""));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
+    }
+
+    @Override
+    public void onMapLongClick(@NonNull LatLng latLng) {
+//        txtLatitud.setText(String.valueOf(latLng.latitude));
+//        txtLongitud.setText(String.valueOf(latLng.longitude));
+
+        mMap.clear();
+        LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
+        mMap.addMarker(new MarkerOptions().position(mexico).title("AÑA"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
+    }
+
     //TODO Cambiar por FirestoreRecyclerAdapter el RecyclerView
     static class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
 
@@ -206,6 +253,7 @@ public class IbanMainFragment extends Fragment {
                 mTextView = itemView.findViewById(R.id.subject_transaction);
             }
         }
+
         static class TransactionItem {
 
             private String mText;

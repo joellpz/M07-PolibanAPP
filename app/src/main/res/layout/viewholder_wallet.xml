@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="15dp"
+    android:background="@drawable/border_radius"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <!-- Header Layout-->
+    <TextView
+        android:id="@+id/whoseAccountText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="Daniel El Profe"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/walletItem"
+        app:layout_constraintEnd_toStartOf="@id/numAccountText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/numAccountText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text=". . . .  6789"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/walletItem"
+        app:layout_constraintEnd_toStartOf="@id/bankLogoWallet"
+        app:layout_constraintStart_toEndOf="@id/whoseAccountText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bankLogoWallet"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end|center"
+        android:layout_weight="1"
+        android:contentDescription="bankLogo"
+        android:src="@drawable/icon_poliban"
+        app:layout_constraintBottom_toTopOf="@+id/walletItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/numAccountText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/walletItem"
+        android:layout_width="325dp"
+        android:layout_height="175dp"
+        android:background="@drawable/border_radius"
+        android:backgroundTint="#D3E1FF"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/numAccountText">
+
+        <TextView
+            android:id="@+id/wastedMoneyWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_font"
+            android:text="@string/wasted_balance"
+            android:textAppearance="@style/lettersDataBank"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ibanNumInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="125.00 €"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wastedMoneyWord" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_poliban"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/paymentLogo" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="* * * *   * * * *   * * * *   2230"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/whoseAccountTextWallet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ibanNumInfo" />
+
+        <TextView
+            android:id="@+id/whoseAccountTextWallet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_font"
+            android:text="Daniel El Profe"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/expDateTextWallet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_font"
+            android:paddingRight="5dp"
+            android:text="@string/exp_date"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/expDateInfoWallet"
+            app:layout_constraintStart_toEndOf="@id/whoseAccountTextWallet"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/expDateInfoWallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09/26"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/expDateTextWallet"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <ImageView
+            android:id="@+id/infoBtnWallet"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:src="@drawable/icon_info_wallet"
+            app:layout_constraintBottom_toTopOf="@id/deleteBtnWallet"
+            app:layout_constraintEnd_toStartOf="@id/payBtnWallet"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            android:contentDescription="@string/infobtn" />
+
+        <ImageView
+            android:id="@+id/deleteBtnWallet"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/icon_delete"
+            app:layout_constraintBottom_toTopOf="@+id/expDateInfoWallet"
+            app:layout_constraintEnd_toStartOf="@+id/blockBtnWallet"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/infoBtnWallet"
+            android:contentDescription="@string/deletebtn" />
+
+        <ImageView
+            android:id="@+id/payBtnWallet"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:src="@drawable/icon_pay_wallet"
+            app:layout_constraintBottom_toTopOf="@+id/blockBtnWallet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/infoBtnWallet"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            android:contentDescription="@string/paybtn" />
+
+        <ImageView
+            android:id="@+id/blockBtnWallet"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:src="@drawable/icon_block_wallet"
+            app:layout_constraintBottom_toTopOf="@+id/expDateInfoWallet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/deleteBtnWallet"
+            app:layout_constraintTop_toBottomOf="@+id/payBtnWallet"
+            android:contentDescription="@string/blockbtn" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:src="@drawable/arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/back" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:src="@drawable/arrow_forward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/forward" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

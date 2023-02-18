@@ -51,6 +51,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.4.3'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
+    implementation 'com.firebaseui:firebase-ui-storage:8.0.2'
 
     //FlexBox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
@@ -68,8 +72,10 @@ dependencies {
     //Graphs
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
-    //
+    //Calendar
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
 
+    //Google Maps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
 }

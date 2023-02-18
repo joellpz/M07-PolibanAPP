@@ -37,4 +37,15 @@
     <string name="chatbot">ChatBot</string>
     <string name="chatBotTitle">Chat con Poliban</string>
     <string name="introduce_tu_mensaje">Introduce tu mensaje</string>
+    <string name="exp_date">Exp. Date:</string>
+    <string name="wasted_balance">Wasted Balance</string>
+    <string name="infobtn">infoBtn</string>
+    <string name="deletebtn">deleteBtn</string>
+    <string name="paybtn">payBtn</string>
+    <string name="blockbtn">blockBtn</string>
+    <string name="back">back</string>
+    <string name="forward">forward</string>
+    <string name="paymentLogo">paymentLogo</string>
+    <string name="expediture">Expediture</string>
+    <string name="last_month">Last Month</string>
 </resources>

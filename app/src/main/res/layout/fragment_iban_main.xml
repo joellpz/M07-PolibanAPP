@@ -188,8 +188,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
-                                android:src="@drawable/icon_revenue"
-                                android:contentDescription="TODO" />
+                                android:contentDescription="iconRevenue"
+                                android:src="@drawable/icon_revenue" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -264,14 +264,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="-10dp"
-                                    android:text="Expediture"
+                                    android:text="@string/expediture"
                                     android:textColor="@color/white"
                                     android:textSize="18sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Last Month"
+                                    android:text="@string/last_month"
                                     android:textColor="@color/grey_background_poliban"
                                     android:textSize="11sp" />
                             </LinearLayout>
@@ -302,16 +302,16 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
-            android:minWidth="300dp"
             android:layout_width="wrap_content"
-            android:minHeight="200dp"
-            app:layout_maxHeight="700dp"
             android:layout_height="fill_parent"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/border_radius"
             android:backgroundTint="@color/blue_poliban"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:minWidth="300dp"
+            android:minHeight="200dp"
+            app:layout_maxHeight="700dp" />
 
 
         <!--  Calendar-->
@@ -333,7 +333,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/arrow_back" />
+                    android:src="@drawable/arrow_back"
+                    android:contentDescription="@string/back" />
 
                 <TextView
                     android:id="@+id/monthText"
@@ -348,16 +349,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/arrow_forward" />
+                    android:src="@drawable/arrow_forward"
+                    android:contentDescription="@string/forward" />
             </LinearLayout>
 
             <com.github.sundeepk.compactcalendarview.CompactCalendarView
                 android:id="@+id/compactcalendar_view"
                 android:layout_width="300dp"
                 android:layout_height="250dp"
+                android:layout_marginBottom="-25dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginBottom="-25dp"
                 app:compactCalendarBackgroundColor="@color/transparent"
                 app:compactCalendarCurrentDayBackgroundColor="@color/transparent"
                 app:compactCalendarCurrentDayTextColor="@color/orange_poliban"
@@ -366,22 +368,39 @@
                 app:compactCalendarTextColor="#6C6B6B"
                 app:compactCalendarTextSize="12sp" />
 
-        <!--        <CalendarView-->
-        <!--            android:id="@+id/calendarView"-->
-        <!--            android:layout_width="300dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="15dp"-->
-        <!--            android:background="@drawable/border_radius"-->
-        <!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
-        <!--            android:maxDate="12/31/2023"-->
-        <!--            android:minDate="12/01/2022"-->
-        <!--            android:theme="@style/CalenderViewCustom"-->
-        <!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
+            <!--        <CalendarView-->
+            <!--            android:id="@+id/calendarView"-->
+            <!--            android:layout_width="300dp"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="15dp"-->
+            <!--            android:background="@drawable/border_radius"-->
+            <!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
+            <!--            android:maxDate="12/31/2023"-->
+            <!--            android:minDate="12/01/2022"-->
+            <!--            android:theme="@style/CalenderViewCustom"-->
+            <!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
 
-                </LinearLayout>
+        </LinearLayout>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="12dp">
 
-
+            <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                map:cameraZoom="50"
+                map:uiRotateGestures="true"
+                map:uiZoomControls="true" />
+        </androidx.cardview.widget.CardView>
         <!--android:backgroundTint="@color/orange_poliban" -->
         <!--            //CONTENT-->
 
