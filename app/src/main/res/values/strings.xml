@@ -48,4 +48,12 @@
     <string name="paymentLogo">paymentLogo</string>
     <string name="expediture">Expediture</string>
     <string name="last_month">Last Month</string>
+    <string name="iconrevenue">iconRevenue</string>
+    <string name="banklogo">bankLogo</string>
+    <string name="cve">CVE:</string>
+    <string name="current_balance">Current Balance</string>
+    <string name="tell_me_some_information_from_your_new_bank_account">Tell me some information from your new bank account!</string>
+    <string name="create">Create</string>
+    <string name="principal_owner">Principal Owner</string>
+    <string name="bussines_account">Bussines Account</string>
 </resources>

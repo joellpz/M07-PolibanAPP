@@ -62,14 +62,14 @@
                 android:layout_marginBottom="15dp"
                 android:autofillHints="Email*"
                 android:background="@drawable/border_radius"
-                android:backgroundTint="@color/blue_light"
+                android:backgroundTint="#49637E"
                 android:enabled="false"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
-                android:textColor="@color/white"
+                android:textColor="#A8A5A5"
                 android:textColorHint="@color/white_transparent" />
 
             <EditText

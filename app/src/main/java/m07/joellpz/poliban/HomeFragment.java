@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new IbanMainFragment());
         adapter.addFragment(new IbanMainFragment());
-        adapter.addFragment(new IbanMainFragment());
+        adapter.addFragment(new registerIbanFragment());
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

@@ -26,7 +26,6 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -34,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import m07.joellpz.poliban.model.Transaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,9 +55,9 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         super.onViewCreated(view, savedInstanceState);
 
         //Maps
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+//        assert mapFragment != null;
+//        mapFragment.getMapAsync(this);
         //TODO PONER MARCADORES DE COLORES EN EL MAPA
 
 
@@ -140,12 +141,12 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
 
         /*RecyclerView Transactions*/
 
-        ArrayList<TransactionsAdapter.TransactionItem> exampleList = new ArrayList<>();
-        exampleList.add(new TransactionsAdapter.TransactionItem("Item 1"));
-        exampleList.add(new TransactionsAdapter.TransactionItem("Item 2"));
-        exampleList.add(new TransactionsAdapter.TransactionItem("Item 3"));
-        exampleList.add(new TransactionsAdapter.TransactionItem("Item 4"));
-        exampleList.add(new TransactionsAdapter.TransactionItem("Item 5"));
+        ArrayList<Transaction> exampleList = new ArrayList<>();
+        exampleList.add(new Transaction());
+        exampleList.add(new Transaction());
+        exampleList.add(new Transaction());
+        exampleList.add(new Transaction());
+        exampleList.add(new Transaction());
         RecyclerView mRecyclerView;
         TransactionsAdapter mAdapter;
         RecyclerView.LayoutManager mLayoutManager;
@@ -222,9 +223,9 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
     //TODO Cambiar por FirestoreRecyclerAdapter el RecyclerView
     static class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
 
-        private ArrayList<TransactionItem> mExampleList;
+        private ArrayList<Transaction> mExampleList;
 
-        public TransactionsAdapter(ArrayList<TransactionItem> exampleList) {
+        public TransactionsAdapter(ArrayList<Transaction> exampleList) {
             mExampleList = exampleList;
         }
 
@@ -237,7 +238,7 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
 
         @Override
         public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
-            TransactionItem currentItem = mExampleList.get(position);
+            Transaction currentItem = mExampleList.get(position);
         }
 
         @Override
@@ -251,19 +252,6 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
             public TransactionViewHolder(View itemView) {
                 super(itemView);
                 mTextView = itemView.findViewById(R.id.subject_transaction);
-            }
-        }
-
-        static class TransactionItem {
-
-            private String mText;
-
-            public TransactionItem(String text) {
-                mText = text;
-            }
-
-            public String getText() {
-                return mText;
             }
         }
     }

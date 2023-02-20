@@ -2,6 +2,12 @@ package m07.joellpz.poliban.userFragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -13,18 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -82,7 +78,7 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         view.findViewById(R.id.updateButtonProfile).setOnClickListener(view1 -> updateProfile());
-        view.findViewById(R.id.cancelButtonProfile).setOnClickListener(view1 -> navController.popBackStack());
+        view.findViewById(R.id.cancelButtonProfile).setOnClickListener(view1 -> navController.navigate(R.id.homeFragment));
 
         view.findViewById(R.id.profileImgProfile).setOnClickListener(v -> galeria.launch("image/*"));
         appViewModel.mediaSeleccionado.observe(getViewLifecycleOwner(), media -> {
