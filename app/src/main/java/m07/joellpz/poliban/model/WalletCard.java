@@ -1,5 +1,7 @@
 package m07.joellpz.poliban.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class WalletCard {
@@ -70,6 +72,7 @@ public class WalletCard {
         this.expDate = expDate;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "WalletCard{" +
