@@ -68,8 +68,8 @@ public class HomeFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
-        polibanArcProgress.setVisibility(View.VISIBLE);
         new ChargingImage(polibanArcProgress, this);
+        polibanArcProgress.setVisibility(View.VISIBLE);
 
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);

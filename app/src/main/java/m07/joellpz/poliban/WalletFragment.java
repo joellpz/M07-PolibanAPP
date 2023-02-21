@@ -1,26 +1,30 @@
 package m07.joellpz.poliban;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import m07.joellpz.poliban.model.BankAccount;
-import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.model.WalletCard;
+import m07.joellpz.poliban.tools.ChargingImage;
 
 public class WalletFragment extends Fragment {
 
+    private ArchedImageProgressBar polibanArcProgress;
+    private ScrollView mainView;
     public WalletFragment() {
         // Required empty public constructor
     }
@@ -40,15 +44,42 @@ public class WalletFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.walletRecyclerView);
 
+        mainView = view.findViewById(R.id.mainView);
+        mainView.setVisibility(View.GONE);
+        polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
+        new ChargingImage(polibanArcProgress, this);
+        polibanArcProgress.setVisibility(View.VISIBLE);
+
+
+        List<BankAccount> bankAccounts = new ArrayList<>();
+        List<WalletCard> walletCards = new ArrayList<>();
+        BankAccount bankAccount = new BankAccount();
+
+        walletCards.add(new WalletCard());
+        walletCards.add(new WalletCard());
+        walletCards.add(new WalletCard());
+
+        bankAccount.setWalletCardList(walletCards);
+        bankAccounts.add(bankAccount);
+        bankAccounts.add(bankAccount);
+        bankAccounts.add(bankAccount);
+
+
+        WalletAdapter walletAdapter = new WalletAdapter(bankAccounts);
+        recyclerView.setAdapter(walletAdapter);
+
+        mainView.setVisibility(View.VISIBLE);
+        polibanArcProgress.setVisibility(View.GONE);
     }
 
     static class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletViewHolder> {
 
-        private ArrayList<BankAccount> mExampleList;
+        private List<BankAccount> bankAccounts;
 
-        public WalletAdapter(ArrayList<BankAccount> exampleList) {
-            mExampleList = exampleList;
+        public WalletAdapter(List<BankAccount> exampleList) {
+            bankAccounts = exampleList;
         }
 
         @NonNull
@@ -57,52 +88,39 @@ public class WalletFragment extends Fragment {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet, parent, false);
             return new WalletAdapter.WalletViewHolder(v);
         }
-        //TODO https://www.section.io/engineering-education/android-nested-recycler-view/
-        @Override
-        public void onBindViewHolder(@NonNull WalletAdapter.WalletViewHolder holder, int position) {
-            BankAccount currentItem = mExampleList.get(position);
-        }
 
         @Override
         public int getItemCount() {
-            return mExampleList.size();
+            return bankAccounts.size();
+        }
+
+
+        @Override
+        public void onBindViewHolder(@NonNull WalletAdapter.WalletViewHolder holder, int position) {
+            BankAccount currentItem = bankAccounts.get(position);
+            CardAdapter cardAdapter = new CardAdapter(currentItem.getWalletCardList());
+            holder.cardRecyclerView.setAdapter(cardAdapter);
+
         }
 
         class WalletViewHolder extends RecyclerView.ViewHolder {
             public TextView mTextView;
+            private RecyclerView cardRecyclerView;
 
             public WalletViewHolder(View itemView) {
                 super(itemView);
                 mTextView = itemView.findViewById(R.id.whoseAccountText);
+                cardRecyclerView = itemView.findViewById(R.id.cardRecyclerView);
             }
         }
 
     }
 
+    //TO DO https://www.section.io/engineering-education/android-nested-recycler-view/
     static class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-        private ArrayList<WalletCard> mExampleList;
 
-        public CardAdapter(ArrayList<WalletCard> exampleList) {
-            mExampleList = exampleList;
-        }
-
-        @NonNull
-        @Override
-        public CardAdapter.CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet_card, parent, false);
-            return new CardAdapter.CardViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull CardAdapter.CardViewHolder holder, int position) {
-            WalletCard currentItem = mExampleList.get(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mExampleList.size();
-        }
+        private List<WalletCard> walletCardList;
 
         class CardViewHolder extends RecyclerView.ViewHolder {
             public TextView mTextView;
@@ -111,6 +129,27 @@ public class WalletFragment extends Fragment {
                 super(itemView);
                 mTextView = itemView.findViewById(R.id.whoseTextCard);
             }
+        }
+
+        public CardAdapter(List<WalletCard> exampleList) {
+            walletCardList = exampleList;
+        }
+
+        @NonNull
+        @Override
+        public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet_card, parent, false);
+            return new CardViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull CardAdapter.CardViewHolder holder, int position) {
+            WalletCard currentItem = walletCardList.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return walletCardList.size();
         }
     }
 }

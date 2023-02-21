@@ -9,15 +9,18 @@ public class BankAccount {
     private int balance;
     private List<Transaction> transactionList;
 
+    private List<WalletCard> walletCardList;
+
     public BankAccount() {
     }
 
-    public BankAccount(String iban, String owner, String cif, int balance, List<Transaction> transactionList) {
+    public BankAccount(String iban, String owner, String cif, int balance, List<Transaction> transactionList, List<WalletCard> walletCardList) {
         this.iban = iban;
         this.owner = owner;
         this.cif = cif;
         this.balance = balance;
         this.transactionList = transactionList;
+        this.walletCardList = walletCardList;
     }
 
     public String getIban() {
@@ -58,6 +61,14 @@ public class BankAccount {
 
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
+    }
+
+    public List<WalletCard> getWalletCardList() {
+        return walletCardList;
+    }
+
+    public void setWalletCardList(List<WalletCard> walletCardList) {
+        this.walletCardList = walletCardList;
     }
 
     @Override
