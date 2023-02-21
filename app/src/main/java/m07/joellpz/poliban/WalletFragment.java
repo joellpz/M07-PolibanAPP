@@ -127,7 +127,7 @@ public class WalletFragment extends Fragment {
 
         private List<WalletCard> walletCardList;
 
-        class CardViewHolder extends RecyclerView.ViewHolder {
+        static class CardViewHolder extends RecyclerView.ViewHolder {
 
             public TextView balanceNumCard;
             public TextView cardNumText;
