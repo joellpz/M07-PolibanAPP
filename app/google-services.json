@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "974251078510",
+    "project_id": "polibanapp-m07",
+    "storage_bucket": "polibanapp-m07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974251078510:android:7cd28497c278ad5dbc077f",
+        "android_client_info": {
+          "package_name": "m07.joellpz.poliban"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974251078510-9i7h414lsm9o6947kp8r1rald3ivvi6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzoXuKqHm2UalQnBB90EiKOuvFl-zgOjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974251078510-9i7h414lsm9o6947kp8r1rald3ivvi6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
