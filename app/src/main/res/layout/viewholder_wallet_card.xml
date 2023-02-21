@@ -5,8 +5,8 @@
     android:id="@+id/walletItem"
     android:layout_width="315dp"
     android:layout_height="175dp"
-    android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:backgroundTint="#D3E1FF"
     android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -237,7 +237,7 @@
             app:layout_constraintTop_toBottomOf="@+id/entityCardLogo" />
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/blockedWallet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -253,12 +253,11 @@
             android:id="@+id/tickBlockBtnWallet"
             android:layout_width="21dp"
             android:layout_height="21dp"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="100dp"
             android:contentDescription="@string/blockbtn"
-            android:src="@drawable/icon_tick_blocked_wallet"
-            tools:layout_editor_absoluteX="280dp"
-            tools:layout_editor_absoluteY="100dp"
-            tools:ignore="MissingConstraints" />
+            android:src="@drawable/icon_tick_blocked_wallet" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

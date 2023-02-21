@@ -8,16 +8,26 @@ public class WalletCard {
     private String cardOwner;
     private int cvv;
     private Date expDate;
+    private boolean active;
 
     public WalletCard() {
     }
 
-    public WalletCard(int balance, int cardNum, String cardOwner, int cvv, Date expDate) {
+    public WalletCard(int balance, int cardNum, String cardOwner, int cvv, Date expDate, boolean active) {
         this.balance = balance;
         this.cardNum = cardNum;
         this.cardOwner = cardOwner;
         this.cvv = cvv;
         this.expDate = expDate;
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public int getBalance() {

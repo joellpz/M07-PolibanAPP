@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +29,7 @@ public class WalletFragment extends Fragment {
 
     private ArchedImageProgressBar polibanArcProgress;
     private ScrollView mainView;
+
     public WalletFragment() {
         // Required empty public constructor
     }
@@ -123,11 +128,49 @@ public class WalletFragment extends Fragment {
         private List<WalletCard> walletCardList;
 
         class CardViewHolder extends RecyclerView.ViewHolder {
-            public TextView mTextView;
+
+            public TextView balanceNumCard;
+            public TextView cardNumText;
+            public TextView whoseTextCard;
+            public TextView cveInfoCard;
+            public TextView expDateInfoCard;
+            public ImageView entityCardLogo;
+
+            public ImageView infoBtnCard;
+            public ImageView deleteBtnCard;
+            public ImageView payBtnCard;
+            public ImageView blockBtnCard;
+            public ImageView contactLessBtnWallet;
+
+            public RelativeLayout blockedWallet;
+            public ConstraintLayout walletItem;
+            public LinearLayout contactLessPay;
+
+            public ImageView tickBlockBtnWallet;
 
             public CardViewHolder(View itemView) {
                 super(itemView);
-                mTextView = itemView.findViewById(R.id.whoseTextCard);
+
+                balanceNumCard = itemView.findViewById(R.id.balanceNumCard);
+                cardNumText = itemView.findViewById(R.id.cardNumText);
+                whoseTextCard = itemView.findViewById(R.id.whoseTextCard);
+                cveInfoCard = itemView.findViewById(R.id.cveInfoCard);
+                expDateInfoCard = itemView.findViewById(R.id.expDateInfoCard);
+
+                entityCardLogo = itemView.findViewById(R.id.entityCardLogo);
+
+                infoBtnCard = itemView.findViewById(R.id.infoBtnCard);
+                deleteBtnCard = itemView.findViewById(R.id.deleteBtnCard);
+                payBtnCard = itemView.findViewById(R.id.payBtnCard);
+                blockBtnCard = itemView.findViewById(R.id.blockBtnCard);
+
+                blockedWallet = itemView.findViewById(R.id.blockedWallet);
+                walletItem = itemView.findViewById(R.id.walletItem);
+                contactLessPay = itemView.findViewById(R.id.contactLessPay);
+
+                tickBlockBtnWallet = itemView.findViewById(R.id.tickBlockBtnWallet);
+                contactLessBtnWallet = itemView.findViewById(R.id.contactLessBtnWallet);
+
             }
         }
 
@@ -145,11 +188,59 @@ public class WalletFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull CardAdapter.CardViewHolder holder, int position) {
             WalletCard currentItem = walletCardList.get(position);
+
+            holder.deleteBtnCard.setOnClickListener(v -> removeAt(holder.getAbsoluteAdapterPosition()));
+
+
+            //Show Card Info
+            holder.infoBtnCard.setOnClickListener(l -> {
+                if (currentItem.isActive()) {
+                    if (holder.cardNumText.getText().subSequence(0, 1).equals("*")) {
+                        holder.cardNumText.setText("1234  1234  1234  2230");
+                        holder.cveInfoCard.setText("123");
+                    } else {
+                        holder.cardNumText.setText("* * * *  * * * *  * * * *  2230");
+                        holder.cveInfoCard.setText("***");
+                    }
+                }
+            });
+
+            //Pay ContactLess
+            holder.payBtnCard.setOnClickListener(l -> {
+                if (currentItem.isActive()) {
+                    holder.contactLessPay.setVisibility(View.VISIBLE);
+                }
+            });
+            holder.contactLessBtnWallet.setOnClickListener(l -> holder.contactLessPay.setVisibility(View.GONE));
+
+            //Block Card
+            holder.blockBtnCard.setOnClickListener(l -> {
+                holder.blockedWallet.setVisibility(View.VISIBLE);
+                holder.blockBtnCard.setImageAlpha(0);
+                currentItem.setActive(false);
+            });
+
+
+            //Reactivate Card
+            holder.tickBlockBtnWallet.setOnClickListener(l -> {
+                holder.blockedWallet.setVisibility(View.GONE);
+                holder.blockBtnCard.setImageAlpha(255);
+                currentItem.setActive(true);
+
+            });
         }
 
         @Override
         public int getItemCount() {
             return walletCardList.size();
+        }
+
+        private void removeAt(int position) {
+            if (walletCardList.size() - 1 != 0) {
+                walletCardList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, walletCardList.size());
+            }
         }
     }
 }
