@@ -57,11 +57,10 @@ public class WalletFragment extends Fragment {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet, parent, false);
             return new WalletAdapter.WalletViewHolder(v);
         }
-
+        //TODO https://www.section.io/engineering-education/android-nested-recycler-view/
         @Override
         public void onBindViewHolder(@NonNull WalletAdapter.WalletViewHolder holder, int position) {
             BankAccount currentItem = mExampleList.get(position);
-            holder.cardRecyclerView
         }
 
         @Override
