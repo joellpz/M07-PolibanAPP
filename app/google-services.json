@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "974251078510-cf8e8ec1j5j1ekrml84jgiespkdon1u2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "m07.joellpz.poliban",
+            "certificate_hash": "74322b611ba05676e9f4f5220e46219ff447ee1d"
+          }
+        },
+        {
           "client_id": "974251078510-9i7h414lsm9o6947kp8r1rald3ivvi6r.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -2,34 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="15dp"
     android:paddingLeft="15dp"
     android:paddingTop="5dp"
+    android:paddingRight="15dp"
     android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/image_transaction"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/money_in"
         android:layout_gravity="center"
-        android:contentDescription="TODO" />
+        android:layout_marginEnd="15dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/money_in" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/subject_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-10sp"
             android:text="Bizum"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:layout_marginBottom="-10sp"/>
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/date_transaction"
@@ -44,9 +43,9 @@
         android:id="@+id/price_transaction"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd"
         android:layout_gravity="center|end"
         android:text="+ 19 €"
+        android:textAlignment="textEnd"
         android:textColor="@color/white"
-        android:textSize="22sp"/>
+        android:textSize="22sp" />
 </LinearLayout>

@@ -59,4 +59,15 @@ public class BankAccount {
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "iban='" + iban + '\'' +
+                ", owner='" + owner + '\'' +
+                ", cif='" + cif + '\'' +
+                ", balance=" + balance +
+                ", transactionList=" + transactionList +
+                '}';
+    }
 }
