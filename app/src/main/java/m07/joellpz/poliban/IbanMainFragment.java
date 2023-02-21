@@ -160,7 +160,6 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-
     }
 
     @Override
@@ -232,7 +231,7 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         @NonNull
         @Override
         public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_money_transit, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_transaction, parent, false);
             return new TransactionViewHolder(v);
         }
 

@@ -49,4 +49,14 @@ public class Transaction {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "fromId=" + fromId +
+                ", value=" + value +
+                ", to='" + to + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

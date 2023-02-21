@@ -2,57 +2,32 @@ package m07.joellpz.poliban;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WalletFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+import m07.joellpz.poliban.model.BankAccount;
+import m07.joellpz.poliban.model.Transaction;
+import m07.joellpz.poliban.model.WalletCard;
+
 public class WalletFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public WalletFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WalletFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WalletFragment newInstance(String param1, String param2) {
-        WalletFragment fragment = new WalletFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -60,5 +35,83 @@ public class WalletFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_wallet, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    static class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletViewHolder> {
+
+        private ArrayList<BankAccount> mExampleList;
+
+        public WalletAdapter(ArrayList<BankAccount> exampleList) {
+            mExampleList = exampleList;
+        }
+
+        @NonNull
+        @Override
+        public WalletAdapter.WalletViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet, parent, false);
+            return new WalletAdapter.WalletViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull WalletAdapter.WalletViewHolder holder, int position) {
+            BankAccount currentItem = mExampleList.get(position);
+            holder.cardRecyclerView
+        }
+
+        @Override
+        public int getItemCount() {
+            return mExampleList.size();
+        }
+
+        class WalletViewHolder extends RecyclerView.ViewHolder {
+            public TextView mTextView;
+
+            public WalletViewHolder(View itemView) {
+                super(itemView);
+                mTextView = itemView.findViewById(R.id.whoseAccountText);
+            }
+        }
+
+    }
+
+    static class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+
+        private ArrayList<WalletCard> mExampleList;
+
+        public CardAdapter(ArrayList<WalletCard> exampleList) {
+            mExampleList = exampleList;
+        }
+
+        @NonNull
+        @Override
+        public CardAdapter.CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet_card, parent, false);
+            return new CardAdapter.CardViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull CardAdapter.CardViewHolder holder, int position) {
+            WalletCard currentItem = mExampleList.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mExampleList.size();
+        }
+
+        class CardViewHolder extends RecyclerView.ViewHolder {
+            public TextView mTextView;
+
+            public CardViewHolder(View itemView) {
+                super(itemView);
+                mTextView = itemView.findViewById(R.id.whoseTextCard);
+            }
+        }
     }
 }

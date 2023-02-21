@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/wastedMoneyWord"
+            android:id="@+id/currentBalanceWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_font"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/ibanNumInfo"
+            android:id="@+id/balanceNumCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|center_vertical"
@@ -46,11 +46,11 @@
             android:textColor="@color/black"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wastedMoneyWord" />
+            app:layout_constraintTop_toBottomOf="@+id/currentBalanceWord" />
 
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/entityCardLogo"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:contentDescription="@string/paymentLogo"
@@ -59,19 +59,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/accountNumText"
+            android:id="@+id/cardNumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="* * * *   * * * *   * * * *   2230"
             android:textColor="@color/black"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@id/whoseAccountTextWallet"
+            app:layout_constraintBottom_toTopOf="@id/whoseTextCard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ibanNumInfo" />
+            app:layout_constraintTop_toBottomOf="@+id/balanceNumCard" />
 
         <TextView
-            android:id="@+id/whoseAccountTextWallet"
+            android:id="@+id/whoseTextCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -83,10 +83,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accountNumText" />
+            app:layout_constraintTop_toBottomOf="@+id/cardNumText" />
 
         <TextView
-            android:id="@+id/cveTextWallet"
+            android:id="@+id/cveTextCard"
             android:layout_width="0dp"
             android:layout_height="16dp"
             android:fontFamily="@font/montserrat_font"
@@ -96,12 +96,12 @@
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/cveInfoWallet"
-            app:layout_constraintStart_toEndOf="@id/whoseAccountTextWallet"
-            app:layout_constraintTop_toBottomOf="@+id/accountNumText" />
+            app:layout_constraintEnd_toStartOf="@id/cveInfoCard"
+            app:layout_constraintStart_toEndOf="@id/whoseTextCard"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumText" />
 
         <TextView
-            android:id="@+id/cveInfoWallet"
+            android:id="@+id/cveInfoCard"
             android:layout_width="35dp"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
@@ -111,12 +111,12 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/expDateTextWallet"
-            app:layout_constraintStart_toEndOf="@id/cveTextWallet"
-            app:layout_constraintTop_toBottomOf="@+id/accountNumText" />
+            app:layout_constraintEnd_toStartOf="@id/expDateTextCard"
+            app:layout_constraintStart_toEndOf="@id/cveTextCard"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumText" />
 
         <TextView
-            android:id="@+id/expDateTextWallet"
+            android:id="@+id/expDateTextCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_font"
@@ -127,12 +127,12 @@
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/expDateInfoWallet"
-            app:layout_constraintStart_toEndOf="@id/cveInfoWallet"
-            app:layout_constraintTop_toBottomOf="@+id/accountNumText" />
+            app:layout_constraintEnd_toStartOf="@id/expDateInfoCard"
+            app:layout_constraintStart_toEndOf="@id/cveInfoCard"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumText" />
 
         <TextView
-            android:id="@+id/expDateInfoWallet"
+            android:id="@+id/expDateInfoCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="09/26"
@@ -140,55 +140,55 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/expDateTextWallet" />
+            app:layout_constraintStart_toEndOf="@id/expDateTextCard" />
 
         <ImageView
-            android:id="@+id/infoBtnWallet"
+            android:id="@+id/infoBtnCard"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:contentDescription="@string/infobtn"
             android:src="@drawable/icon_info_wallet"
-            app:layout_constraintBottom_toTopOf="@id/deleteBtnWallet"
-            app:layout_constraintEnd_toStartOf="@id/payBtnWallet"
-            app:layout_constraintStart_toEndOf="@+id/accountNumText"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintBottom_toTopOf="@id/deleteBtnCard"
+            app:layout_constraintEnd_toStartOf="@id/payBtnCard"
+            app:layout_constraintStart_toEndOf="@+id/cardNumText"
+            app:layout_constraintTop_toBottomOf="@+id/entityCardLogo" />
 
         <ImageView
-            android:id="@+id/deleteBtnWallet"
+            android:id="@+id/deleteBtnCard"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:layout_marginStart="3dp"
             android:contentDescription="@string/deletebtn"
             android:src="@drawable/icon_delete"
-            app:layout_constraintBottom_toTopOf="@+id/expDateInfoWallet"
-            app:layout_constraintEnd_toStartOf="@+id/blockBtnWallet"
-            app:layout_constraintStart_toEndOf="@+id/accountNumText"
-            app:layout_constraintTop_toBottomOf="@+id/infoBtnWallet" />
+            app:layout_constraintBottom_toTopOf="@+id/expDateInfoCard"
+            app:layout_constraintEnd_toStartOf="@+id/blockBtnCard"
+            app:layout_constraintStart_toEndOf="@+id/cardNumText"
+            app:layout_constraintTop_toBottomOf="@+id/infoBtnCard" />
 
         <ImageView
-            android:id="@+id/payBtnWallet"
+            android:id="@+id/payBtnCard"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:contentDescription="@string/paybtn"
             android:src="@drawable/icon_pay_wallet"
-            app:layout_constraintBottom_toTopOf="@+id/blockBtnWallet"
+            app:layout_constraintBottom_toTopOf="@+id/blockBtnCard"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/infoBtnWallet"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintStart_toEndOf="@+id/infoBtnCard"
+            app:layout_constraintTop_toBottomOf="@+id/entityCardLogo" />
 
         <ImageView
-            android:id="@+id/blockBtnWallet"
+            android:id="@+id/blockBtnCard"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:contentDescription="@string/blockbtn"
             android:src="@drawable/icon_block_wallet"
-            app:layout_constraintBottom_toTopOf="@+id/expDateInfoWallet"
+            app:layout_constraintBottom_toTopOf="@+id/expDateInfoCard"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/deleteBtnWallet"
-            app:layout_constraintTop_toBottomOf="@+id/payBtnWallet" />
+            app:layout_constraintStart_toEndOf="@+id/deleteBtnCard"
+            app:layout_constraintTop_toBottomOf="@+id/payBtnCard" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/backArrowCard"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:contentDescription="@string/back"
@@ -198,6 +198,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/forwardArrowCard"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:contentDescription="@string/forward"
@@ -229,10 +230,10 @@
             android:contentDescription="@string/paybtn"
             android:rotation="90"
             android:src="@drawable/icon_pay_wallet_white"
-            app:layout_constraintBottom_toTopOf="@+id/blockBtnWallet"
+            app:layout_constraintBottom_toTopOf="@+id/blockBtnCard"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/infoBtnWallet"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintStart_toEndOf="@+id/infoBtnCard"
+            app:layout_constraintTop_toBottomOf="@+id/entityCardLogo" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -254,7 +255,8 @@
             android:contentDescription="@string/blockbtn"
             android:src="@drawable/icon_tick_blocked_wallet"
             tools:layout_editor_absoluteX="280dp"
-            tools:layout_editor_absoluteY="100dp" />
+            tools:layout_editor_absoluteY="100dp"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
