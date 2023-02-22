@@ -4,18 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_background_poliban"
     tools:context=".PayFragment">
 
     <ScrollView
+        android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:id="@+id/mainView">
 
-        <TextView
+        android:layout_margin="20dp">
+
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PAy" />
+            app:alignContent="center"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="center">
+
+
+            <Button
+                android:id="@+id/bizumButtonPay"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_bizum"
+                app:cornerRadius="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                />
+
+            <Button
+                android:id="@+id/creditButtonPay"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_credit"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/credit"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+            <Button
+                android:id="@+id/trasnferButtonPay"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_transfer"
+                android:text="@string/transfer"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+            <Button
+                android:id="@+id/investButtonPay"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/icon_invest"
+                android:text="@string/invest"
+                android:textColor="@color/black"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
     </ScrollView>
 
     <com.mrtyvz.archedimageprogress.ArchedImageProgressBar

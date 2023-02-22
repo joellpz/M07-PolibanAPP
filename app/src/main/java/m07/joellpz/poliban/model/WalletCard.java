@@ -13,6 +13,7 @@ public class WalletCard {
     private boolean active;
 
     public WalletCard() {
+        this.active = true;
     }
 
     public WalletCard(int balance, int cardNum, String cardOwner, int cvv, Date expDate, boolean active) {

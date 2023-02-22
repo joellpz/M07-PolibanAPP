@@ -131,10 +131,13 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
                 android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/icon_bizum" />
+                android:drawableLeft="@drawable/icon_bizum"
+                android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+                app:cornerRadius="15dp"/>
 
             <Button
                 android:id="@+id/creditButton"
@@ -142,20 +145,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/icon_credit"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="@string/credit"
+                app:cornerRadius="15dp"
                 android:textSize="18sp" />
 
             <Button
                 android:id="@+id/investButton"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="50dp"
+                android:layout_width="45dp"
                 android:layout_height="55dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="3dp"
                 android:backgroundTint="@color/white"
+                app:cornerRadius="15dp"
                 android:drawableLeft="@drawable/icon_invest" />
 
             <HorizontalScrollView
@@ -303,7 +310,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="225dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"

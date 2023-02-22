@@ -56,4 +56,6 @@
     <string name="create">Create</string>
     <string name="principal_owner">Principal Owner</string>
     <string name="bussines_account">Bussines Account</string>
+    <string name="invest">Invest</string>
+    <string name="transfer">Transfer</string>
 </resources>
