@@ -136,8 +136,8 @@
                 android:backgroundTint="@color/white"
                 android:drawableLeft="@drawable/icon_bizum"
                 android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-                app:cornerRadius="15dp"/>
+                android:paddingRight="10dp"
+                app:cornerRadius="15dp" />
 
             <Button
                 android:id="@+id/creditButton"
@@ -151,8 +151,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/credit"
-                app:cornerRadius="15dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:cornerRadius="15dp" />
 
             <Button
                 android:id="@+id/investButton"
@@ -162,8 +162,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="3dp"
                 android:backgroundTint="@color/white"
-                app:cornerRadius="15dp"
-                android:drawableLeft="@drawable/icon_invest" />
+                android:drawableLeft="@drawable/icon_invest"
+                app:cornerRadius="15dp" />
 
             <HorizontalScrollView
                 android:layout_width="300dp"
@@ -340,8 +340,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/arrow_back"
-                    android:contentDescription="@string/back" />
+                    android:contentDescription="@string/back"
+                    android:src="@drawable/arrow_back" />
 
                 <TextView
                     android:id="@+id/monthText"
@@ -356,8 +356,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/arrow_forward"
-                    android:contentDescription="@string/forward" />
+                    android:contentDescription="@string/forward"
+                    android:src="@drawable/arrow_forward" />
             </LinearLayout>
 
             <com.github.sundeepk.compactcalendarview.CompactCalendarView
@@ -399,18 +399,35 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="12dp">
 
-            <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                map:cameraZoom="50"
-                map:uiRotateGestures="true"
-                map:uiZoomControls="true" />
+            <!--            <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"-->
+            <!--                android:id="@+id/map"-->
+            <!--                android:name="com.google.android.gms.maps.SupportMapFragment"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                map:cameraZoom="50"-->
+            <!--                map:uiRotateGestures="true"-->
+            <!--                map:uiZoomControls="true" />-->
         </androidx.cardview.widget.CardView>
-        <!--android:backgroundTint="@color/orange_poliban" -->
-        <!--            //CONTENT-->
 
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alignContent="center"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/delete_account_from_database"
+                android:textColor="#FF9F263E"
+                android:textSize="16sp" />
+            <!--android:backgroundTint="@color/orange_poliban" -->
+            <!--            //CONTENT-->
+
+        </com.google.android.flexbox.FlexboxLayout>
     </com.google.android.flexbox.FlexboxLayout>
 
 </ScrollView>

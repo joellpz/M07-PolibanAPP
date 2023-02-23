@@ -11,7 +11,6 @@
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_margin="20dp">
 
         <com.google.android.flexbox.FlexboxLayout
@@ -22,68 +21,189 @@
             app:flexWrap="wrap"
             app:justifyContent="center">
 
-
-            <Button
-                android:id="@+id/bizumButtonPay"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/icon_bizum"
-                app:cornerRadius="20dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                />
-
-            <Button
-                android:id="@+id/creditButtonPay"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/icon_credit"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:text="@string/credit"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
-
-            <Button
-                android:id="@+id/trasnferButtonPay"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/icon_transfer"
-                android:text="@string/transfer"
-                android:textColor="@color/black"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
-
-            <Button
-                android:id="@+id/investButtonPay"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/white"
-                android:drawableLeft="@drawable/icon_invest"
-                android:text="@string/invest"
-                android:textColor="@color/black"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:alignContent="center"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="center">
 
 
+                <Button
+                    android:id="@+id/bizumButtonPay"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/icon_bizum"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    app:cornerRadius="20dp" />
+
+                <Button
+                    android:id="@+id/creditButtonPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/icon_credit"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/credit"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp" />
+
+                <Button
+                    android:id="@+id/trasnferButtonPay"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/icon_transfer"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/transfer"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp" />
+
+                <Button
+                    android:id="@+id/investButtonPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/icon_invest"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/invest"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:cornerRadius="20dp" />
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border_radius"
+                android:backgroundTint="@color/blue_poliban"
+                android:padding="20dp"
+                tools:context=".registerIbanFragment">
+
+                <TextView
+                    android:id="@+id/infotextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/tell_me_some_information_from_your_new_bank_account"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toTopOf="@+id/flexboxLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/flexboxLayout"
+                    app:alignContent="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    app:alignItems="center"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center"
+                    app:layout_constraintTop_toBottomOf="@+id/infotextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="21dp"
+                    tools:layout_editor_absoluteY="20dp">
+
+
+                    <EditText
+                        android:id="@+id/firstEditText"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:autofillHints="Email"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="@color/blue_light"
+                        android:hint="@string/iban"
+                        android:inputType="	textEmailAddress"
+                        android:padding="5dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white_transparent" />
+
+                    <EditText
+                        android:id="@+id/secondEditTextPay"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:autofillHints="@string/password"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="@color/blue_light"
+                        android:hint="@string/principal_owner"
+                        android:inputType="textPassword"
+                        android:padding="5dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white_transparent" />
+
+                    <EditText
+                        android:id="@+id/thirdEditTextPay"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:autofillHints="@string/password"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="@color/blue_light"
+                        android:hint="@string/principal_owner"
+                        android:inputType="textPassword"
+                        android:padding="5dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white_transparent"
+                        app:layout_constraintBottom_toTopOf="@id/bussinesCheckbox"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ibanEditText" />
+
+
+                    <Button
+                        android:id="@+id/sendButton"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/orange_light"
+                        android:text="@string/send"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bussinesCheckbox" />
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.flexbox.FlexboxLayout>
     </ScrollView>
 

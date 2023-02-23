@@ -58,4 +58,6 @@
     <string name="bussines_account">Bussines Account</string>
     <string name="invest">Invest</string>
     <string name="transfer">Transfer</string>
+    <string name="send">Send</string>
+    <string name="delete_account_from_database">Delete account from database!</string>
 </resources>
