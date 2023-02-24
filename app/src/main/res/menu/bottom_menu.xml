@@ -15,7 +15,7 @@
         android:icon="@drawable/icon_pay"
         android:title="@string/pay" />
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/icon_settings"
         android:title="@string/settings" />
 </menu>

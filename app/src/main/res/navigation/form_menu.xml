@@ -35,13 +35,12 @@
         android:label="fragment_pay"
         tools:layout="@layout/fragment_pay" />
     <fragment
-        android:id="@+id/settignsFragment"
-        android:name="m07.joellpz.poliban.SettignsFragment"
-        android:label="fragment_settigns"
-        tools:layout="@layout/fragment_settigns" />
-    <fragment
         android:id="@+id/chatBotFragment"
         android:name="m07.joellpz.poliban.ChatBotFragment"
         android:label="fragment_chat_bot"
         tools:layout="@layout/fragment_chat_bot" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="m07.joellpz.poliban.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#003366</color>
+    <color name="colorAccent">#003366</color>
     <color name="blue_poliban">#003366</color>
     <color name="transparent">#00ff0000</color>
     <color name="blue_light">#5C7C9D</color>
