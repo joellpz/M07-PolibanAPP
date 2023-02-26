@@ -1,4 +1,4 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+
+import m07.joellpz.poliban.R;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.main;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
@@ -27,9 +27,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
+import m07.joellpz.poliban.view.IbanMainFragment;
+import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.model.BankAccount;
+import m07.joellpz.poliban.model.Transaction;
+import m07.joellpz.poliban.model.WalletCard;
 import m07.joellpz.poliban.tools.ChargingImage;
+import m07.joellpz.poliban.view.ChatBotFragment;
+import m07.joellpz.poliban.view.RegisterIbanFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,11 +57,16 @@ public class HomeFragment extends Fragment {
     private ConstraintLayout mainView;
     private Uri photoURL;
 
-    private ViewPager viewPager;
+    protected static ViewPager viewPager;
     private TabLayout tabLayout;
     ChatBotFragment chatBotFragment;
 
+
     public HomeFragment() {
+    }
+
+    public ViewPager getViewPager() {
+        return viewPager;
     }
 
     @Override
@@ -78,11 +92,39 @@ public class HomeFragment extends Fragment {
 //        getChildFragmentManager().beginTransaction().add(R.id.chatbotFrame, chatBotFragment).commit();
         view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
 
+        List<BankAccount> bankAccounts = new ArrayList<>();
+        List<Transaction> transactions = new ArrayList<>();
+
+        for (int i = 0; i < 25; i++) {
+            Date randomDate = new Date(ThreadLocalRandom.current()
+                    .nextLong(1669852148000L, 1677538800000L));
+            Transaction transaction = new Transaction("Titus", (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
+            transactions.add(transaction);
+        }
+
+        List<WalletCard> walletCards = new ArrayList<>();
+        for (int i = 0; i < Math.random() * 4; i++) {
+            WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+            walletCards.add(walletCard);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            BankAccount bankAccount = new BankAccount("ES54 2095 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, walletCards);
+            bankAccounts.add(bankAccount);
+        }
+
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new IbanMainFragment());
-        adapter.addFragment(new IbanMainFragment());
-        adapter.addFragment(new registerIbanFragment());
+        for (BankAccount bank : bankAccounts) {
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("bank", bank);
+            IbanMainFragment ibanMainFragment = new IbanMainFragment();
+            ibanMainFragment.setArguments(bundle);
+
+            adapter.addFragment(ibanMainFragment);
+        }
+        adapter.addFragment(new RegisterIbanFragment());
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -103,6 +145,11 @@ public class HomeFragment extends Fragment {
                     polibanArcProgress.setVisibility(View.GONE);
                 });
 
+        view.findViewById(R.id.deleteAcoountBtn).setOnClickListener(l -> {
+            System.out.println(viewPager.getCurrentItem());
+            adapter.removeFragment(viewPager.getCurrentItem());
+        });
+
     }
 
     @Override
@@ -117,13 +164,18 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    static class ViewPagerAdapter extends FragmentPagerAdapter {
+    static class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         private final List<Fragment> fragmentList = new ArrayList<>();
         //private List<String> titleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return this.POSITION_NONE;
         }
 
         @NonNull
@@ -146,5 +198,14 @@ public class HomeFragment extends Fragment {
             fragmentList.add(fragment);
             //titleList.add(title);
         }
+
+        public void removeFragment(int position) {
+
+            fragmentList.remove(position);
+            notifyDataSetChanged();
+            viewPager.setCurrentItem(position - 1, false);
+        }
+
+
     }
 }

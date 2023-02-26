@@ -31,9 +31,15 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-
-
     }
+
+    //TODO Invest Page
+    //TODO Make fragment pay good
+    //TODO Connect Buttons From Iban to Pay fragment
+    //TO DO Connectar MapFragment al hacer click largo en Map
+    //TODO Permitir poner Tarjeta en el Wallet
+    //TODO Lista de Futures en BankAccount y Mostrarlos en el Calendar Explicits
+
     // https://www.geeksforgeeks.org/flexbox-layout-in-android/
     // https://stackoverflow.com/questions/31250174/css-flexbox-difference-between-align-items-and-align-content
 }

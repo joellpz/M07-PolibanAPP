@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.userFragments;
+package m07.joellpz.poliban.user;
 
 import android.os.Bundle;
 

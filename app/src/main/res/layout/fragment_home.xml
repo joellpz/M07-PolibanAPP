@@ -7,8 +7,7 @@
     android:background="@color/grey_background_poliban"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".HomeFragment"
-    android:paddingTop="10dp">
+    tools:context=".main.HomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,10 +18,12 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-122dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -37,6 +38,22 @@
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed" />
 
+
+
+            <TextView
+                android:id="@+id/deleteAcoountBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/delete_account_from_database"
+                android:textColor="#FF9F263E"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/viewPager"/>
+            <!--android:backgroundTint="@color/orange_poliban" -->
+
+
         <ImageButton
             android:id="@+id/chatbotBtn"
             android:layout_width="wrap_content"
@@ -49,6 +66,7 @@
             android:src="@drawable/icon_chatbot"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tabLayout" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!--    <ScrollView-->

@@ -6,41 +6,57 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="m07.joellpz.poliban.userFragments.LoginFragment"
+        android:name="m07.joellpz.poliban.user.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="m07.joellpz.poliban.userFragments.RegisterFragment"
+        android:name="m07.joellpz.poliban.user.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="m07.joellpz.poliban.HomeFragment"
+        android:name="m07.joellpz.poliban.main.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="m07.joellpz.poliban.userFragments.ProfileFragment"
+        android:name="m07.joellpz.poliban.user.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/walletFragment"
-        android:name="m07.joellpz.poliban.WalletFragment"
+        android:name="m07.joellpz.poliban.main.WalletFragment"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet" />
     <fragment
         android:id="@+id/payFragment"
-        android:name="m07.joellpz.poliban.PayFragment"
+        android:name="m07.joellpz.poliban.main.PayFragment"
         android:label="fragment_pay"
         tools:layout="@layout/fragment_pay" />
     <fragment
         android:id="@+id/chatBotFragment"
-        android:name="m07.joellpz.poliban.ChatBotFragment"
+        android:name="m07.joellpz.poliban.view.ChatBotFragment"
         android:label="fragment_chat_bot"
         tools:layout="@layout/fragment_chat_bot" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="m07.joellpz.poliban.SettingsFragment"
+        android:name="m07.joellpz.poliban.main.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/calendarExplicitFragment"
+        android:name="m07.joellpz.poliban.view.CalendarExplicitFragment"
+        android:label="fragment_calendar_explicit"
+        tools:layout="@layout/fragment_calendar_explicit" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="m07.joellpz.poliban.view.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
+
+    <fragment
+        android:id="@+id/ibanMainFragment"
+        android:name="m07.joellpz.poliban.view.IbanMainFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_iban_main"/>
 </navigation>

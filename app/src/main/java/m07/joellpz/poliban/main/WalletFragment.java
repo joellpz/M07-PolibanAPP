@@ -1,4 +1,4 @@
-package m07.joellpz.poliban;
+package m07.joellpz.poliban.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +21,7 @@ import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.WalletCard;
 import m07.joellpz.poliban.tools.ChargingImage;
@@ -151,7 +152,7 @@ public class WalletFragment extends Fragment {
             public CardViewHolder(View itemView) {
                 super(itemView);
 
-                balanceNumCard = itemView.findViewById(R.id.balanceNumCard);
+                balanceNumCard = itemView.findViewById(R.id.ibanInfoNumCard);
                 cardNumText = itemView.findViewById(R.id.cardNumText);
                 whoseTextCard = itemView.findViewById(R.id.whoseTextCard);
                 cveInfoCard = itemView.findViewById(R.id.cveInfoCard);

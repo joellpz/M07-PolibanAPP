@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_background_poliban"
-    tools:context=".PayFragment">
+    tools:context=".main.PayFragment">
 
     <ScrollView
         android:id="@+id/mainView"
@@ -34,8 +34,7 @@
                     android:id="@+id/bizumButtonPay"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/white"
                     android:drawableLeft="@drawable/icon_bizum"
@@ -46,7 +45,7 @@
                 <Button
                     android:id="@+id/creditButtonPay"
                     android:layout_width="wrap_content"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/white"
@@ -62,13 +61,13 @@
                     android:id="@+id/trasnferButtonPay"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/white"
                     android:drawableLeft="@drawable/icon_transfer"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/transfer"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -77,7 +76,7 @@
                 <Button
                     android:id="@+id/investButtonPay"
                     android:layout_width="wrap_content"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/white"
@@ -92,16 +91,16 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_poliban"
                 android:padding="20dp"
-                tools:context=".registerIbanFragment">
+                tools:context=".view.RegisterIbanFragment">
 
                 <TextView
                     android:id="@+id/infotextView"
@@ -121,7 +120,7 @@
                     android:id="@+id/flexboxLayout"
                     app:alignContent="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     app:alignItems="center"
                     app:flexWrap="wrap"
@@ -129,9 +128,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/infotextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="21dp"
-                    tools:layout_editor_absoluteY="20dp">
+                    app:layout_constraintBottom_toBottomOf="parent">
 
 
                     <EditText
@@ -192,8 +189,7 @@
                         style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="25dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_margin="10dp"
                         android:backgroundTint="@color/orange_light"
                         android:text="@string/send"
                         android:textColor="@color/white"

@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/balanceNumCard"
+            android:id="@+id/ibanInfoNumCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|center_vertical"
@@ -69,7 +69,7 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/whoseTextCard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/balanceNumCard" />
+            app:layout_constraintTop_toBottomOf="@+id/ibanInfoNumCard" />
 
         <TextView
             android:id="@+id/whoseTextCard"

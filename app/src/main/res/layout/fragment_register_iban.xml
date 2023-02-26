@@ -15,7 +15,7 @@
         android:background="@drawable/border_radius"
         android:backgroundTint="@color/blue_poliban"
         android:padding="20dp"
-        tools:context=".registerIbanFragment">
+        tools:context=".view.RegisterIbanFragment">
 
         <TextView
             android:id="@+id/textView2"

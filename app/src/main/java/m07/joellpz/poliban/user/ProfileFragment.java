@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.userFragments;
+package m07.joellpz.poliban.user;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -142,7 +142,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO IMPORATNTE ESTO DE CAMBIAR LA TOOLBAR
         toolbar = (Toolbar) requireActivity().findViewById(R.id.toolbar);
     }
 

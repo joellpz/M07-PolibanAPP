@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AD000000"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/calendarLargeInfoForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:alignContent="center"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            tools:context=".view.CalendarExplicitFragment">
+
+
+            <!--  Calendar-->
+            <LinearLayout
+                android:id="@+id/linearcalendar_viewExplicit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border_radius"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/back"
+                        android:src="@drawable/arrow_back" />
+
+                    <TextView
+                        android:id="@+id/monthTextExplicit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
+                        android:text="Hola"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/forward"
+                        android:src="@drawable/arrow_forward" />
+                </LinearLayout>
+
+                <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                    android:id="@+id/compactcalendar_viewExplicit"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:compactCalendarBackgroundColor="@color/transparent"
+                    app:compactCalendarCurrentDayBackgroundColor="@color/transparent"
+                    app:compactCalendarCurrentDayTextColor="@color/orange_poliban"
+                    app:compactCalendarCurrentSelectedDayBackgroundColor="@color/orange_poliban"
+                    app:compactCalendarMultiEventIndicatorColor="@color/orange_poliban"
+                    app:compactCalendarTextColor="#6C6B6B"
+                    app:compactCalendarTextSize="12sp" />
+
+                <!--        <CalendarView-->
+                <!--            android:id="@+id/calendarView"-->
+                <!--            android:layout_width="300dp"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_marginTop="15dp"-->
+                <!--            android:background="@drawable/border_radius"-->
+                <!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
+                <!--            android:maxDate="12/31/2023"-->
+                <!--            android:minDate="12/01/2022"-->
+                <!--            android:theme="@style/CalenderViewCustom"-->
+                <!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
+
+            </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:alignContent="center"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="center">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_calendarExp"
+                    android:layout_width="297dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/border_radius"
+                    android:backgroundTint="@color/blue_poliban"
+                    android:minWidth="300dp"
+                    android:minHeight="100dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/linear_layout_calendarExp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_calendarExp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/constraintFutureCalendarExp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_view_calendarExp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="#FFAEAFB2"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/balance"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/textBalanceCalendarExp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="-337"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/border_radius"
+                        android:backgroundTint="#FFAEAFB2"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/to_come"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/textToComeCalendarExp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="-337"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintFutureCalendarExp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/border_radius"
+                    android:backgroundTint="@color/orange_light"
+                    app:layout_constraintBottom_toTopOf="@id/recycler_view_future_calendarExp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_layout_calendarExp">
+
+                    <ImageView
+                        android:id="@+id/arrowRightFutureCalendarExp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/icon_arrow_down"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textFutureCalendarExp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FUTURE"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/arrowLeftFutureCalendarExp"
+                        app:layout_constraintStart_toEndOf="@+id/arrowRightFutureCalendarExp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/arrowLeftFutureCalendarExp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/icon_arrow_down"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_future_calendarExp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/border_radius"
+                    android:backgroundTint="@color/blue_poliban"
+                    android:minWidth="300dp"
+                    android:minHeight="100dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintFutureCalendarExp"
+                    app:layout_maxHeight="300dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <ImageButton
+            android:id="@+id/goBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/chatbot_btn"
+            android:contentDescription="@string/chatbot"
+            android:src="@drawable/arrow_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
