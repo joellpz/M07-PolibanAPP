@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //TODO Invest Page
-    //TODO Make fragment pay good
+    //TO DO Make fragment pay good
     //TODO Connect Buttons From Iban to Pay fragment
     //TO DO Connectar MapFragment al hacer click largo en Map
     //TODO Permitir poner Tarjeta en el Wallet

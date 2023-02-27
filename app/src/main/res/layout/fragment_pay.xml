@@ -119,6 +119,7 @@
                 <!-- Contact Card -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/layoutRecyclerView"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:layout_width="fill_parent"
                     android:layout_height="150dp"
@@ -126,7 +127,8 @@
                     app:layout_constraintBottom_toTopOf="@+id/flexboxLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/infotextView"/>
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/infotextView" />
 
 
 
