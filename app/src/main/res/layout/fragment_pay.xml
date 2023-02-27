@@ -58,7 +58,7 @@
                     app:cornerRadius="20dp" />
 
                 <Button
-                    android:id="@+id/trasnferButtonPay"
+                    android:id="@+id/transferButtonPay"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,10 +93,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/border_radius"
                 android:backgroundTint="@color/blue_poliban"
                 android:padding="20dp"
@@ -107,28 +107,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:text="@string/tell_me_some_information_from_your_new_bank_account"
+                    android:text="Make a transfer in the easiest way!"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="22sp"
-                    app:layout_constraintBottom_toTopOf="@+id/flexboxLayout"
+                    app:layout_constraintBottom_toTopOf="@+id/layoutRecyclerView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- Contact Card -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/layoutRecyclerView"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/flexboxLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/infotextView"/>
+
+
+
                 <com.google.android.flexbox.FlexboxLayout
                     android:id="@+id/flexboxLayout"
-                    app:alignContent="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    app:alignContent="center"
                     app:alignItems="center"
                     app:flexWrap="wrap"
                     app:justifyContent="center"
-                    app:layout_constraintTop_toBottomOf="@+id/infotextView"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/layoutRecyclerView">
 
 
                     <EditText
@@ -140,7 +154,7 @@
                         android:background="@drawable/border_radius"
                         android:backgroundTint="@color/blue_light"
                         android:hint="@string/iban"
-                        android:inputType="	textEmailAddress"
+                        android:inputType="	text"
                         android:padding="5dp"
                         android:paddingStart="15dp"
                         android:paddingEnd="15dp"
@@ -152,11 +166,11 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:autofillHints="@string/password"
+                        android:autofillHints="Reason*"
                         android:background="@drawable/border_radius"
                         android:backgroundTint="@color/blue_light"
-                        android:hint="@string/principal_owner"
-                        android:inputType="textPassword"
+                        android:hint="Reason*"
+                        android:inputType="text"
                         android:padding="5dp"
                         android:paddingStart="15dp"
                         android:paddingEnd="15dp"
@@ -168,11 +182,11 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:autofillHints="@string/password"
+                        android:autofillHints="Quantity*"
                         android:background="@drawable/border_radius"
                         android:backgroundTint="@color/blue_light"
-                        android:hint="@string/principal_owner"
-                        android:inputType="textPassword"
+                        android:hint="Quantity*"
+                        android:inputType="numberDecimal"
                         android:padding="5dp"
                         android:paddingStart="15dp"
                         android:paddingEnd="15dp"

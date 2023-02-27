@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     //TODO Permitir poner Tarjeta en el Wallet
     //TODO Lista de Futures en BankAccount y Mostrarlos en el Calendar Explicits
 
+
     // https://www.geeksforgeeks.org/flexbox-layout-in-android/
     // https://stackoverflow.com/questions/31250174/css-flexbox-difference-between-align-items-and-align-content
 }
