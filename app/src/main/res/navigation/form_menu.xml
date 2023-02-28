@@ -18,7 +18,11 @@
         android:id="@+id/homeFragment"
         android:name="m07.joellpz.poliban.main.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_payFragment"
+            app:destination="@id/payFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="m07.joellpz.poliban.user.ProfileFragment"
@@ -54,9 +58,4 @@
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
 
-    <fragment
-        android:id="@+id/ibanMainFragment"
-        android:name="m07.joellpz.poliban.view.IbanMainFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_iban_main"/>
 </navigation>

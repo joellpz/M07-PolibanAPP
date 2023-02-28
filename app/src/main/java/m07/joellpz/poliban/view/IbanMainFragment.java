@@ -144,7 +144,7 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         view.findViewById(R.id.goBackBtnCards).setOnClickListener(l -> view.findViewById(R.id.fragmentTransactionCards).setVisibility(View.INVISIBLE));
         view.findViewById(R.id.mapImageContainer).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.mapsFragment));
 
-        view.findViewById(R.id.bizumButton).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.payFragment));
+        view.findViewById(R.id.bizumButton).setOnClickListener(l -> Navigation.findNavController(view));
         view.findViewById(R.id.creditButton).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.payFragment));
     }
 

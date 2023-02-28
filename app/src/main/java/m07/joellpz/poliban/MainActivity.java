@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //TODO Fondo delete account
+    //TODO
+
+    
     //TODO Invest Page
     //TO DO Make fragment pay good
     //TODO Connect Buttons From Iban to Pay fragment
