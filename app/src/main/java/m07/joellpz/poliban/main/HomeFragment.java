@@ -31,13 +31,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import m07.joellpz.poliban.view.IbanMainFragment;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.model.WalletCard;
 import m07.joellpz.poliban.tools.ChargingImage;
 import m07.joellpz.poliban.view.ChatBotFragment;
+import m07.joellpz.poliban.view.IbanMainFragment;
 import m07.joellpz.poliban.view.RegisterIbanFragment;
 
 /**
@@ -47,7 +47,7 @@ import m07.joellpz.poliban.view.RegisterIbanFragment;
  */
 public class HomeFragment extends Fragment {
 
-    private NavController navController;
+    public NavController navController;
 
     private ArchedImageProgressBar polibanArcProgress;
 
@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
 
     protected static ViewPager viewPager;
     private TabLayout tabLayout;
+    ViewPagerAdapter adapter;
     ChatBotFragment chatBotFragment;
 
 
@@ -114,7 +115,7 @@ public class HomeFragment extends Fragment {
         }
 
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
         for (BankAccount bank : bankAccounts) {
 
             Bundle bundle = new Bundle();
@@ -144,12 +145,10 @@ public class HomeFragment extends Fragment {
                     mainView.setVisibility(View.VISIBLE);
                     polibanArcProgress.setVisibility(View.GONE);
                 });
+    }
 
-        view.findViewById(R.id.deleteAcoountBtn).setOnClickListener(l -> {
-            System.out.println(viewPager.getCurrentItem());
-            adapter.removeFragment(viewPager.getCurrentItem());
-        });
-
+    public void removeFragment() {
+        adapter.removeFragment(viewPager.getCurrentItem());
     }
 
     @Override

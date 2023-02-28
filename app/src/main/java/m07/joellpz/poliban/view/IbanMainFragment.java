@@ -44,6 +44,8 @@ import java.util.List;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
+import m07.joellpz.poliban.main.HomeFragment;
+import m07.joellpz.poliban.main.PayFragment;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
@@ -93,6 +95,8 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         //TODO PONER MARCADORES DE COLORES EN EL MAPA
+
+        System.out.println(getParentFragment().toString() + "++++++++++++++++++++++++++++");
 
         //Main Info
         ibanInfoNumCard = view.findViewById(R.id.ibanInfoNumCard);
@@ -146,6 +150,12 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
 
         view.findViewById(R.id.bizumButton).setOnClickListener(l -> Navigation.findNavController(view));
         view.findViewById(R.id.creditButton).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.payFragment));
+
+        view.findViewById(R.id.deleteAcoountBtn).setOnClickListener(l -> {
+            HomeFragment home = (HomeFragment) getParentFragment();
+            home.removeFragment();
+            home.getChildFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main, new PayFragment()).commit();
+        });
     }
 
 
