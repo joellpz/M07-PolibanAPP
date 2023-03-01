@@ -78,7 +78,12 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         view.findViewById(R.id.updateButtonProfile).setOnClickListener(view1 -> updateProfile());
-        view.findViewById(R.id.cancelButtonProfile).setOnClickListener(view1 -> navController.navigate(R.id.homeFragment));
+        view.findViewById(R.id.cancelButtonProfile).setOnClickListener(view1 -> {
+            navController.popBackStack();
+            toolbar.setVisibility(View.VISIBLE);
+            requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.VISIBLE);
+        });
+
 
         view.findViewById(R.id.profileImgProfile).setOnClickListener(v -> galeria.launch("image/*"));
         appViewModel.mediaSeleccionado.observe(getViewLifecycleOwner(), media -> {
@@ -134,6 +139,8 @@ public class ProfileFragment extends Fragment {
         userData.put("profileCP", cpEditText.getText().toString());
         FirebaseFirestore.getInstance().collection("users").document(user.getUid()).update(userData).addOnSuccessListener(l -> {
             polibanArcProgress.setVisibility(View.GONE);
+            toolbar.setVisibility(View.VISIBLE);
+            requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.VISIBLE);
             navController.popBackStack();
         });
 

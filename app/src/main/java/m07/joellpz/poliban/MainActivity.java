@@ -8,6 +8,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.Objects;
 
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
@@ -33,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //TODO Fondo delete account
-    //TODO
+    //TO DO Fondo delete account
+    //TO DO Margin IbanMain
 
     
     //TODO Invest Page
     //TO DO Make fragment pay good
-    //TODO Connect Buttons From Iban to Pay fragment
+    //TO DO Connect Buttons From Iban to Pay fragment
     //TO DO Connectar MapFragment al hacer click largo en Map
     //TODO Permitir poner Tarjeta en el Wallet
-    //TODO Lista de Futures en BankAccount y Mostrarlos en el Calendar Explicits
+    //TO DO Lista de Futures en BankAccount y Mostrarlos en el Calendar Explicits
 
 
     // https://www.geeksforgeeks.org/flexbox-layout-in-android/

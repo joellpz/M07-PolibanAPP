@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
 import m07.joellpz.poliban.main.HomeFragment;
-import m07.joellpz.poliban.main.PayFragment;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
@@ -67,7 +67,7 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
     RecyclerView recyclerView, recyclerViewExplicit, recyclerViewExplicitFuture, recyclerTransactionsCards;
     TransactionsAdapter mainAdapter, explicitAdapter, explicitFutureAdapter;
 
-    TextView textBalanceCalendarExp, textFutureCalendarExp;
+    TextView textBalanceCalendarExp, textToComeCalendarExp;
     float totalBalanceMonth, totalComeMonth;
     List<Transaction> transactionsPerMonth = new ArrayList<>();
     DecimalFormat df = new DecimalFormat("#.##");
@@ -124,11 +124,18 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         explicitAdapter = new TransactionsAdapter(transactionsPerMonth);
         recyclerViewExplicit.setAdapter(explicitAdapter);
 
+        explicitFutureAdapter = new TransactionsAdapter(bankAccount.getFutureTransactions());
+        recyclerViewExplicitFuture.setAdapter(explicitFutureAdapter);
+
         textBalanceCalendarExp = view.findViewById(R.id.textBalanceCalendarExp);
-        textFutureCalendarExp = view.findViewById(R.id.textFutureCalendarExp);
+        textToComeCalendarExp = view.findViewById(R.id.textToComeCalendarExp);
 
         transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
         textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
+
+
+        bankAccount.getFutureTransactions().forEach(transaction ->  totalComeMonth += transaction.getValue());
+        textToComeCalendarExp.setText(df.format(totalComeMonth));
 
 
         //Charts & Calendar
@@ -148,13 +155,12 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         view.findViewById(R.id.goBackBtnCards).setOnClickListener(l -> view.findViewById(R.id.fragmentTransactionCards).setVisibility(View.INVISIBLE));
         view.findViewById(R.id.mapImageContainer).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.mapsFragment));
 
-        view.findViewById(R.id.bizumButton).setOnClickListener(l -> Navigation.findNavController(view));
-        view.findViewById(R.id.creditButton).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.payFragment));
+        view.findViewById(R.id.bizumButton).setOnClickListener(l -> getActivity().findViewById(R.id.bottomMainMenu).findViewById(R.id.payFragment).performClick());
+        view.findViewById(R.id.creditButton).setOnClickListener(l -> getActivity().findViewById(R.id.bottomMainMenu).findViewById(R.id.payFragment).performClick());
 
         view.findViewById(R.id.deleteAcoountBtn).setOnClickListener(l -> {
             HomeFragment home = (HomeFragment) getParentFragment();
             home.removeFragment();
-            home.getChildFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_content_main, new PayFragment()).commit();
         });
     }
 
@@ -176,6 +182,11 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         monthTextExplicit.setText(dateFormatForMonth.format(compactCalendarExplicit.getFirstDayOfCurrentMonth()));
 
         for (Transaction transaction : bankAccount.getTransactionList()) {
+            compactCalendar.addEvent(transaction.getTransactionEvent());
+            compactCalendarExplicit.addEvent(transaction.getTransactionEvent());
+        }
+
+        for (Transaction transaction : bankAccount.getFutureTransactions()) {
             compactCalendar.addEvent(transaction.getTransactionEvent());
             compactCalendarExplicit.addEvent(transaction.getTransactionEvent());
         }
@@ -347,6 +358,20 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         else {
             cifInfo.setVisibility(View.INVISIBLE);
             investButton.setVisibility(View.GONE);
+        }
+        ImageView image;
+        if (bankAccount.getIban().split(" ")[1].equals("2100")) {
+            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lacaixa)));
+            image = getView().findViewById(R.id.bankEntityLogo);
+            image.setImageResource(R.drawable.logo_lacaixa);
+        } else if (bankAccount.getIban().split(" ")[1].equals("0057")) {
+            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.bbva)));
+            image = getView().findViewById(R.id.bankEntityLogo);
+            image.setImageResource(R.drawable.logo_bbva);
+        } else if (bankAccount.getIban().split(" ")[1].equals("0049")) {
+            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.santander)));
+            image = getView().findViewById(R.id.bankEntityLogo);
+            image.setImageResource(R.drawable.logo_santander);
         }
     }
 

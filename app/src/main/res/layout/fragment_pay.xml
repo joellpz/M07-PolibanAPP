@@ -10,8 +10,7 @@
     <ScrollView
         android:id="@+id/mainView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp">
+        android:layout_height="match_parent">
 
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
@@ -22,6 +21,7 @@
             app:justifyContent="center">
 
             <com.google.android.flexbox.FlexboxLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:alignContent="center"

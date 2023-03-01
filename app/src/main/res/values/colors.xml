@@ -21,4 +21,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent">#ADBDCE</color>
+    <color name="lacaixa">#4090CE</color>
+    <color name="bbva">#2852AB</color>
+    <color name="santander">#FE0000</color>
 </resources>

@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -94,26 +95,40 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
 
         List<BankAccount> bankAccounts = new ArrayList<>();
+        List<WalletCard> walletCards = new ArrayList<>();
         List<Transaction> transactions = new ArrayList<>();
+        List<Transaction> futureTransactions = new ArrayList<>();
 
         for (int i = 0; i < 25; i++) {
             Date randomDate = new Date(ThreadLocalRandom.current()
                     .nextLong(1669852148000L, 1677538800000L));
-            Transaction transaction = new Transaction("Titus", (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
+            Transaction transaction = new Transaction("Titus",false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
             transactions.add(transaction);
         }
 
-        List<WalletCard> walletCards = new ArrayList<>();
+
         for (int i = 0; i < Math.random() * 4; i++) {
             WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
             walletCards.add(walletCard);
         }
 
-        for (int i = 0; i < 4; i++) {
-            BankAccount bankAccount = new BankAccount("ES54 2095 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, walletCards);
-            bankAccounts.add(bankAccount);
+        for (int i = 1; i < 3; i++) {
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(new Date());
+            calendar.set(Calendar.DAY_OF_MONTH, 26 + i);
+            futureTransactions.add(new Transaction("El PUIG",true, (float) (Math.random() * 158) - 79, "Nomina"+i, calendar.getTime()));
+
         }
 
+//        for (int i = 0; i < 4; i++) {
+//            BankAccount bankAccount = new BankAccount("ES54 2095 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, walletCards);
+//            bankAccounts.add(bankAccount);
+//        }
+
+        bankAccounts.add(new BankAccount("ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         for (BankAccount bank : bankAccounts) {

@@ -52,6 +52,7 @@ public class PayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        System.out.println(getParentFragment());
         List<Contact> contacts = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {

@@ -16,17 +16,20 @@ public class Transaction{
     private String subject;
     private Date date;
     private float opinion;
+    private boolean future;
 
-    public Transaction(String from, float value, String subject, Date date) {
+    public Transaction(String from, boolean future, float value, String subject, Date date) {
         this.from = from;
+        this.future = future;
         this.value = value;
         this.subject = subject;
         this.date = date;
     }
 
-    public Transaction(String from, float value, String subject, Date date, float opinion) {
+    public Transaction(String from, boolean future, float value, String subject, Date date, float opinion) {
         this.from = from;
         this.value = value;
+        this.future = future;
         this.subject = subject;
         this.date = date;
         this.opinion = opinion;
@@ -46,6 +49,14 @@ public class Transaction{
 
     public void setFrom(String fromId) {
         this.from = fromId;
+    }
+
+    public boolean isFuture() {
+        return future;
+    }
+
+    public void setFuture(boolean future) {
+        this.future = future;
     }
 
     public float getValue() {
@@ -78,11 +89,13 @@ public class Transaction{
         this.date = date;
     }
 
-    public Event getTransactionEvent(){
+    public Event getTransactionEvent() {
         if (getValue() > 0) {
-            return new Event(Color.GREEN, getDate().getTime(), this);
+            if (isFuture()) return new Event(Color.parseColor("#502EAB15"), getDate().getTime(), this);
+            else return new Event(Color.GREEN, getDate().getTime(), this);
         } else {
-            return new Event(Color.RED, getDate().getTime(), this);
+            if (isFuture()) return new Event(Color.parseColor("#50D40000"), getDate().getTime(), this);
+            else return new Event(Color.RED, getDate().getTime(), this);
         }
     }
     @Override

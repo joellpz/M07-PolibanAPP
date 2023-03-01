@@ -30,6 +30,17 @@ public class BankAccount implements Serializable {
         this.walletCardList = walletCardList;
     }
 
+    public BankAccount(String iban, String owner, String cif, float balance, List<Transaction> transactionList,List<Transaction> futureTransactionList, List<WalletCard> walletCardList) {
+        this.iban = iban;
+        this.owner = owner;
+        this.cif = cif;
+        this.balance = balance;
+        this.transactionList = transactionList;
+        this.futureTransactions = futureTransactionList;
+        this.walletCardList = walletCardList;
+    }
+
+
     public String getIban() {
         return iban;
     }
@@ -79,6 +90,14 @@ public class BankAccount implements Serializable {
         return transactionList;
     }
 
+    public List<Transaction> getFutureTransactions() {
+        return futureTransactions;
+    }
+
+    public void setFutureTransactions(List<Transaction> futureTransactions) {
+        this.futureTransactions = futureTransactions;
+    }
+
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
@@ -104,6 +123,12 @@ public class BankAccount implements Serializable {
         for (Transaction transaction : transactionList) {
             if (transaction.getDate().after(firstDay) && transaction.getDate().before(calendar.getTime()))
                 filteredTransactions.add(transaction);
+        }
+
+        //Si no tiene nada este mes te muestra el anterior.
+        if (filteredTransactions.size()==0){
+            calendar.add(Calendar.MONTH, -1);
+            filteredTransactions = findTransactionPerMonth(calendar.getTime());
         }
         return filteredTransactions;
     }
