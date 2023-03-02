@@ -1,5 +1,6 @@
 package m07.joellpz.poliban.main;
 
+import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,6 +69,12 @@ public class PayFragment extends Fragment {
         binding.bizumButtonPay.setOnClickListener(l -> definePaymentPane("bizum"));
         binding.transferButtonPay.setOnClickListener(l -> definePaymentPane("transfer"));
         binding.creditButtonPay.setOnClickListener(l -> definePaymentPane("credit"));
+        binding.investButtonPay.setOnClickListener(l ->{
+                    AlertDialog ad = new AlertDialog.Builder(getContext()).create();
+                    ad.setMessage("Have not been implemented yet...");
+                    ad.setCancelable(true);
+                    ad.show();
+                });
 
         binding.sendButton.setOnClickListener(l -> {
             binding.customImageProgressBar.setVisibility(View.VISIBLE);
