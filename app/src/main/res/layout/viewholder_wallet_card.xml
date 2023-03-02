@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/walletItem"
+
     android:layout_width="315dp"
     android:layout_height="175dp"
     android:layout_marginStart="5dp"
@@ -15,6 +14,7 @@
     app:layout_constraintTop_toBottomOf="@id/numAccountText">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/walletItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/border_radius"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/ibanInfoNumCard"
+            android:id="@+id/currentBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|center_vertical"
@@ -69,7 +69,7 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/whoseTextCard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ibanInfoNumCard" />
+            app:layout_constraintTop_toBottomOf="@+id/currentBalance" />
 
         <TextView
             android:id="@+id/whoseTextCard"
@@ -114,7 +114,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/expDateTextCard"
             app:layout_constraintStart_toEndOf="@id/cveTextCard"
-            app:layout_constraintTop_toBottomOf="@+id/cardNumText" />
+            />
 
         <TextView
             android:id="@+id/expDateTextCard"
@@ -136,12 +136,14 @@
             android:id="@+id/expDateInfoCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="09/26"
             android:textAlignment="textStart"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/expDateTextCard" />
+            app:layout_constraintStart_toEndOf="@id/expDateTextCard"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumText" />
 
         <ImageView
             android:id="@+id/infoBtnCard"

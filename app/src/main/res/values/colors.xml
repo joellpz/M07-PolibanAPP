@@ -24,4 +24,6 @@
     <color name="lacaixa">#4090CE</color>
     <color name="bbva">#2852AB</color>
     <color name="santander">#FE0000</color>
+    <color name="mastercard">#F5D4C1</color>
+    <color name="visa">#D3E1FF</color>
 </resources>

@@ -2,6 +2,8 @@ package m07.joellpz.poliban.model;
 
 import androidx.annotation.NonNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WalletCard {
@@ -67,6 +69,11 @@ public class WalletCard {
 
     public Date getExpDate() {
         return expDate;
+    }
+
+    public String getExpDateToCard() {
+
+        return new SimpleDateFormat("MM/yy").format(expDate);
     }
 
     public void setExpDate(Date expDate) {

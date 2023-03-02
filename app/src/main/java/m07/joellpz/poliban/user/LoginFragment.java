@@ -41,7 +41,6 @@ public class LoginFragment extends Fragment {
 
     private FirebaseAuth mAuth;
 
-    private ActivityMainBinding binding;
 
 
     public LoginFragment() {}

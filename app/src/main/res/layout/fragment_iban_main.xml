@@ -46,7 +46,7 @@
                     android:textAppearance="@style/lettersDataBank" />
 
                 <TextView
-                    android:id="@+id/ibanInfoNumCard"
+                    android:id="@+id/currentBalance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"

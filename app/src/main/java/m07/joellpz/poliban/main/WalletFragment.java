@@ -1,35 +1,37 @@
 package m07.joellpz.poliban.main;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
-
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.databinding.FragmentWalletBinding;
+import m07.joellpz.poliban.databinding.ViewholderWalletBinding;
+import m07.joellpz.poliban.databinding.ViewholderWalletCardBinding;
 import m07.joellpz.poliban.model.BankAccount;
+import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.model.WalletCard;
 import m07.joellpz.poliban.tools.ChargingImage;
 
 public class WalletFragment extends Fragment {
 
-    private ArchedImageProgressBar polibanArcProgress;
-    private ScrollView mainView;
+    private FragmentWalletBinding binding;
+    DecimalFormat df = new DecimalFormat("#.##");
 
     public WalletFragment() {
         // Required empty public constructor
@@ -41,48 +43,70 @@ public class WalletFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wallet, container, false);
+        return (binding = FragmentWalletBinding.inflate(inflater, container, false)).getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = view.findViewById(R.id.walletRecyclerView);
+        df.setRoundingMode(RoundingMode.CEILING);
 
-        mainView = view.findViewById(R.id.mainView);
-        mainView.setVisibility(View.GONE);
-        polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
-        new ChargingImage(polibanArcProgress, this);
-        polibanArcProgress.setVisibility(View.VISIBLE);
+        binding.mainView.setVisibility(View.GONE);
 
+        new ChargingImage(binding.customImageProgressBar, this);
+        binding.customImageProgressBar.setVisibility(View.VISIBLE);
 
         List<BankAccount> bankAccounts = new ArrayList<>();
         List<WalletCard> walletCards = new ArrayList<>();
-        BankAccount bankAccount = new BankAccount();
+        List<Transaction> transactions = new ArrayList<>();
+        List<Transaction> futureTransactions = new ArrayList<>();
 
-        walletCards.add(new WalletCard());
-        walletCards.add(new WalletCard());
-        walletCards.add(new WalletCard());
+        for (int i = 0; i < 25; i++) {
+            Date randomDate = new Date(ThreadLocalRandom.current()
+                    .nextLong(1669852148000L, 1677538800000L));
+            Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
+            transactions.add(transaction);
+        }
 
-        bankAccount.setWalletCardList(walletCards);
-        bankAccounts.add(bankAccount);
-        bankAccounts.add(bankAccount);
-        bankAccounts.add(bankAccount);
+
+        WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+        WalletCard walletCard1 = new WalletCard((float) (Math.random() * 158), "5241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+        walletCards.add(walletCard);
+        walletCards.add(walletCard1);
+
+
+        for (int i = 1; i < 3; i++) {
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(new Date());
+            calendar.set(Calendar.DAY_OF_MONTH, 26 + i);
+            futureTransactions.add(new Transaction("El PUIG", true, (float) (Math.random() * 158) - 79, "Nomina" + i, calendar.getTime()));
+
+        }
+
+//        for (int i = 0; i < 4; i++) {
+//            BankAccount bankAccount = new BankAccount("ES54 2095 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, walletCards);
+//            bankAccounts.add(bankAccount);
+//        }
+
+        bankAccounts.add(new BankAccount("ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
 
 
         WalletAdapter walletAdapter = new WalletAdapter(bankAccounts);
-        recyclerView.setAdapter(walletAdapter);
+        binding.walletRecyclerView.setAdapter(walletAdapter);
 
-        mainView.setVisibility(View.VISIBLE);
-        polibanArcProgress.setVisibility(View.GONE);
+        binding.mainView.setVisibility(View.VISIBLE);
+        binding.customImageProgressBar.setVisibility(View.GONE);
     }
 
-    static class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletViewHolder> {
+    class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletViewHolder> {
 
-        private List<BankAccount> bankAccounts;
+        private final List<BankAccount> bankAccounts;
 
         public WalletAdapter(List<BankAccount> exampleList) {
             bankAccounts = exampleList;
@@ -90,9 +114,8 @@ public class WalletFragment extends Fragment {
 
         @NonNull
         @Override
-        public WalletAdapter.WalletViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet, parent, false);
-            return new WalletAdapter.WalletViewHolder(v);
+        public WalletAdapter.WalletViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new WalletAdapter.WalletViewHolder(ViewholderWalletBinding.inflate(getLayoutInflater(), parent, false));
         }
 
         @Override
@@ -105,73 +128,46 @@ public class WalletFragment extends Fragment {
         public void onBindViewHolder(@NonNull WalletAdapter.WalletViewHolder holder, int position) {
             BankAccount currentItem = bankAccounts.get(position);
             CardAdapter cardAdapter = new CardAdapter(currentItem.getWalletCardList());
-            holder.cardRecyclerView.setAdapter(cardAdapter);
+
+            holder.bindingWallet.whoseAccountText.setText(currentItem.getOwner());
+            holder.bindingWallet.numAccountText.setText(". . . .  " + currentItem.getIban().split(" ")[currentItem.getIban().split(" ").length - 1]);
+
+            if (currentItem.getIban().split(" ")[1].equals("2100")) {
+                holder.bindingWallet.bankLogoWallet.setImageResource(R.drawable.logo_lacaixa);
+            } else if (currentItem.getIban().split(" ")[1].equals("0057")) {
+                holder.bindingWallet.bankLogoWallet.setImageResource(R.drawable.logo_bbva);
+            } else if (currentItem.getIban().split(" ")[1].equals("0049")) {
+                holder.bindingWallet.bankLogoWallet.setImageResource(R.drawable.logo_santander);
+            }
+
+            holder.bindingWallet.cardRecyclerView.setAdapter(cardAdapter);
 
         }
 
         class WalletViewHolder extends RecyclerView.ViewHolder {
-            public TextView mTextView;
-            private RecyclerView cardRecyclerView;
+            private final ViewholderWalletBinding bindingWallet;
 
-            public WalletViewHolder(View itemView) {
-                super(itemView);
-                mTextView = itemView.findViewById(R.id.whoseAccountText);
-                cardRecyclerView = itemView.findViewById(R.id.cardRecyclerView);
+            public WalletViewHolder(ViewholderWalletBinding binding) {
+                super(binding.getRoot());
+                this.bindingWallet = binding;
             }
         }
 
     }
 
     //TO DO https://www.section.io/engineering-education/android-nested-recycler-view/
-    static class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+    class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
 
-        private List<WalletCard> walletCardList;
+        private final List<WalletCard> walletCardList;
 
-        static class CardViewHolder extends RecyclerView.ViewHolder {
+        class CardViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView balanceNumCard;
-            public TextView cardNumText;
-            public TextView whoseTextCard;
-            public TextView cveInfoCard;
-            public TextView expDateInfoCard;
-            public ImageView entityCardLogo;
+            private final ViewholderWalletCardBinding bindingWalletCard;
 
-            public ImageView infoBtnCard;
-            public ImageView deleteBtnCard;
-            public ImageView payBtnCard;
-            public ImageView blockBtnCard;
-            public ImageView contactLessBtnWallet;
-
-            public RelativeLayout blockedWallet;
-            public ConstraintLayout walletItem;
-            public LinearLayout contactLessPay;
-
-            public ImageView tickBlockBtnWallet;
-
-            public CardViewHolder(View itemView) {
-                super(itemView);
-
-                balanceNumCard = itemView.findViewById(R.id.ibanInfoNumCard);
-                cardNumText = itemView.findViewById(R.id.cardNumText);
-                whoseTextCard = itemView.findViewById(R.id.whoseTextCard);
-                cveInfoCard = itemView.findViewById(R.id.cveInfoCard);
-                expDateInfoCard = itemView.findViewById(R.id.expDateInfoCard);
-
-                entityCardLogo = itemView.findViewById(R.id.entityCardLogo);
-
-                infoBtnCard = itemView.findViewById(R.id.infoBtnCard);
-                deleteBtnCard = itemView.findViewById(R.id.deleteBtnCard);
-                payBtnCard = itemView.findViewById(R.id.payBtnCard);
-                blockBtnCard = itemView.findViewById(R.id.blockBtnCard);
-
-                blockedWallet = itemView.findViewById(R.id.blockedWallet);
-                walletItem = itemView.findViewById(R.id.walletItem);
-                contactLessPay = itemView.findViewById(R.id.contactLessPay);
-
-                tickBlockBtnWallet = itemView.findViewById(R.id.tickBlockBtnWallet);
-                contactLessBtnWallet = itemView.findViewById(R.id.contactLessBtnWallet);
-
+            public CardViewHolder(ViewholderWalletCardBinding binding) {
+                super(binding.getRoot());
+                this.bindingWalletCard = binding;
             }
         }
 
@@ -183,49 +179,61 @@ public class WalletFragment extends Fragment {
         @Override
         public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet_card, parent, false);
-            return new CardViewHolder(v);
+            return new CardViewHolder(ViewholderWalletCardBinding.inflate(getLayoutInflater(), parent, false));
         }
 
         @Override
         public void onBindViewHolder(@NonNull CardAdapter.CardViewHolder holder, int position) {
             WalletCard currentItem = walletCardList.get(position);
 
-            holder.deleteBtnCard.setOnClickListener(v -> removeAt(holder.getAbsoluteAdapterPosition()));
+            holder.bindingWalletCard.deleteBtnCard.setOnClickListener(v -> removeAt(holder.getAbsoluteAdapterPosition()));
+            holder.bindingWalletCard.whoseTextCard.setText(currentItem.getCardOwner());
+            holder.bindingWalletCard.expDateInfoCard.setText(currentItem.getExpDateToCard());
+            holder.bindingWalletCard.cardNumText.setText("* * * *  * * * *  * * * *  " + currentItem.getCardNum().split(" ")[currentItem.getCardNum().split(" ").length - 1]);
+            holder.bindingWalletCard.cveInfoCard.setText("***");
+            holder.bindingWalletCard.currentBalance.setText(df.format(currentItem.getBalance()) + " €");
 
+            if (currentItem.getCardNum().startsWith("4")) {
+                holder.bindingWalletCard.entityCardLogo.setImageResource(R.drawable.logo_visa);
+                holder.bindingWalletCard.walletItem.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.visa, getActivity().getTheme())));
+            } else {
+                holder.bindingWalletCard.entityCardLogo.setImageResource(R.drawable.logo_mastercard);
+                holder.bindingWalletCard.walletItem.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.mastercard, getActivity().getTheme())));
+            }
 
             //Show Card Info
-            holder.infoBtnCard.setOnClickListener(l -> {
+            holder.bindingWalletCard.infoBtnCard.setOnClickListener(l -> {
                 if (currentItem.isActive()) {
-                    if (holder.cardNumText.getText().subSequence(0, 1).equals("*")) {
-                        holder.cardNumText.setText("1234  1234  1234  2230");
-                        holder.cveInfoCard.setText("123");
+                    if (holder.bindingWalletCard.cardNumText.getText().subSequence(0, 1).equals("*")) {
+                        holder.bindingWalletCard.cardNumText.setText(currentItem.getCardNum());
+                        holder.bindingWalletCard.cveInfoCard.setText(currentItem.getCvv() + "");
                     } else {
-                        holder.cardNumText.setText("* * * *  * * * *  * * * *  2230");
-                        holder.cveInfoCard.setText("***");
+                        holder.bindingWalletCard.cardNumText.setText("* * * *  * * * *  * * * *  " + currentItem.getCardNum().split(" ")[currentItem.getCardNum().split(" ").length - 1]);
+                        holder.bindingWalletCard.cveInfoCard.setText("***");
                     }
                 }
             });
 
             //Pay ContactLess
-            holder.payBtnCard.setOnClickListener(l -> {
+            holder.bindingWalletCard.payBtnCard.setOnClickListener(l -> {
                 if (currentItem.isActive()) {
-                    holder.contactLessPay.setVisibility(View.VISIBLE);
+                    holder.bindingWalletCard.contactLessPay.setVisibility(View.VISIBLE);
                 }
             });
-            holder.contactLessBtnWallet.setOnClickListener(l -> holder.contactLessPay.setVisibility(View.GONE));
+            holder.bindingWalletCard.contactLessBtnWallet.setOnClickListener(l -> holder.bindingWalletCard.contactLessPay.setVisibility(View.GONE));
 
             //Block Card
-            holder.blockBtnCard.setOnClickListener(l -> {
-                holder.blockedWallet.setVisibility(View.VISIBLE);
-                holder.blockBtnCard.setImageAlpha(0);
+            holder.bindingWalletCard.blockBtnCard.setOnClickListener(l -> {
+                holder.bindingWalletCard.blockedWallet.setVisibility(View.VISIBLE);
+                holder.bindingWalletCard.blockBtnCard.setImageAlpha(0);
                 currentItem.setActive(false);
             });
 
 
             //Reactivate Card
-            holder.tickBlockBtnWallet.setOnClickListener(l -> {
-                holder.blockedWallet.setVisibility(View.GONE);
-                holder.blockBtnCard.setImageAlpha(255);
+            holder.bindingWalletCard.tickBlockBtnWallet.setOnClickListener(l -> {
+                holder.bindingWalletCard.blockedWallet.setVisibility(View.GONE);
+                holder.bindingWalletCard.blockBtnCard.setImageAlpha(255);
                 currentItem.setActive(true);
 
             });

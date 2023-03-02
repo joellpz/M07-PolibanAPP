@@ -28,12 +28,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -90,16 +85,13 @@ public class IbanMainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         df.setRoundingMode(RoundingMode.CEILING);
-        //Maps
-//        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-//        assert mapFragment != null;
-//        mapFragment.getMapAsync(this);
+
         //TODO PONER MARCADORES DE COLORES EN EL MAPA
 
         System.out.println(getParentFragment().toString() + "++++++++++++++++++++++++++++");
 
         //Main Info
-        ibanInfoNumCard = view.findViewById(R.id.ibanInfoNumCard);
+        ibanInfoNumCard = view.findViewById(R.id.currentBalance);
         moneyBankInfo = view.findViewById(R.id.moneyBankInfo);
         ownerInfo = view.findViewById(R.id.ownerInfo);
         cifInfo = view.findViewById(R.id.cifInfo);
@@ -455,7 +447,7 @@ public class IbanMainFragment extends Fragment {
             holder.binding.fromInfo.setText(currentItem.getFrom());
 
             if (currentItem.isFuture())
-                holder.binding.subjectTransaction.setText("F->" + currentItem.getSubject());
+                holder.binding.subjectTransaction.setText("F:" + currentItem.getSubject());
             else holder.binding.subjectTransaction.setText(currentItem.getSubject());
 
 
