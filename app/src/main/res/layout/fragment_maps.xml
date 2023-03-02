@@ -16,13 +16,12 @@
         map:uiRotateGestures="true"
         map:uiZoomControls="true" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/goBackBtnMapa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/chatbot_btn"
         android:contentDescription="@string/chatbot"
         android:src="@drawable/arrow_back"
         app:layout_constraintEnd_toEndOf="parent"

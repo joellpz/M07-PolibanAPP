@@ -465,12 +465,18 @@
 
                 <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:name="m07.joellpz.poliban.view.MapsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    map:cameraZoom="50"
-                    map:uiRotateGestures="true"
-                    map:uiZoomControls="true" />
+                    />
+<!--                <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"-->
+<!--                    android:id="@+id/map"-->
+<!--                    android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    map:cameraZoom="50"-->
+<!--                    map:uiRotateGestures="true"-->
+<!--                    map:uiZoomControls="true" />-->
 
 
                 <ImageView

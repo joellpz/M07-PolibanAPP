@@ -54,7 +54,7 @@ import m07.joellpz.poliban.model.Transaction;
  * Use the {@link IbanMainFragment #newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IbanMainFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+public class IbanMainFragment extends Fragment {
 
     TextView ibanInfoNumCard, moneyBankInfo, ownerInfo, cifInfo;
     TextView expediturePrice, revenuePrice;
@@ -91,9 +91,9 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
 
         df.setRoundingMode(RoundingMode.CEILING);
         //Maps
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+//        assert mapFragment != null;
+//        mapFragment.getMapAsync(this);
         //TODO PONER MARCADORES DE COLORES EN EL MAPA
 
         System.out.println(getParentFragment().toString() + "++++++++++++++++++++++++++++");
@@ -245,43 +245,6 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         view.findViewById(R.id.goBackBtn).setOnClickListener(l -> calendarExplicitIbanFragment.setVisibility(View.INVISIBLE));
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-        this.mMap.setOnMapClickListener(this);
-        this.mMap.setOnMapLongClickListener(this);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-        //TODO COSAS MAPS
-
-        LatLng badalona = new LatLng(41.455775193431435, 2.201906692392249);
-        mMap.addMarker(new MarkerOptions().position(badalona).title("Badalona"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(badalona));
-    }
-
-    @Override
-    public void onMapClick(@NonNull LatLng latLng) {
-        //txtLatitud.setText(String.valueOf(latLng.latitude));
-        //txtLongitud.setText(String.valueOf(latLng.longitude));
-
-        mMap.clear();
-        LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(mexico).title(""));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
-    }
-
-    @Override
-    public void onMapLongClick(@NonNull LatLng latLng) {
-//        txtLatitud.setText(String.valueOf(latLng.latitude));
-//        txtLongitud.setText(String.valueOf(latLng.longitude));
-
-        mMap.clear();
-        LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(mexico).title("AÑA"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
-    }
 
     private void setChartsInfo(String time) {
         TextView revenueTimeLabel = getView().findViewById(R.id.revenueTimeLabel);

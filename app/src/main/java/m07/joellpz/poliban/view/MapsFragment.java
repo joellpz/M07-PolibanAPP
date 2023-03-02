@@ -1,15 +1,16 @@
 package m07.joellpz.poliban.view;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,8 +21,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import m07.joellpz.poliban.R;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener{
+public class MapsFragment extends Fragment{
     private GoogleMap mMap;
+    private ImageView goBackButtonMap;
     private NavController navController;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -36,47 +38,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setZoomGesturesEnabled(true);
+            mMap.getUiSettings().setCompassEnabled(true);
+
+
             LatLng badalona = new LatLng(41.455775193431435, 2.201906692392249);
-            googleMap.addMarker(new MarkerOptions().position(badalona).title("Badalona"));
+            googleMap.addMarker(new MarkerOptions().position(badalona).title("El Puig"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(badalona));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
 
 
     };
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-        this.mMap.setOnMapClickListener(this);
-        this.mMap.setOnMapLongClickListener(this);
-
-        LatLng badalona = new LatLng(41.455775193431435, 2.201906692392249);
-        mMap.addMarker(new MarkerOptions().position(badalona).title("Badalona"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(badalona));
-    }
-
-    @Override
-    public void onMapClick(@NonNull LatLng latLng) {
-        //txtLatitud.setText(String.valueOf(latLng.latitude));
-        //txtLongitud.setText(String.valueOf(latLng.longitude));
-
-        mMap.clear();
-        LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(mexico).title(""));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
-    }
-
-    @Override
-    public void onMapLongClick(@NonNull LatLng latLng) {
-//        txtLatitud.setText(String.valueOf(latLng.latitude));
-//        txtLongitud.setText(String.valueOf(latLng.longitude));
-
-        mMap.clear();
-        LatLng mexico = new LatLng(latLng.latitude, latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(mexico).title("AÑA"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mexico));
-    }
-
 
     @Nullable
     @Override
@@ -95,7 +71,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             mapFragment.getMapAsync(callback);
         }
         navController = Navigation.findNavController(view);
-        view.findViewById(R.id.goBackBtnMapa).setOnClickListener(l-> navController.navigate(R.id.homeFragment));
+        goBackButtonMap = view.findViewById(R.id.goBackBtnMapa);
+        goBackButtonMap.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
     }
 
 
