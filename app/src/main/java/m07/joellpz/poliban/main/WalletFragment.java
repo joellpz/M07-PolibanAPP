@@ -86,12 +86,7 @@ public class WalletFragment extends Fragment {
             futureTransactions.add(new Transaction("El PUIG", true, (float) (Math.random() * 158) - 79, "Nomina" + i, calendar.getTime()));
 
         }
-
-//        for (int i = 0; i < 4; i++) {
-//            BankAccount bankAccount = new BankAccount("ES54 2095 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, walletCards);
-//            bankAccounts.add(bankAccount);
-//        }
-
+        
         bankAccounts.add(new BankAccount("ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
         bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
         bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
@@ -177,8 +172,7 @@ public class WalletFragment extends Fragment {
 
         @NonNull
         @Override
-        public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_wallet_card, parent, false);
+        public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new CardViewHolder(ViewholderWalletCardBinding.inflate(getLayoutInflater(), parent, false));
         }
 
@@ -195,10 +189,10 @@ public class WalletFragment extends Fragment {
 
             if (currentItem.getCardNum().startsWith("4")) {
                 holder.bindingWalletCard.entityCardLogo.setImageResource(R.drawable.logo_visa);
-                holder.bindingWalletCard.walletItem.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.visa, getActivity().getTheme())));
+                holder.bindingWalletCard.walletItem.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.visa, requireActivity().getTheme())));
             } else {
                 holder.bindingWalletCard.entityCardLogo.setImageResource(R.drawable.logo_mastercard);
-                holder.bindingWalletCard.walletItem.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.mastercard, getActivity().getTheme())));
+                holder.bindingWalletCard.walletItem.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.mastercard, requireActivity().getTheme())));
             }
 
             //Show Card Info

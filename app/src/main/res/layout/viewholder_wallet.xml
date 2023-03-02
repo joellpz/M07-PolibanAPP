@@ -42,7 +42,7 @@
         android:id="@+id/bankLogoWallet"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:contentDescription="@string/banklogo"
+        android:contentDescription="@string/bankLogo"
         android:src="@drawable/icon_poliban"
         app:layout_constraintBottom_toTopOf="@+id/cardRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"

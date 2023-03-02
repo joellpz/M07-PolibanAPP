@@ -5,10 +5,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -25,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.appBarMain.toolbar.setTitle("");
-        binding.appBarMain.toolbar.setVisibility(View.GONE);
-        binding.appBarMain.contentMain.bottomMainMenu.setVisibility(View.GONE);
+//        binding.appBarMain.toolbar.setVisibility(View.GONE);
+//        binding.appBarMain.contentMain.bottomMainMenu.setVisibility(View.GONE);
 
         NavController navController = ((NavHostFragment) Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main))).getNavController();
+        binding.appBarMain.toolbar.findViewById(R.id.profileAppBarImage).setOnClickListener(l -> navController.navigate(R.id.profileFragment));
         NavigationUI.setupWithNavController(binding.appBarMain.contentMain.bottomMainMenu, navController);
 
         setSupportActionBar(binding.appBarMain.toolbar);

@@ -22,9 +22,9 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.model.BankAccount;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,8 +32,6 @@ import m07.joellpz.poliban.model.BankAccount;
  * create an instance of this fragment.
  */
 public class CalendarExplicitFragment extends Fragment {
-
-    BankAccount bankAccount;
 
     public CalendarExplicitFragment() {
         // Required empty public constructor
@@ -58,7 +56,7 @@ public class CalendarExplicitFragment extends Fragment {
         CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_viewExplicit);
         LinearLayout calendarLinearView = view.findViewById(R.id.linearcalendar_view);
         Date today = new Date();
-        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy");
+        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.FRANCE);
 
         TextView monthText = view.findViewById(R.id.monthTextExplicit);
         monthText.setText(dateFormatForMonth.format(compactCalendar.getFirstDayOfCurrentMonth()));
@@ -74,7 +72,7 @@ public class CalendarExplicitFragment extends Fragment {
 
         // Query for events on Sun, 07 Jun 2015 GMT.
         // Time is not relevant when querying for events, since events are returned by day.
-        // So you can pass in any arbitary DateTime and you will receive all events for that day.
+        // So you can pass in any arbitrary DateTime and you will receive all events for that day.
         List<Event> events = compactCalendar.getEvents(1676329200000L); // can also take a Date object
 
         // events has size 2 with the 2 events inserted previously
@@ -92,7 +90,7 @@ public class CalendarExplicitFragment extends Fragment {
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 if (firstDayOfNewMonth.after(today)) calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
-                else calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                else calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
                 monthText.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
             }

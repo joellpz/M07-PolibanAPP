@@ -2,6 +2,7 @@ package m07.joellpz.poliban.view;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.google.android.gms.maps.GoogleMap;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -36,6 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
@@ -52,7 +54,7 @@ import m07.joellpz.poliban.model.Transaction;
 public class IbanMainFragment extends Fragment {
 
     TextView ibanInfoNumCard, moneyBankInfo, ownerInfo, cifInfo;
-    TextView expediturePrice, revenuePrice;
+    TextView expenditurePrice, revenuePrice;
     LineChart chartWins, chartLoses;
 
     Button investButton;
@@ -69,15 +71,10 @@ public class IbanMainFragment extends Fragment {
 
     List<Transaction> transactionsToCards = new ArrayList<>();
 
-    private GoogleMap mMap;
 
 
     public IbanMainFragment() {
         // Required empty public constructor
-    }
-
-    public IbanMainFragment(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
     }
 
     @Override
@@ -87,8 +84,6 @@ public class IbanMainFragment extends Fragment {
         df.setRoundingMode(RoundingMode.CEILING);
 
         //TODO PONER MARCADORES DE COLORES EN EL MAPA
-
-        System.out.println(getParentFragment().toString() + "++++++++++++++++++++++++++++");
 
         //Main Info
         ibanInfoNumCard = view.findViewById(R.id.currentBalance);
@@ -131,7 +126,7 @@ public class IbanMainFragment extends Fragment {
 
 
         //Charts & Calendar
-        expediturePrice = view.findViewById(R.id.expediturePrice);
+        expenditurePrice = view.findViewById(R.id.expenditurePrice);
         revenuePrice = view.findViewById(R.id.revenuePrice);
         chartLoses = view.findViewById(R.id.chartExped);
         chartWins = view.findViewById(R.id.chartRevenue);
@@ -142,7 +137,7 @@ public class IbanMainFragment extends Fragment {
 
         //Sets Charts Info And Calendar Events
         setChartsInfo("");
-        setCalendarViewAppearence(view);
+        setCalendarViewAppearance(view);
 
         view.findViewById(R.id.goBackBtnCards).setOnClickListener(l -> view.findViewById(R.id.fragmentTransactionCards).setVisibility(View.INVISIBLE));
         view.findViewById(R.id.mapImageContainer).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.mapsFragment));
@@ -152,15 +147,15 @@ public class IbanMainFragment extends Fragment {
 
         view.findViewById(R.id.deleteAcoountBtn).setOnClickListener(l -> {
             HomeFragment home = (HomeFragment) getParentFragment();
-            home.removeFragment();
+            Objects.requireNonNull(home).removeFragment();
         });
     }
 
 
-    private void setCalendarViewAppearence(@NonNull View view) {
+    private void setCalendarViewAppearance(@NonNull View view) {
         ScrollView calendarExplicitIbanFragment = view.findViewById(R.id.calendarExplicitIbanFragment);
         Date today = new Date();
-        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy");
+        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.FRANCE);
 
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendarExplicit.setUseThreeLetterAbbreviation(true);
@@ -204,8 +199,8 @@ public class IbanMainFragment extends Fragment {
                     calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
                     calendarLinearViewExplicit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
                 } else {
-                    calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-                    calendarLinearViewExplicit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                    calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
+                    calendarLinearViewExplicit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
                 }
 
                 transactionsPerMonth = bankAccount.findTransactionPerMonth(firstDayOfNewMonth);
@@ -240,23 +235,23 @@ public class IbanMainFragment extends Fragment {
 
     private void setChartsInfo(String time) {
         TextView revenueTimeLabel = getView().findViewById(R.id.revenueTimeLabel);
-        TextView expeditureTimeLabel = getView().findViewById(R.id.expeditureTimeLabel);
+        TextView expenditureTimeLabel = getView().findViewById(R.id.expenditureTimeLabel);
 
-        ArrayList<Entry> expeditureList = new ArrayList<>();
+        ArrayList<Entry> expenditureList = new ArrayList<>();
         ArrayList<Entry> revenueList = new ArrayList<>();
         List<Transaction> filteredTransactionList;
-        int totalRevenue = 0, totalExpediture = 0;
+        int totalRevenue = 0, totalExpenditure = 0;
 
-        setChartPropieties(chartLoses);
-        setChartPropieties(chartWins);
+        setChartProperties(chartLoses);
+        setChartProperties(chartWins);
 
         if (time.equals("week")) {
-            revenueTimeLabel.setText("Last Week");
-            expeditureTimeLabel.setText("Last Week");
+            revenueTimeLabel.setText(R.string.lastWeek);
+            expenditureTimeLabel.setText(R.string.lastWeek);
             filteredTransactionList = bankAccount.findTransactionPerWeek(new Date());
         } else {
-            revenueTimeLabel.setText("Last Month");
-            expeditureTimeLabel.setText("Last Month");
+            revenueTimeLabel.setText(R.string.lastMonth);
+            expenditureTimeLabel.setText(R.string.lastMonth);
             filteredTransactionList = bankAccount.findTransactionPerMonth(new Date());
         }
 
@@ -265,38 +260,38 @@ public class IbanMainFragment extends Fragment {
                 revenueList.add(new Entry(revenueList.size() + 1, transaction.getValue()));
                 totalRevenue += transaction.getValue();
             } else {
-                expeditureList.add(new Entry(expeditureList.size() + 1, transaction.getValue() * (-1)));
-                totalExpediture += transaction.getValue();
+                expenditureList.add(new Entry(expenditureList.size() + 1, transaction.getValue() * (-1)));
+                totalExpenditure += transaction.getValue();
             }
         }
 
 
-        expediturePrice.setText(df.format(totalExpediture));
+        expenditurePrice.setText(df.format(totalExpenditure));
         revenuePrice.setText(df.format(totalRevenue));
 
-        LineDataSet expediture = new LineDataSet(expeditureList, "Expediture");
+        LineDataSet expenditure = new LineDataSet(expenditureList, "Expenditure");
         LineDataSet revenue = new LineDataSet(revenueList, "Revenue");
         revenue.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        expediture.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        expenditure.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
         revenue.setLineWidth(1.5f);
-        expediture.setLineWidth(1.5f);
+        expenditure.setLineWidth(1.5f);
 
         revenue.setDrawFilled(true);
-        expediture.setDrawFilled(true);
+        expenditure.setDrawFilled(true);
 
         revenue.setDrawCircles(false);
-        expediture.setDrawCircles(false);
+        expenditure.setDrawCircles(false);
 
         revenue.setDrawValues(false);
-        expediture.setDrawValues(false);
+        expenditure.setDrawValues(false);
 
-        expediture.setFillColor(ContextCompat.getColor(chartLoses.getContext(), R.color.red_light));
+        expenditure.setFillColor(ContextCompat.getColor(chartLoses.getContext(), R.color.red_light));
         revenue.setFillColor(ContextCompat.getColor(chartWins.getContext(), R.color.green_light));
-        expediture.setColor(ContextCompat.getColor(chartLoses.getContext(), R.color.red_less));
+        expenditure.setColor(ContextCompat.getColor(chartLoses.getContext(), R.color.red_less));
         revenue.setColor(ContextCompat.getColor(chartWins.getContext(), R.color.green));
 
-        chartLoses.setData(new LineData(expediture));
+        chartLoses.setData(new LineData(expenditure));
         chartWins.setData(new LineData(revenue));
 
         getView().findViewById(R.id.chartRevenueLayout).setOnClickListener(l -> {
@@ -304,7 +299,7 @@ public class IbanMainFragment extends Fragment {
             else setChartsInfo("week");
         });
 
-        getView().findViewById(R.id.chartExpeditureLayout).setOnClickListener(l -> {
+        getView().findViewById(R.id.chartExpenditureLayout).setOnClickListener(l -> {
             if (time.equals("week")) setChartsInfo("month");
             else setChartsInfo("week");
         });
@@ -314,28 +309,35 @@ public class IbanMainFragment extends Fragment {
         ibanInfoNumCard.setText(bankAccount.getIban());
         moneyBankInfo.setText(bankAccount.getBalanceString());
         ownerInfo.setText(bankAccount.getOwner());
-        if (bankAccount.getCif() != null) cifInfo.setText(bankAccount.getCif());
-        else {
+        if (bankAccount.getCif() != null) {
+            cifInfo.setText(bankAccount.getCif());
+            investButton.setOnClickListener(l -> {
+                AlertDialog ad = new AlertDialog.Builder(getContext()).create();
+                ad.setMessage("Have not been implemented yet...");
+                ad.setCancelable(true);
+                ad.show();
+            });
+        } else {
             cifInfo.setVisibility(View.INVISIBLE);
             investButton.setVisibility(View.GONE);
         }
         ImageView image;
         if (bankAccount.getIban().split(" ")[1].equals("2100")) {
-            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lacaixa)));
+            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lacaixa, requireActivity().getTheme())));
             image = getView().findViewById(R.id.bankEntityLogo);
             image.setImageResource(R.drawable.logo_lacaixa);
         } else if (bankAccount.getIban().split(" ")[1].equals("0057")) {
-            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.bbva)));
+            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.bbva, requireActivity().getTheme())));
             image = getView().findViewById(R.id.bankEntityLogo);
             image.setImageResource(R.drawable.logo_bbva);
         } else if (bankAccount.getIban().split(" ")[1].equals("0049")) {
-            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.santander)));
+            getView().findViewById(R.id.bank_data).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.santander, requireActivity().getTheme())));
             image = getView().findViewById(R.id.bankEntityLogo);
             image.setImageResource(R.drawable.logo_santander);
         }
     }
 
-    private void setChartPropieties(LineChart chart) {
+    private void setChartProperties(LineChart chart) {
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.getDescription().setEnabled(false);
@@ -364,8 +366,8 @@ public class IbanMainFragment extends Fragment {
     //TODO Cambiar por FirestoreRecyclerAdapter el RecyclerView
     class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
 
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-        private List<Transaction> mExampleList;
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.FRANCE);
+        private final List<Transaction> mExampleList;
 
         public TransactionsAdapter(List<Transaction> exampleList) {
             mExampleList = exampleList;
@@ -373,7 +375,7 @@ public class IbanMainFragment extends Fragment {
 
         @NonNull
         @Override
-        public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new TransactionViewHolder(ViewholderTransactionBinding.inflate(getLayoutInflater(), parent, false));
         }
 
@@ -416,8 +418,8 @@ public class IbanMainFragment extends Fragment {
 
     class TransactionsCardAdapter extends RecyclerView.Adapter<TransactionsCardAdapter.TransactionCardViewHolder> {
 
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-        private List<Transaction> mExampleList;
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.FRANCE);
+        private final List<Transaction> mExampleList;
 
         public TransactionsCardAdapter(List<Transaction> exampleList) {
             mExampleList = exampleList;
@@ -425,7 +427,7 @@ public class IbanMainFragment extends Fragment {
 
         @NonNull
         @Override
-        public TransactionCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public TransactionCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new TransactionCardViewHolder(ViewholderTransactionCardBinding.inflate(getLayoutInflater(), parent, false));
         }
 
@@ -435,19 +437,19 @@ public class IbanMainFragment extends Fragment {
 
 
             if (currentItem.getValue() > 0) {
-                holder.binding.fromText.setText("From: ");
-                holder.binding.euroBankInfo.setTextColor(getResources().getColor(R.color.green));
-                holder.binding.priceTransaction.setTextColor(getResources().getColor(R.color.green));
+                holder.binding.fromText.setText(R.string.fromText);
+                holder.binding.euroBankInfo.setTextColor(getResources().getColor(R.color.green, requireActivity().getTheme()));
+                holder.binding.priceTransaction.setTextColor(getResources().getColor(R.color.green, requireActivity().getTheme()));
             } else {
-                holder.binding.fromText.setText("To: ");
-                holder.binding.euroBankInfo.setTextColor(getResources().getColor(R.color.red_light));
-                holder.binding.priceTransaction.setTextColor(getResources().getColor(R.color.red_light));
+                holder.binding.fromText.setText(R.string.toText);
+                holder.binding.euroBankInfo.setTextColor(getResources().getColor(R.color.red_light, requireActivity().getTheme()));
+                holder.binding.priceTransaction.setTextColor(getResources().getColor(R.color.red_light, requireActivity().getTheme()));
             }
 
             holder.binding.fromInfo.setText(currentItem.getFrom());
 
             if (currentItem.isFuture())
-                holder.binding.subjectTransaction.setText("F:" + currentItem.getSubject());
+                holder.binding.subjectTransaction.setText(String.format("%s%s", getString(R.string.futureText), currentItem.getSubject()));
             else holder.binding.subjectTransaction.setText(currentItem.getSubject());
 
 

@@ -41,8 +41,6 @@ public class RegisterIbanFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.acceptButton).setOnClickListener(l -> {
-            getActivity().recreate();
-        });
+        view.findViewById(R.id.acceptButton).setOnClickListener(l -> requireActivity().recreate());
     }
 }

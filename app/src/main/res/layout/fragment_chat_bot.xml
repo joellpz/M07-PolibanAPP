@@ -61,7 +61,7 @@
             android:background="@color/orange_light"
             android:src="@android:drawable/ic_menu_send"
             app:tint="@color/white"
-            android:contentDescription="TODO" />
+            android:contentDescription="sendBtn" />
 
     </LinearLayout>
 

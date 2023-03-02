@@ -37,7 +37,6 @@ import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.model.WalletCard;
 import m07.joellpz.poliban.tools.ChargingImage;
-import m07.joellpz.poliban.view.ChatBotFragment;
 import m07.joellpz.poliban.view.IbanMainFragment;
 import m07.joellpz.poliban.view.RegisterIbanFragment;
 
@@ -61,16 +60,10 @@ public class HomeFragment extends Fragment {
     protected static ViewPager viewPager;
     private TabLayout tabLayout;
     ViewPagerAdapter adapter;
-    ChatBotFragment chatBotFragment;
 
 
     public HomeFragment() {
     }
-
-    public ViewPager getViewPager() {
-        return viewPager;
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -90,8 +83,6 @@ public class HomeFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
 
-//        chatBotFragment = new ChatBotFragment();
-//        getChildFragmentManager().beginTransaction().add(R.id.chatbotFrame, chatBotFragment).commit();
         view.findViewById(R.id.chatbotBtn).setOnClickListener(l -> navController.navigate(R.id.chatBotFragment));
 
         List<BankAccount> bankAccounts = new ArrayList<>();
@@ -121,14 +112,9 @@ public class HomeFragment extends Fragment {
 
         }
 
-//        for (int i = 0; i < 4; i++) {
-//            BankAccount bankAccount = new BankAccount("ES54 2095 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, walletCards);
-//            bankAccounts.add(bankAccount);
-//        }
-
         bankAccounts.add(new BankAccount("ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
         bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
-        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", "B1234657", (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         for (BankAccount bank : bankAccounts) {
@@ -188,8 +174,8 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        public int getItemPosition(Object object) {
-            return this.POSITION_NONE;
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
         }
 
         @NonNull
@@ -203,14 +189,8 @@ public class HomeFragment extends Fragment {
             return fragmentList.size();
         }
 
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return titleList.get(position);
-//        }
-
-        public void addFragment(Fragment fragment/*,String title*/) {
+        public void addFragment(Fragment fragment) {
             fragmentList.add(fragment);
-            //titleList.add(title);
         }
 
         public void removeFragment(int position) {

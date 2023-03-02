@@ -44,6 +44,9 @@ public class LoginFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
+        requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.GONE);
+        requireActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
+
         binding.toRegisterFragment.setOnClickListener(view1 -> navController.navigate(R.id.registerFragment));
 
         new ChargingImage(binding.customImageProgressBar, this);

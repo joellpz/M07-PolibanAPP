@@ -23,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
         <com.google.android.material.tabs.TabLayout
@@ -38,8 +39,6 @@
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed" />
 
-
-                 <!--android:backgroundTint="@color/orange_poliban" -->
         <ImageButton
             android:id="@+id/chatbotBtn"
             android:layout_width="wrap_content"

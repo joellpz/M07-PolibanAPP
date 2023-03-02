@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_poliban">
 
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/signInForm"
-        android:layout_width="match_parent"
+        android:layout_width="638dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
         app:alignContent="center"
@@ -56,6 +57,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:autofillHints="@string/password"
             android:background="@drawable/border_radius"
             android:backgroundTint="@color/blue_light"
             android:hint="@string/password"
@@ -64,8 +66,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColor="@color/white"
-            android:textColorHint="@color/white_transparent"
-            android:autofillHints="@string/password" />
+            android:textColorHint="@color/white_transparent" />
 
 
         <LinearLayout

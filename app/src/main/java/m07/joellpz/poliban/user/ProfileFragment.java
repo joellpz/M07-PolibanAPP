@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -20,19 +18,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
-import com.google.android.flexbox.FlexboxLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.databinding.FragmentPayBinding;
 import m07.joellpz.poliban.databinding.FragmentProfileBinding;
 import m07.joellpz.poliban.tools.ChargingImage;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
@@ -100,7 +95,7 @@ public class ProfileFragment extends Fragment {
                             binding.directionEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileDirection")).toString());
                             binding.cpEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileCP")).toString());
                             Glide.with(requireContext()).load(Objects.requireNonNull(docSnap.get("profilePhoto")).toString()).circleCrop().into(binding.profileImgProfile);
-                            System.out.println("ENCOTRADO");
+                            System.out.println("ENCONTRADO");
                         } else {
                             System.out.println("Documento no encontrado");
                         }
@@ -110,13 +105,6 @@ public class ProfileFragment extends Fragment {
                     binding.editProfileForm.setVisibility(View.VISIBLE);
                     binding.customImageProgressBar.setVisibility(View.GONE);
                 });
-        //Map<String, Object> userData = UpdateProfileImage.getUserData(user);
-//        Glide.with(requireContext()).load(userData.get("profilePhoto")).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));
-//        binding.emailEditTextProfile.setText(user.getEmail());
-//        binding.nameEditTextProfile.setText((CharSequence) userData.get("profileName"));
-//        binding.cpEditTextProfile.setText((CharSequence) userData.get("profileCP"));
-//        binding.directionEditTextProfile.setText((CharSequence) userData.get("profileDirection"));
-//        binding.phoneEditTextProfile.setText((CharSequence) userData.get("profilePhone"));
     }
 
     private void updateProfile() {

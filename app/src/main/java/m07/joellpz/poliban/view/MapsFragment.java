@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,12 +19,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.databinding.FragmentMapsBinding;
 
 public class MapsFragment extends Fragment{
+
+    //TODO Para poner los puntitos en el Maps
+    // https://github.com/googlemaps/android-maps-utils
     private GoogleMap mMap;
-    private ImageView goBackButtonMap;
+    private FragmentMapsBinding binding;
     private NavController navController;
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
          * Manipulates the map once available.
@@ -59,7 +62,7 @@ public class MapsFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        return (binding = FragmentMapsBinding.inflate(inflater, container, false)).getRoot();
     }
 
     @Override
@@ -71,8 +74,8 @@ public class MapsFragment extends Fragment{
             mapFragment.getMapAsync(callback);
         }
         navController = Navigation.findNavController(view);
-        goBackButtonMap = view.findViewById(R.id.goBackBtnMapa);
-        goBackButtonMap.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
+
+        binding.goBackBtnMapa.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
     }
 
 

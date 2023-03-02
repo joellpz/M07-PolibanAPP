@@ -20,7 +20,8 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_margin="10dp"
-            android:src="@drawable/icon_poliban" />
+            android:src="@drawable/icon_poliban"
+            android:contentDescription="botLogo" />
 
         <!--below widget is for
             displaying message of bot-->

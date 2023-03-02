@@ -197,7 +197,8 @@
                         android:src="@drawable/icon_arrow_down"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="arrowPre" />
 
                     <TextView
                         android:id="@+id/textFutureCalendarExp"
@@ -219,7 +220,8 @@
                         android:src="@drawable/icon_arrow_down"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="arrowPost" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
