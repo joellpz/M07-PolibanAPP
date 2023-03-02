@@ -32,6 +32,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.databinding.FragmentPayBinding;
+import m07.joellpz.poliban.databinding.FragmentProfileBinding;
 import m07.joellpz.poliban.tools.ChargingImage;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
 import m07.joellpz.poliban.view.AppViewModel;
@@ -39,13 +41,14 @@ import m07.joellpz.poliban.view.AppViewModel;
 public class ProfileFragment extends Fragment {
 
     private NavController navController;
+    private FragmentProfileBinding binding;
     private Toolbar toolbar;
-    private ArchedImageProgressBar polibanArcProgress;
-    private FlexboxLayout editProfileForm;
+//    private ArchedImageProgressBar binding.customImageProgressBar;
+//    private FlexboxLayout binding.editProfileForm;
     private FirebaseUser user;
     private Uri photoURL;
     public AppViewModel appViewModel;
-    private EditText emailEditText, nameEditText, phoneEditText, directionEditText, cpEditText;
+//    private EditText binding.emailEditTextProfile, binding.nameEditTextProfile, binding.phoneEditTextProfile, binding.directionEditTextProfile, binding.cpEditTextProfile;
 
 
 
@@ -61,34 +64,26 @@ public class ProfileFragment extends Fragment {
         requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.GONE);
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         navController = Navigation.findNavController(view);
-        editProfileForm = view.findViewById(R.id.editProfileForm);
-        editProfileForm.setVisibility(View.GONE);
-        polibanArcProgress = view.findViewById(R.id.custom_imageProgressBar);
+       
+        binding.editProfileForm.setVisibility(View.GONE);
 
-
-        emailEditText = view.findViewById(R.id.emailEditTextProfile);
-        nameEditText = view.findViewById(R.id.nameEditTextProfile);
-        cpEditText = view.findViewById(R.id.cpEditTextProfile);
-        directionEditText = view.findViewById(R.id.directionEditTextProfile);
-        phoneEditText = view.findViewById(R.id.phoneEditTextProfile);
-
-        new ChargingImage(polibanArcProgress, this);
-        polibanArcProgress.setVisibility(View.VISIBLE);
+        new ChargingImage(binding.customImageProgressBar, this);
+        binding.customImageProgressBar.setVisibility(View.VISIBLE);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        view.findViewById(R.id.updateButtonProfile).setOnClickListener(view1 -> updateProfile());
-        view.findViewById(R.id.cancelButtonProfile).setOnClickListener(view1 -> {
+       binding.updateButtonProfile.setOnClickListener(view1 -> updateProfile());
+        binding.cancelButtonProfile.setOnClickListener(view1 -> {
             navController.popBackStack();
             toolbar.setVisibility(View.VISIBLE);
             requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.VISIBLE);
         });
 
 
-        view.findViewById(R.id.profileImgProfile).setOnClickListener(v -> galeria.launch("image/*"));
+        binding.profileImgProfile.setOnClickListener(v -> galeria.launch("image/*"));
         appViewModel.mediaSeleccionado.observe(getViewLifecycleOwner(), media -> {
             if (media.uri != null) {
-                Glide.with(requireContext()).load(media.uri).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));
+                Glide.with(requireContext()).load(media.uri).circleCrop().into(binding.profileImgProfile);
                 photoURL = media.uri;
             }
         });
@@ -99,12 +94,12 @@ public class ProfileFragment extends Fragment {
                     if (task.isSuccessful()) {
                         DocumentSnapshot docSnap = task.getResult();
                         if (docSnap.exists()) {
-                            emailEditText.setText(user.getEmail());
-                            nameEditText.setText(Objects.requireNonNull(docSnap.get("profileName")).toString());
-                            phoneEditText.setText(Objects.requireNonNull(docSnap.get("profilePhone")).toString());
-                            directionEditText.setText(Objects.requireNonNull(docSnap.get("profileDirection")).toString());
-                            cpEditText.setText(Objects.requireNonNull(docSnap.get("profileCP")).toString());
-                            Glide.with(requireContext()).load(Objects.requireNonNull(docSnap.get("profilePhoto")).toString()).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));
+                            binding.emailEditTextProfile.setText(user.getEmail());
+                            binding.nameEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileName")).toString());
+                            binding.phoneEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profilePhone")).toString());
+                            binding.directionEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileDirection")).toString());
+                            binding.cpEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileCP")).toString());
+                            Glide.with(requireContext()).load(Objects.requireNonNull(docSnap.get("profilePhoto")).toString()).circleCrop().into(binding.profileImgProfile);
                             System.out.println("ENCOTRADO");
                         } else {
                             System.out.println("Documento no encontrado");
@@ -112,33 +107,33 @@ public class ProfileFragment extends Fragment {
                     } else {
                         System.out.println(Objects.requireNonNull(task.getException()).getMessage());
                     }
-                    editProfileForm.setVisibility(View.VISIBLE);
-                    polibanArcProgress.setVisibility(View.GONE);
+                    binding.editProfileForm.setVisibility(View.VISIBLE);
+                    binding.customImageProgressBar.setVisibility(View.GONE);
                 });
         //Map<String, Object> userData = UpdateProfileImage.getUserData(user);
 //        Glide.with(requireContext()).load(userData.get("profilePhoto")).circleCrop().into((ImageView) view.findViewById(R.id.profileImgProfile));
-//        emailEditText.setText(user.getEmail());
-//        nameEditText.setText((CharSequence) userData.get("profileName"));
-//        cpEditText.setText((CharSequence) userData.get("profileCP"));
-//        directionEditText.setText((CharSequence) userData.get("profileDirection"));
-//        phoneEditText.setText((CharSequence) userData.get("profilePhone"));
+//        binding.emailEditTextProfile.setText(user.getEmail());
+//        binding.nameEditTextProfile.setText((CharSequence) userData.get("profileName"));
+//        binding.cpEditTextProfile.setText((CharSequence) userData.get("profileCP"));
+//        binding.directionEditTextProfile.setText((CharSequence) userData.get("profileDirection"));
+//        binding.phoneEditTextProfile.setText((CharSequence) userData.get("profilePhone"));
     }
 
     private void updateProfile() {
         if (!validarFormulario()) {
             return;
         }
-        polibanArcProgress.setVisibility(View.VISIBLE);
+        binding.customImageProgressBar.setVisibility(View.VISIBLE);
 
         if (photoURL != null)
             UpdateProfileImage.pujaIguardarEnFirestore(photoURL, user);
         Map<String, Object> userData = new HashMap<>();
-        userData.put("profileName", nameEditText.getText().toString());
-        userData.put("profilePhone", phoneEditText.getText().toString());
-        userData.put("profileDirection", directionEditText.getText().toString());
-        userData.put("profileCP", cpEditText.getText().toString());
+        userData.put("profileName", binding.nameEditTextProfile.getText().toString());
+        userData.put("profilePhone", binding.phoneEditTextProfile.getText().toString());
+        userData.put("profileDirection", binding.directionEditTextProfile.getText().toString());
+        userData.put("profileCP", binding.cpEditTextProfile.getText().toString());
         FirebaseFirestore.getInstance().collection("users").document(user.getUid()).update(userData).addOnSuccessListener(l -> {
-            polibanArcProgress.setVisibility(View.GONE);
+            binding.customImageProgressBar.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
             requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.VISIBLE);
             navController.popBackStack();
@@ -149,47 +144,47 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar = (Toolbar) requireActivity().findViewById(R.id.toolbar);
+        toolbar = requireActivity().findViewById(R.id.toolbar);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return (binding = FragmentProfileBinding.inflate(inflater, container, false)).getRoot();
     }
 
     private boolean validarFormulario() {
         boolean valid = true;
 
 
-        if (TextUtils.isEmpty(nameEditText.getText().toString())) {
-            nameEditText.setError("Required.");
+        if (TextUtils.isEmpty(binding.nameEditTextProfile.getText().toString())) {
+            binding.nameEditTextProfile.setError("Required.");
             valid = false;
         } else {
-            nameEditText.setError(null);
+            binding.nameEditTextProfile.setError(null);
         }
 
 
-        if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
-            phoneEditText.setError("Required.");
+        if (TextUtils.isEmpty(binding.phoneEditTextProfile.getText().toString())) {
+            binding.phoneEditTextProfile.setError("Required.");
             valid = false;
         } else {
-            phoneEditText.setError(null);
+            binding.phoneEditTextProfile.setError(null);
         }
 
-        if (TextUtils.isEmpty(directionEditText.getText().toString())) {
-            directionEditText.setError("Required.");
+        if (TextUtils.isEmpty(binding.directionEditTextProfile.getText().toString())) {
+            binding.directionEditTextProfile.setError("Required.");
             valid = false;
         } else {
-            directionEditText.setError(null);
+            binding.directionEditTextProfile.setError(null);
         }
 
-        if (TextUtils.isEmpty(cpEditText.getText().toString())) {
-            cpEditText.setError("Required.");
+        if (TextUtils.isEmpty(binding.cpEditTextProfile.getText().toString())) {
+            binding.cpEditTextProfile.setError("Required.");
             valid = false;
         } else {
-            cpEditText.setError(null);
+            binding.cpEditTextProfile.setError(null);
         }
 
         return valid;
