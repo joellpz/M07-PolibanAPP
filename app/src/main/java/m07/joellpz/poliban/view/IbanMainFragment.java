@@ -250,6 +250,11 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
         mMap = googleMap;
         this.mMap.setOnMapClickListener(this);
         this.mMap.setOnMapLongClickListener(this);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        //TODO COSAS MAPS
 
         LatLng badalona = new LatLng(41.455775193431435, 2.201906692392249);
         mMap.addMarker(new MarkerOptions().position(badalona).title("Badalona"));
@@ -485,7 +490,12 @@ public class IbanMainFragment extends Fragment implements OnMapReadyCallback, Go
             }
 
             holder.binding.fromInfo.setText(currentItem.getFrom());
-            holder.binding.subjectTransaction.setText(currentItem.getSubject());
+
+            if (currentItem.isFuture())
+                holder.binding.subjectTransaction.setText("F->" + currentItem.getSubject());
+            else holder.binding.subjectTransaction.setText(currentItem.getSubject());
+
+
             holder.binding.dateTransaction.setText(dateFormat.format(currentItem.getDate()));
             holder.binding.priceTransaction.setText(currentItem.getValueString());
             holder.binding.valoracion.setRating(currentItem.getOpinion());
