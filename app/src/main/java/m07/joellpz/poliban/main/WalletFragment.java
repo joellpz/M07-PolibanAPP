@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.math.RoundingMode;
@@ -23,6 +24,7 @@ import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentWalletBinding;
 import m07.joellpz.poliban.databinding.ViewholderWalletBinding;
 import m07.joellpz.poliban.databinding.ViewholderWalletCardBinding;
+import m07.joellpz.poliban.model.AppViewModel;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.model.WalletCard;
@@ -59,40 +61,10 @@ public class WalletFragment extends Fragment {
         new ChargingImage(binding.customImageProgressBar, this);
         binding.customImageProgressBar.setVisibility(View.VISIBLE);
 
-        List<BankAccount> bankAccounts = new ArrayList<>();
-        List<WalletCard> walletCards = new ArrayList<>();
-        List<Transaction> transactions = new ArrayList<>();
-        List<Transaction> futureTransactions = new ArrayList<>();
-
-        for (int i = 0; i < 25; i++) {
-            Date randomDate = new Date(ThreadLocalRandom.current()
-                    .nextLong(1669852148000L, 1677538800000L));
-            Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
-            transactions.add(transaction);
-        }
+        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
 
-        WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
-        WalletCard walletCard1 = new WalletCard((float) (Math.random() * 158), "5241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
-        walletCards.add(walletCard);
-        walletCards.add(walletCard1);
-
-
-        for (int i = 1; i < 3; i++) {
-            Calendar calendar = Calendar.getInstance();
-
-            calendar.setTime(new Date());
-            calendar.set(Calendar.DAY_OF_MONTH, 26 + i);
-            futureTransactions.add(new Transaction("El PUIG", true, (float) (Math.random() * 158) - 79, "Nomina" + i, calendar.getTime()));
-
-        }
-        
-        bankAccounts.add(new BankAccount("ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
-        bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
-        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
-
-
-        WalletAdapter walletAdapter = new WalletAdapter(bankAccounts);
+        WalletAdapter walletAdapter = new WalletAdapter(appViewModel.getBankAccountList());
         binding.walletRecyclerView.setAdapter(walletAdapter);
 
         binding.mainView.setVisibility(View.VISIBLE);

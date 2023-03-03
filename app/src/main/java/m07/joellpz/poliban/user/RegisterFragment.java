@@ -34,7 +34,7 @@ import com.bumptech.glide.Glide;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
-import m07.joellpz.poliban.view.AppViewModel;
+import m07.joellpz.poliban.model.AppViewModel;
 import m07.joellpz.poliban.tools.ChargingImage;
 
 /**
@@ -68,7 +68,9 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        appViewModel.createBankAccounts();
         navController = Navigation.findNavController(view);  // <-----------------
 
         registerForm = view.findViewById(R.id.registerForm);

@@ -31,7 +31,7 @@ import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentProfileBinding;
 import m07.joellpz.poliban.tools.ChargingImage;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
-import m07.joellpz.poliban.view.AppViewModel;
+import m07.joellpz.poliban.model.AppViewModel;
 
 public class ProfileFragment extends Fragment {
 

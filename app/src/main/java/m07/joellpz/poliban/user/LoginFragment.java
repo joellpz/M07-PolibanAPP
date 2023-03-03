@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentLoginBinding;
 import m07.joellpz.poliban.tools.ChargingImage;
+import m07.joellpz.poliban.model.AppViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +57,9 @@ public class LoginFragment extends Fragment {
         binding.loginButton.setOnClickListener(view1 -> accederConEmail());
 
         mAuth = FirebaseAuth.getInstance();
+
+        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        appViewModel.createBankAccounts();
 
     }
 

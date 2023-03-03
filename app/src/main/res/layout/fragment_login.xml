@@ -8,7 +8,7 @@
 
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/signInForm"
-        android:layout_width="638dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
         app:alignContent="center"

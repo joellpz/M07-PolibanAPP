@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,9 +41,13 @@ import java.util.Locale;
 import java.util.Objects;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.databinding.FragmentHomeBinding;
+import m07.joellpz.poliban.databinding.FragmentIbanMainBinding;
+import m07.joellpz.poliban.databinding.FragmentPayBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
 import m07.joellpz.poliban.main.HomeFragment;
+import m07.joellpz.poliban.model.AppViewModel;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
@@ -71,6 +76,7 @@ public class IbanMainFragment extends Fragment {
 
     List<Transaction> transactionsToCards = new ArrayList<>();
 
+    HomeFragment home;
 
 
     public IbanMainFragment() {
@@ -121,7 +127,7 @@ public class IbanMainFragment extends Fragment {
         textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
 
 
-        bankAccount.getFutureTransactions().forEach(transaction ->  totalComeMonth += transaction.getValue());
+        bankAccount.getFutureTransactions().forEach(transaction -> totalComeMonth += transaction.getValue());
         textToComeCalendarExp.setText(df.format(totalComeMonth));
 
 
@@ -155,7 +161,7 @@ public class IbanMainFragment extends Fragment {
     private void setCalendarViewAppearance(@NonNull View view) {
         ScrollView calendarExplicitIbanFragment = view.findViewById(R.id.calendarExplicitIbanFragment);
         Date today = new Date();
-        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.FRANCE);
+        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", new Locale("es", "ES"));
 
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendarExplicit.setUseThreeLetterAbbreviation(true);
@@ -232,6 +238,21 @@ public class IbanMainFragment extends Fragment {
         view.findViewById(R.id.goBackBtn).setOnClickListener(l -> calendarExplicitIbanFragment.setVisibility(View.INVISIBLE));
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        home = (HomeFragment) getParentFragment();
+        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
+        this.bankAccount = appViewModel.getBankAccountElement(home.getFragmentPosition());
+        return inflater.inflate(R.layout.fragment_iban_main, container, false);
+    }
 
     private void setChartsInfo(String time) {
         TextView revenueTimeLabel = getView().findViewById(R.id.revenueTimeLabel);
@@ -349,24 +370,11 @@ public class IbanMainFragment extends Fragment {
         chart.getLegend().setEnabled(false);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        this.bankAccount = (BankAccount) requireArguments().getSerializable("bank");
-        return inflater.inflate(R.layout.fragment_iban_main, container, false);
-    }
-
 
     //TODO Cambiar por FirestoreRecyclerAdapter el RecyclerView
     class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder> {
 
-        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.FRANCE);
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", new Locale("es", "ES"));
         private final List<Transaction> mExampleList;
 
         public TransactionsAdapter(List<Transaction> exampleList) {
@@ -418,7 +426,7 @@ public class IbanMainFragment extends Fragment {
 
     class TransactionsCardAdapter extends RecyclerView.Adapter<TransactionsCardAdapter.TransactionCardViewHolder> {
 
-        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.FRANCE);
+        private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", new Locale("es", "ES"));
         private final List<Transaction> mExampleList;
 
         public TransactionsCardAdapter(List<Transaction> exampleList) {

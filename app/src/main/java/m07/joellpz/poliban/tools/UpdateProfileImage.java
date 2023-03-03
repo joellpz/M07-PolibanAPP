@@ -1,15 +1,9 @@
 package m07.joellpz.poliban.tools;
 
 import android.net.Uri;
-import android.view.View;
-import android.widget.ImageView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,9 +14,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.view.AppViewModel;
 
 
 public class UpdateProfileImage {
