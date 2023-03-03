@@ -49,7 +49,7 @@ public class WalletCard {
 
     public String getExpDateToCard() {
 
-        return new SimpleDateFormat("MM/yy", Locale.FRANCE).format(expDate);
+        return new SimpleDateFormat("MM/yy", new Locale("es", "ES")).format(expDate);
     }
 
     @NonNull

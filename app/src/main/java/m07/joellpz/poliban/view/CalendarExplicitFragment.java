@@ -56,7 +56,7 @@ public class CalendarExplicitFragment extends Fragment {
         CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_viewExplicit);
         LinearLayout calendarLinearView = view.findViewById(R.id.linearcalendar_view);
         Date today = new Date();
-        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.FRANCE);
+        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", new Locale("es", "ES"));
 
         TextView monthText = view.findViewById(R.id.monthTextExplicit);
         monthText.setText(dateFormatForMonth.format(compactCalendar.getFirstDayOfCurrentMonth()));
