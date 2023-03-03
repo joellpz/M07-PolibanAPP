@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.splashScreen;
+package m07.joellpz.poliban;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,9 +10,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-
-import m07.joellpz.poliban.MainActivity;
-import m07.joellpz.poliban.R;
 
 public class SplashScreen extends AppCompatActivity {
     ImageView logo, logo_bank;

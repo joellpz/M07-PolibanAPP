@@ -24,7 +24,7 @@
             android:value="AIzaSyCKwXhWOG6rHYdM8niwIpK-Jr5B6eehUEI" />
 
         <activity
-            android:name=".splashScreen.SplashScreen"
+            android:name=".SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.Poliban.NoActionBar">
             <intent-filter>
