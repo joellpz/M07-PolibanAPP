@@ -41,9 +41,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.databinding.FragmentHomeBinding;
+import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.FragmentIbanMainBinding;
-import m07.joellpz.poliban.databinding.FragmentPayBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
 import m07.joellpz.poliban.main.HomeFragment;
@@ -58,25 +57,17 @@ import m07.joellpz.poliban.model.Transaction;
  */
 public class IbanMainFragment extends Fragment {
 
-    TextView ibanInfoNumCard, moneyBankInfo, ownerInfo, cifInfo;
-    TextView expenditurePrice, revenuePrice;
-    LineChart chartWins, chartLoses;
+    private FragmentIbanMainBinding binding;
+    private HomeFragment home;
+    private BankAccount bankAccount;
 
-    Button investButton;
-    BankAccount bankAccount;
-
-    CompactCalendarView compactCalendar, compactCalendarExplicit;
-    RecyclerView recyclerView, recyclerViewExplicit, recyclerViewExplicitFuture, recyclerTransactionsCards;
     TransactionsAdapter mainAdapter, explicitAdapter, explicitFutureAdapter;
 
-    TextView textBalanceCalendarExp, textToComeCalendarExp;
     float totalBalanceMonth, totalComeMonth;
     List<Transaction> transactionsPerMonth = new ArrayList<>();
     DecimalFormat df = new DecimalFormat("#.##");
 
     List<Transaction> transactionsToCards = new ArrayList<>();
-
-    HomeFragment home;
 
 
     public IbanMainFragment() {
@@ -91,152 +82,45 @@ public class IbanMainFragment extends Fragment {
 
         //TODO PONER MARCADORES DE COLORES EN EL MAPA
 
-        //Main Info
-        ibanInfoNumCard = view.findViewById(R.id.currentBalance);
-        moneyBankInfo = view.findViewById(R.id.moneyBankInfo);
-        ownerInfo = view.findViewById(R.id.ownerInfo);
-        cifInfo = view.findViewById(R.id.cifInfo);
-        investButton = view.findViewById(R.id.investButton);
         //Bank info Introduce
         setMainInfo();
 
 
-        /*RecyclerView Transactions*/
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerViewExplicit = view.findViewById(R.id.recycler_view_calendarExp);
-        recyclerViewExplicitFuture = view.findViewById(R.id.recycler_view_future_calendarExp);
-        recyclerTransactionsCards = view.findViewById(R.id.recyclerview_transactionCards);
-
-
         mainAdapter = new TransactionsAdapter(bankAccount.getTransactionList());
-        recyclerView.setAdapter(mainAdapter);
+        binding.recyclerView.setAdapter(mainAdapter);
 
         transactionsPerMonth = bankAccount.findTransactionPerMonth(new Date());
 
 
         explicitAdapter = new TransactionsAdapter(transactionsPerMonth);
-        recyclerViewExplicit.setAdapter(explicitAdapter);
+        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
 
         explicitFutureAdapter = new TransactionsAdapter(bankAccount.getFutureTransactions());
-        recyclerViewExplicitFuture.setAdapter(explicitFutureAdapter);
-
-        textBalanceCalendarExp = view.findViewById(R.id.textBalanceCalendarExp);
-        textToComeCalendarExp = view.findViewById(R.id.textToComeCalendarExp);
+        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(explicitFutureAdapter);
 
         transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
-        textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
+        binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
 
 
         bankAccount.getFutureTransactions().forEach(transaction -> totalComeMonth += transaction.getValue());
-        textToComeCalendarExp.setText(df.format(totalComeMonth));
-
-
-        //Charts & Calendar
-        expenditurePrice = view.findViewById(R.id.expenditurePrice);
-        revenuePrice = view.findViewById(R.id.revenuePrice);
-        chartLoses = view.findViewById(R.id.chartExped);
-        chartWins = view.findViewById(R.id.chartRevenue);
-
-        compactCalendar = view.findViewById(R.id.compactcalendar_view);
-        compactCalendarExplicit = view.findViewById(R.id.compactcalendar_viewExplicit);
+        binding.calendarExplicitIbanFragment.textToComeCalendarExp.setText(df.format(totalComeMonth));
 
 
         //Sets Charts Info And Calendar Events
         setChartsInfo("");
         setCalendarViewAppearance(view);
 
-        view.findViewById(R.id.goBackBtnCards).setOnClickListener(l -> view.findViewById(R.id.fragmentTransactionCards).setVisibility(View.INVISIBLE));
-        view.findViewById(R.id.mapImageContainer).setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.mapsFragment));
+        binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
+        binding.mapImageContainer.setOnClickListener(l -> Navigation.findNavController(view).navigate(R.id.mapsFragment));
 
-        view.findViewById(R.id.bizumButton).setOnClickListener(l -> getActivity().findViewById(R.id.bottomMainMenu).findViewById(R.id.payFragment).performClick());
-        view.findViewById(R.id.creditButton).setOnClickListener(l -> getActivity().findViewById(R.id.bottomMainMenu).findViewById(R.id.payFragment).performClick());
+        binding.bizumButton.setOnClickListener(l -> ActivityMainBinding.inflate(getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
+        binding.creditButton.setOnClickListener(l -> ActivityMainBinding.inflate(getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
 
-        view.findViewById(R.id.deleteAcoountBtn).setOnClickListener(l -> {
-            HomeFragment home = (HomeFragment) getParentFragment();
+        binding.deleteAcoountBtn.setOnClickListener(l -> {
             Objects.requireNonNull(home).removeFragment();
         });
     }
 
-
-    private void setCalendarViewAppearance(@NonNull View view) {
-        ScrollView calendarExplicitIbanFragment = view.findViewById(R.id.calendarExplicitIbanFragment);
-        Date today = new Date();
-        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", new Locale("es", "ES"));
-
-        compactCalendar.setUseThreeLetterAbbreviation(true);
-        compactCalendarExplicit.setUseThreeLetterAbbreviation(true);
-
-        LinearLayout calendarLinearView = view.findViewById(R.id.linearcalendar_view);
-        LinearLayout calendarLinearViewExplicit = view.findViewById(R.id.linearcalendar_viewExplicit);
-
-        TextView monthText = view.findViewById(R.id.monthText);
-        TextView monthTextExplicit = view.findViewById(R.id.monthTextExplicit);
-        monthText.setText(dateFormatForMonth.format(compactCalendar.getFirstDayOfCurrentMonth()));
-        monthTextExplicit.setText(dateFormatForMonth.format(compactCalendarExplicit.getFirstDayOfCurrentMonth()));
-
-        for (Transaction transaction : bankAccount.getTransactionList()) {
-            compactCalendar.addEvent(transaction.getTransactionEvent());
-            compactCalendarExplicit.addEvent(transaction.getTransactionEvent());
-        }
-
-        for (Transaction transaction : bankAccount.getFutureTransactions()) {
-            compactCalendar.addEvent(transaction.getTransactionEvent());
-            compactCalendarExplicit.addEvent(transaction.getTransactionEvent());
-        }
-        CompactCalendarView.CompactCalendarViewListener compactCalendarViewListener = new CompactCalendarView.CompactCalendarViewListener() {
-            @Override
-            public void onDayClick(Date dateClicked) {
-                List<Event> events = compactCalendar.getEvents(dateClicked);
-                if (events.size() > 0) {
-                    transactionsToCards.clear();
-                    for (Event event : events) {
-                        transactionsToCards.add((Transaction) event.getData());
-                    }
-                    TransactionsCardAdapter adapter = new TransactionsCardAdapter(transactionsToCards);
-                    recyclerTransactionsCards.setAdapter(adapter);
-                    view.findViewById(R.id.fragmentTransactionCards).setVisibility(View.VISIBLE);
-                    Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
-                }
-            }
-
-            @Override
-            public void onMonthScroll(Date firstDayOfNewMonth) {
-                if (firstDayOfNewMonth.after(today)) {
-                    calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
-                    calendarLinearViewExplicit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
-                } else {
-                    calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
-                    calendarLinearViewExplicit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
-                }
-
-                transactionsPerMonth = bankAccount.findTransactionPerMonth(firstDayOfNewMonth);
-                explicitAdapter = new TransactionsAdapter(transactionsPerMonth);
-                recyclerViewExplicit.setAdapter(explicitAdapter);
-
-                totalComeMonth = 0;
-                totalBalanceMonth = 0;
-                transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
-                textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
-
-                compactCalendarExplicit.setCurrentDate(firstDayOfNewMonth);
-                compactCalendar.setCurrentDate(firstDayOfNewMonth);
-                monthText.setText(dateFormatForMonth.format(firstDayOfNewMonth));
-                monthTextExplicit.setText(dateFormatForMonth.format(firstDayOfNewMonth));
-                Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
-            }
-        };
-
-        // events has size 2 with the 2 events inserted previously
-//        List<Event> events = compactCalendar.getEvents(1676329200000L); // can also take a Date object
-//        Log.d(TAG, "Events: " + events);
-
-        // define a listener to receive callbacks when certain events happen.
-        compactCalendar.setListener(compactCalendarViewListener);
-        compactCalendarExplicit.setListener(compactCalendarViewListener);
-
-        calendarLinearView.setOnClickListener(l -> calendarExplicitIbanFragment.setVisibility(View.VISIBLE));
-        view.findViewById(R.id.goBackBtn).setOnClickListener(l -> calendarExplicitIbanFragment.setVisibility(View.INVISIBLE));
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -251,96 +135,24 @@ public class IbanMainFragment extends Fragment {
         AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
         this.bankAccount = appViewModel.getBankAccountElement(home.getFragmentPosition());
-        return inflater.inflate(R.layout.fragment_iban_main, container, false);
-    }
-
-    private void setChartsInfo(String time) {
-        TextView revenueTimeLabel = getView().findViewById(R.id.revenueTimeLabel);
-        TextView expenditureTimeLabel = getView().findViewById(R.id.expenditureTimeLabel);
-
-        ArrayList<Entry> expenditureList = new ArrayList<>();
-        ArrayList<Entry> revenueList = new ArrayList<>();
-        List<Transaction> filteredTransactionList;
-        int totalRevenue = 0, totalExpenditure = 0;
-
-        setChartProperties(chartLoses);
-        setChartProperties(chartWins);
-
-        if (time.equals("week")) {
-            revenueTimeLabel.setText(R.string.lastWeek);
-            expenditureTimeLabel.setText(R.string.lastWeek);
-            filteredTransactionList = bankAccount.findTransactionPerWeek(new Date());
-        } else {
-            revenueTimeLabel.setText(R.string.lastMonth);
-            expenditureTimeLabel.setText(R.string.lastMonth);
-            filteredTransactionList = bankAccount.findTransactionPerMonth(new Date());
-        }
-
-        for (Transaction transaction : filteredTransactionList) {
-            if (transaction.getValue() > 0) {
-                revenueList.add(new Entry(revenueList.size() + 1, transaction.getValue()));
-                totalRevenue += transaction.getValue();
-            } else {
-                expenditureList.add(new Entry(expenditureList.size() + 1, transaction.getValue() * (-1)));
-                totalExpenditure += transaction.getValue();
-            }
-        }
-
-
-        expenditurePrice.setText(df.format(totalExpenditure));
-        revenuePrice.setText(df.format(totalRevenue));
-
-        LineDataSet expenditure = new LineDataSet(expenditureList, "Expenditure");
-        LineDataSet revenue = new LineDataSet(revenueList, "Revenue");
-        revenue.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        expenditure.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-
-        revenue.setLineWidth(1.5f);
-        expenditure.setLineWidth(1.5f);
-
-        revenue.setDrawFilled(true);
-        expenditure.setDrawFilled(true);
-
-        revenue.setDrawCircles(false);
-        expenditure.setDrawCircles(false);
-
-        revenue.setDrawValues(false);
-        expenditure.setDrawValues(false);
-
-        expenditure.setFillColor(ContextCompat.getColor(chartLoses.getContext(), R.color.red_light));
-        revenue.setFillColor(ContextCompat.getColor(chartWins.getContext(), R.color.green_light));
-        expenditure.setColor(ContextCompat.getColor(chartLoses.getContext(), R.color.red_less));
-        revenue.setColor(ContextCompat.getColor(chartWins.getContext(), R.color.green));
-
-        chartLoses.setData(new LineData(expenditure));
-        chartWins.setData(new LineData(revenue));
-
-        getView().findViewById(R.id.chartRevenueLayout).setOnClickListener(l -> {
-            if (time.equals("week")) setChartsInfo("month");
-            else setChartsInfo("week");
-        });
-
-        getView().findViewById(R.id.chartExpenditureLayout).setOnClickListener(l -> {
-            if (time.equals("week")) setChartsInfo("month");
-            else setChartsInfo("week");
-        });
+        return (binding = FragmentIbanMainBinding.inflate(inflater, container, false)).getRoot();
     }
 
     private void setMainInfo() {
-        ibanInfoNumCard.setText(bankAccount.getIban());
-        moneyBankInfo.setText(bankAccount.getBalanceString());
-        ownerInfo.setText(bankAccount.getOwner());
+        binding.ibanNumber.setText(bankAccount.getIban());
+        binding.moneyBankInfo.setText(bankAccount.getBalanceString());
+        binding.ownerInfo.setText(bankAccount.getOwner());
         if (bankAccount.getCif() != null) {
-            cifInfo.setText(bankAccount.getCif());
-            investButton.setOnClickListener(l -> {
+            binding.cifInfo.setText(bankAccount.getCif());
+            binding.investButton.setOnClickListener(l -> {
                 AlertDialog ad = new AlertDialog.Builder(getContext()).create();
                 ad.setMessage("Have not been implemented yet...");
                 ad.setCancelable(true);
                 ad.show();
             });
         } else {
-            cifInfo.setVisibility(View.INVISIBLE);
-            investButton.setVisibility(View.GONE);
+            binding.cifInfo.setVisibility(View.INVISIBLE);
+            binding.investButton.setVisibility(View.GONE);
         }
         ImageView image;
         if (bankAccount.getIban().split(" ")[1].equals("2100")) {
@@ -368,6 +180,151 @@ public class IbanMainFragment extends Fragment {
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisRight().setEnabled(false);
         chart.getLegend().setEnabled(false);
+    }
+
+    private void setChartsInfo(String time) {
+        TextView revenueTimeLabel = getView().findViewById(R.id.revenueTimeLabel);
+        TextView expenditureTimeLabel = getView().findViewById(R.id.expenditureTimeLabel);
+
+        ArrayList<Entry> expenditureList = new ArrayList<>();
+        ArrayList<Entry> revenueList = new ArrayList<>();
+        List<Transaction> filteredTransactionList;
+        int totalRevenue = 0, totalExpenditure = 0;
+
+        setChartProperties(binding.chartExped);
+        setChartProperties(binding.chartRevenue);
+
+        if (time.equals("week")) {
+            revenueTimeLabel.setText(R.string.lastWeek);
+            expenditureTimeLabel.setText(R.string.lastWeek);
+            filteredTransactionList = bankAccount.findTransactionPerWeek(new Date());
+        } else {
+            revenueTimeLabel.setText(R.string.lastMonth);
+            expenditureTimeLabel.setText(R.string.lastMonth);
+            filteredTransactionList = bankAccount.findTransactionPerMonth(new Date());
+        }
+
+        for (Transaction transaction : filteredTransactionList) {
+            if (transaction.getValue() > 0) {
+                revenueList.add(new Entry(revenueList.size() + 1, transaction.getValue()));
+                totalRevenue += transaction.getValue();
+            } else {
+                expenditureList.add(new Entry(expenditureList.size() + 1, transaction.getValue() * (-1)));
+                totalExpenditure += transaction.getValue();
+            }
+        }
+
+
+        binding.expenditurePrice.setText(df.format(totalExpenditure));
+        binding.revenuePrice.setText(df.format(totalRevenue));
+
+        LineDataSet expenditure = new LineDataSet(expenditureList, "Expenditure");
+        LineDataSet revenue = new LineDataSet(revenueList, "Revenue");
+        revenue.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        expenditure.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+        revenue.setLineWidth(1.5f);
+        revenue.setDrawFilled(true);
+        revenue.setDrawCircles(false);
+        revenue.setDrawValues(false);
+
+        expenditure.setLineWidth(1.5f);
+        expenditure.setDrawFilled(true);
+        expenditure.setDrawCircles(false);
+        expenditure.setDrawValues(false);
+
+        expenditure.setFillColor(ContextCompat.getColor(binding.chartExped.getContext(), R.color.red_light));
+        expenditure.setColor(ContextCompat.getColor(binding.chartExped.getContext(), R.color.red_less));
+
+        revenue.setFillColor(ContextCompat.getColor(binding.chartRevenue.getContext(), R.color.green_light));
+        revenue.setColor(ContextCompat.getColor(binding.chartRevenue.getContext(), R.color.green));
+
+        binding.chartExped.setData(new LineData(expenditure));
+        binding.chartRevenue.setData(new LineData(revenue));
+
+        getView().findViewById(R.id.chartRevenueLayout).setOnClickListener(l -> {
+            if (time.equals("week")) setChartsInfo("month");
+            else setChartsInfo("week");
+        });
+
+        getView().findViewById(R.id.chartExpenditureLayout).setOnClickListener(l -> {
+            if (time.equals("week")) setChartsInfo("month");
+            else setChartsInfo("week");
+        });
+    }
+
+    private void setCalendarViewAppearance(@NonNull View view) {
+        Date today = new Date();
+        SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", new Locale("es", "ES"));
+
+        binding.compactcalendarView.setUseThreeLetterAbbreviation(true);
+        binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setUseThreeLetterAbbreviation(true);
+
+        binding.monthText.setText(dateFormatForMonth.format(binding.compactcalendarView.getFirstDayOfCurrentMonth()));
+        binding.calendarExplicitIbanFragment.monthTextExplicit.setText(dateFormatForMonth.format(binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.getFirstDayOfCurrentMonth()));
+
+        for (Transaction transaction : bankAccount.getTransactionList()) {
+            binding.compactcalendarView.addEvent(transaction.getTransactionEvent());
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.getTransactionEvent());
+        }
+
+        for (Transaction transaction : bankAccount.getFutureTransactions()) {
+            binding.compactcalendarView.addEvent(transaction.getTransactionEvent());
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.getTransactionEvent());
+        }
+        CompactCalendarView.CompactCalendarViewListener compactCalendarViewListener = new CompactCalendarView.CompactCalendarViewListener() {
+            @Override
+            public void onDayClick(Date dateClicked) {
+                List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
+                if (events.size() > 0) {
+                    transactionsToCards.clear();
+                    for (Event event : events) {
+                        transactionsToCards.add((Transaction) event.getData());
+                    }
+                    TransactionsCardAdapter adapter = new TransactionsCardAdapter(transactionsToCards);
+                    binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(adapter);
+                    binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
+                    Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
+                }
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+                if (firstDayOfNewMonth.after(today)) {
+                    binding.linearcalendarView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
+                    binding.calendarExplicitIbanFragment.linearcalendarViewExplicit.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
+                } else {
+                    binding.linearcalendarView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
+                    binding.calendarExplicitIbanFragment.linearcalendarViewExplicit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
+                }
+
+                transactionsPerMonth = bankAccount.findTransactionPerMonth(firstDayOfNewMonth);
+                explicitAdapter = new TransactionsAdapter(transactionsPerMonth);
+                binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
+
+                totalComeMonth = 0;
+                totalBalanceMonth = 0;
+                transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
+                binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
+
+                binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setCurrentDate(firstDayOfNewMonth);
+                binding.compactcalendarView.setCurrentDate(firstDayOfNewMonth);
+                binding.monthText.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                binding.calendarExplicitIbanFragment.monthTextExplicit.setText(dateFormatForMonth.format(firstDayOfNewMonth));
+                Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
+            }
+        };
+
+        // events has size 2 with the 2 events inserted previously
+//        List<Event> events = compactCalendar.getEvents(1676329200000L); // can also take a Date object
+//        Log.d(TAG, "Events: " + events);
+
+        // define a listener to receive callbacks when certain events happen.
+        binding.compactcalendarView.setListener(compactCalendarViewListener);
+        binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setListener(compactCalendarViewListener);
+
+        binding.linearcalendarView.setOnClickListener(l -> binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.VISIBLE));
+        binding.calendarExplicitIbanFragment.goBackBtn.setOnClickListener(l -> binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.INVISIBLE));
     }
 
 
@@ -403,7 +360,7 @@ public class IbanMainFragment extends Fragment {
                         transactionsToCards.clear();
                         transactionsToCards.add(currentItem);
                         TransactionsCardAdapter adapter = new TransactionsCardAdapter(transactionsToCards);
-                        recyclerTransactionsCards.setAdapter(adapter);
+                        binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(adapter);
                         getView().findViewById(R.id.fragmentTransactionCards).setVisibility(View.VISIBLE);
                     }
             );
