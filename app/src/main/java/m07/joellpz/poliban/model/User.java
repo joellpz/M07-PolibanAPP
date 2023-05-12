@@ -1,6 +1,8 @@
 package m07.joellpz.poliban.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -8,9 +10,9 @@ public class User {
 
 
     private String uid, profileName, profilePhone, profileDirection, profileCP, profilePhoto;
-    private HashMap<String,Boolean> bankAccounts = new HashMap<String, Boolean>();
+    private List<String> bankAccounts = new ArrayList<>();
 
-    public User(String uid, String profileName, String profilePhone, String profileDirection, String profileCP, String profilePhoto,HashMap<String,Boolean> bankAccounts) {
+    public User(String uid, String profileName, String profilePhone, String profileDirection, String profileCP, String profilePhoto,List<String> bankAccounts) {
         this.uid = uid;
         this.profileName = profileName;
         this.profilePhone = profilePhone;
@@ -69,5 +71,13 @@ public class User {
 
     public String getProfileCP() {
         return profileCP;
+    }
+
+    public List<String> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<String> bankAccounts) {
+        this.bankAccounts = bankAccounts;
     }
 }

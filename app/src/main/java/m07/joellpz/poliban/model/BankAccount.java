@@ -1,5 +1,7 @@
 package m07.joellpz.poliban.model;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -10,8 +12,10 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BankAccount implements Serializable {
+    private String userId;
     private String iban;
     private String owner;
     private String cif;
@@ -20,9 +24,24 @@ public class BankAccount implements Serializable {
     private List<Transaction> futureTransactions;
     private List<WalletCard> walletCardList;
 
-    private String userId;
 
     public BankAccount() {
+    }
+
+
+    /**
+     * Constructor to save and register an account to an user.
+     * @param userId Id of the owner
+     * @param iban IBAN of the account
+     * @param owner Name of the owner
+     */
+    public BankAccount(String userId, String iban, String owner) {
+        this.userId = userId;
+        this.iban = iban;
+        this.owner = owner;
+        this.transactionList = new ArrayList<>();
+        this.futureTransactions = new ArrayList<>();
+        this.walletCardList = new ArrayList<>();
     }
 
     public BankAccount(String userId, String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<WalletCard> walletCardList) {
@@ -156,11 +175,27 @@ public class BankAccount implements Serializable {
         return filteredTransactions;
     }
 
-    public void saveAccount() {
-        FirebaseFirestore.getInstance().collection("accounts")
-                .document(getIban()).set(this)
-                .addOnSuccessListener(docid ->
-                        FirebaseFirestore.getInstance().collection("user").get());
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void saveBankAccountToUser(final Consumer<Boolean> callback) {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(getUserId()).get().addOnSuccessListener(docSnap -> {
+                    List<String> accounts = (List<String>) docSnap.get("bankAccounts");
+                    if (accounts.contains(getIban())) {
+                        callback.accept(false);
+                    } else {
+                        BankAccount account = new BankAccount(getUserId(), getIban(), getOwner());
+                        System.out.println(account.getIban()+"*****************************************************");
+                        FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()).set(account);
+                        docSnap.getReference().update("bankAccounts", FieldValue.arrayUnion(account.getIban()));
+                    }
+                });
     }
 
 

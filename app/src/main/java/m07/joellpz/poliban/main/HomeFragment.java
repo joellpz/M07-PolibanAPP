@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -22,6 +23,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,6 +59,7 @@ public class HomeFragment extends Fragment {
     protected static ViewPager viewPager;
     private TabLayout tabLayout;
     ViewPagerAdapter adapter;
+    AppViewModel appViewModel;
 
 
     public HomeFragment() {
@@ -113,20 +116,10 @@ public class HomeFragment extends Fragment {
 //        bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
 //        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", "B1234657", (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
 
-        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
         adapter = new ViewPagerAdapter(getChildFragmentManager());
-        for (BankAccount bank : appViewModel.getBankAccountList()) {
-
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable("bank", bank);
-//            IbanMainFragment ibanMainFragment = new IbanMainFragment();
-//            ibanMainFragment.setArguments(bundle);
-                adapter.addFragment(new IbanMainFragment());
-//            adapter.addFragment(ibanMainFragment);
-        }
-        adapter.addFragment(new RegisterIbanFragment());
-
+        recargarTabbedLayout();
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -147,6 +140,34 @@ public class HomeFragment extends Fragment {
                 });
     }
 
+    //TODO Testear
+    public void recargarTabbedLayout() {
+        List<Fragment> fragmentList = new ArrayList<>();
+        for (BankAccount bank : appViewModel.getBankAccountList()) {
+            fragmentList.add(new IbanMainFragment());
+        }
+        fragmentList.add(new RegisterIbanFragment());
+        adapter.fragmentList = fragmentList;
+        adapter.notifyDataSetChanged();
+        tabLayout.removeAllTabs();
+        for (int i = 0; i < fragmentList.size(); i++) {
+            TabLayout.Tab tab = tabLayout.newTab();
+            tabLayout.addTab(tab);
+        }
+        viewPager.setCurrentItem(0);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+//    public void reloadTabbedLayout() {
+//        FragmentManager fragmentManager = getChildFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        for (Fragment fragment : fragmentManager.getFragments()) {
+//            fragmentTransaction.detach(fragment);
+//            fragmentTransaction.attach(fragment);
+//        }
+//        fragmentTransaction.commit();
+//    }
+
     public void removeFragment() {
         adapter.removeFragment(viewPager.getCurrentItem());
     }
@@ -166,7 +187,7 @@ public class HomeFragment extends Fragment {
 
     static class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        private final List<Fragment> fragmentList = new ArrayList<>();
+        private List<Fragment> fragmentList = new ArrayList<>();
         //private List<String> titleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {

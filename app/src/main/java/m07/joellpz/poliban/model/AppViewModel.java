@@ -74,13 +74,13 @@ public class AppViewModel extends AndroidViewModel {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener()
-                .add(post)
-                .addOnSuccessListener(documentReference -> {
-                    documentReference.update("docid", documentReference.getId());
-                    navController.popBackStack();
-                    appViewModel.setMediaSeleccionado(null, null);
-                });
+//        FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener()
+//                .add(post)
+//                .addOnSuccessListener(documentReference -> {
+//                    documentReference.update("docid", documentReference.getId());
+//                    navController.popBackStack();
+//                    appViewModel.setMediaSeleccionado(null, null);
+//                });
     }
 
 

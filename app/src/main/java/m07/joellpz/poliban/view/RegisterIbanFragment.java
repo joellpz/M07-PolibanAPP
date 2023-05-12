@@ -9,14 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.databinding.FragmentIbanMainBinding;
 import m07.joellpz.poliban.databinding.FragmentRegisterIbanBinding;
+import m07.joellpz.poliban.main.HomeFragment;
+import m07.joellpz.poliban.model.BankAccount;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,17 +49,29 @@ public class RegisterIbanFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        view.findViewById(R.id.acceptButton).setOnClickListener(l -> requireActivity().recreate());
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        view.findViewById(R.id.acceptButton).setOnClickListener(l -> {
+            BankAccount account = new BankAccount(user.getUid(), binding.ibanEditText.getText().toString(), binding.ownerEditText.getText().toString());
+            account.saveBankAccountToUser((isSaved -> {
+                if (isSaved) {
+                    // La cuenta se guardó correctamente
+                    binding.ibanEditText.setError(null);
+                    requireActivity().recreate();
+                } else {
+                    // La cuenta ya existe o hubo un error al guardar
+                    binding.ibanEditText.setError("This IBAN is already registered!");
+                }
+            }));
+        });
     }
 
-    public void saveBankAccount() {
-        FirebaseFirestore.getInstance().collection("users")
-                .document(user.getUid()).get().addOnSuccessListener(docSnap -> {
-                    HashMap<String,Boolean> accounts = (HashMap<String,Boolean>) docSnap.get("bankAccounts");
-                    if (accounts.containsKey(binding.ibanEditText.toString())){
+    private void recargarTabs() {
+        // Obtén una referencia al Fragment que contiene el TabbedLayout
+        Fragment tabbedFragment = getChildFragmentManager().findFragmentById(R.id.tabLayout);
 
-                    }
-                });
+        if (tabbedFragment instanceof HomeFragment) {
+            // Llama a un método personalizado en el Fragment que contiene el TabbedLayout
+            ((HomeFragment) tabbedFragment).recargarTabbedLayout();
+        }
     }
 }
