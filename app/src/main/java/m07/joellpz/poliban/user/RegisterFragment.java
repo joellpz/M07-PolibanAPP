@@ -33,6 +33,7 @@ import java.util.Objects;
 import com.bumptech.glide.Glide;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.model.User;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
 import m07.joellpz.poliban.model.AppViewModel;
 import m07.joellpz.poliban.tools.ChargingImage;
@@ -119,15 +120,16 @@ public class RegisterFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             actualizarUI(user);
-                            Map<String, Object> userData = new HashMap<>();
-                            userData.put("id", Objects.requireNonNull(user).getUid());
+                            //Map<String, Object> userData = new HashMap<>();
+                            User userData = new User();
+                            userData.setUid(Objects.requireNonNull(user).getUid());
                             if (photoURL != null) {
                                 UpdateProfileImage.pujaIguardarEnFirestore(photoURL,user);
-                            } else userData.put("profilePhoto", null);
-                            userData.put("profileName", nameEditText.getText().toString());
-                            userData.put("profilePhone", phoneEditText.getText().toString());
-                            userData.put("profileDirection", directionEditText.getText().toString());
-                            userData.put("profileCP", cpEditText.getText().toString());
+                            } else userData.setProfilePhoto(null);
+                            userData.setProfileName(nameEditText.getText().toString());
+                            userData.setProfilePhone(phoneEditText.getText().toString());
+                            userData.setProfileDirection(directionEditText.getText().toString());
+                            userData.setProfileCP(cpEditText.getText().toString());
                             mFirestore.collection("users").document(user.getUid()).set(userData);
                         } else {
                             Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();

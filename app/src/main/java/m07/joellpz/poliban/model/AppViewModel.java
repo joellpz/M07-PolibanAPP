@@ -8,6 +8,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,15 +61,28 @@ public class AppViewModel extends AndroidViewModel {
             calendar.setTime(new Date());
             calendar.set(Calendar.DAY_OF_MONTH, 26 + i);
             futureTransactions.add(new Transaction("El PUIG", true, (float) (Math.random() * 158) - 79, "Nomina" + i, calendar.getTime()));
-
         }
 
-        bankAccounts.add(new BankAccount("ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
-        bankAccounts.add(new BankAccount("ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
-        bankAccounts.add(new BankAccount("ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("3kyRj9Nm5pTBZTvam3j91MxcklX2","ES54 0049 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("3kyRj9Nm5pTBZTvam3j91MxcklX2","ES54 0057 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
+        bankAccounts.add(new BankAccount("3kyRj9Nm5pTBZTvam3j91MxcklX2","ES54 2100 5178 7932 1818 3952", "Joel Lopez", null, (float) (Math.random() * 4380), transactions, futureTransactions, walletCards));
 
         setBankAccountList(bankAccounts);
     }
+
+    public void getBankAccountsFirebase(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener()
+                .add(post)
+                .addOnSuccessListener(documentReference -> {
+                    documentReference.update("docid", documentReference.getId());
+                    navController.popBackStack();
+                    appViewModel.setMediaSeleccionado(null, null);
+                });
+    }
+
 
     private void setBankAccountList(List<BankAccount> bankAccountList) {
         this.bankAccountList = bankAccountList;

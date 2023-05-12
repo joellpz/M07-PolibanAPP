@@ -1,5 +1,7 @@
 package m07.joellpz.poliban.model;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -18,10 +20,13 @@ public class BankAccount implements Serializable {
     private List<Transaction> futureTransactions;
     private List<WalletCard> walletCardList;
 
+    private String userId;
+
     public BankAccount() {
     }
 
-    public BankAccount(String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<WalletCard> walletCardList) {
+    public BankAccount(String userId, String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<WalletCard> walletCardList) {
+        this.userId = userId;
         this.iban = iban;
         this.owner = owner;
         this.cif = cif;
@@ -30,7 +35,8 @@ public class BankAccount implements Serializable {
         this.walletCardList = walletCardList;
     }
 
-    public BankAccount(String iban, String owner, String cif, float balance, List<Transaction> transactionList,List<Transaction> futureTransactionList, List<WalletCard> walletCardList) {
+    public BankAccount(String userId, String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<Transaction> futureTransactionList, List<WalletCard> walletCardList) {
+        this.userId = userId;
         this.iban = iban;
         this.owner = owner;
         this.cif = cif;
@@ -114,7 +120,7 @@ public class BankAccount implements Serializable {
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTime(firstDayOfNewMonth);
-        calendar.set(Calendar.DAY_OF_MONTH,1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         Date firstDay = calendar.getTime();
 
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -126,7 +132,7 @@ public class BankAccount implements Serializable {
         }
 
         //Si no tiene nada este mes te muestra el anterior.
-        if (filteredTransactions.size()==0){
+        if (filteredTransactions.size() == 0) {
             calendar.add(Calendar.MONTH, -1);
             filteredTransactions = findTransactionPerMonth(calendar.getTime());
         }
@@ -137,7 +143,7 @@ public class BankAccount implements Serializable {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setTime(firstDayOfNewMonth);
-        calendar.add(Calendar.DAY_OF_WEEK,calendar.getFirstDayOfWeek()-calendar.get(Calendar.DAY_OF_WEEK)-8);
+        calendar.add(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek() - calendar.get(Calendar.DAY_OF_WEEK) - 8);
         Date firstDay = calendar.getTime();
 
         //calendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
@@ -148,6 +154,13 @@ public class BankAccount implements Serializable {
                 filteredTransactions.add(transaction);
         }
         return filteredTransactions;
+    }
+
+    public void saveAccount() {
+        FirebaseFirestore.getInstance().collection("accounts")
+                .document(getIban()).set(this)
+                .addOnSuccessListener(docid ->
+                        FirebaseFirestore.getInstance().collection("user").get());
     }
 
 

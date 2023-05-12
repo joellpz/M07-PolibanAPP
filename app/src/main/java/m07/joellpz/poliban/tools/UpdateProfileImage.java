@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-
 public class UpdateProfileImage {
 
     public static void pujaIguardarEnFirestore(final Uri mediaUri,FirebaseUser user) {
