@@ -1,6 +1,7 @@
 package m07.joellpz.poliban.view;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,18 +52,40 @@ public class RegisterIbanFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         user = FirebaseAuth.getInstance().getCurrentUser();
         view.findViewById(R.id.acceptButton).setOnClickListener(l -> {
-            BankAccount account = new BankAccount(user.getUid(), binding.ibanEditText.getText().toString(), binding.ownerEditText.getText().toString());
-            account.saveBankAccountToUser((isSaved -> {
-                if (isSaved) {
-                    // La cuenta se guardó correctamente
-                    binding.ibanEditText.setError(null);
-                    requireActivity().recreate();
-                } else {
-                    // La cuenta ya existe o hubo un error al guardar
-                    binding.ibanEditText.setError("This IBAN is already registered!");
-                }
-            }));
+            if (validateForm()) {
+                BankAccount account = new BankAccount(user.getUid(), binding.ibanEditText.getText().toString(), binding.ownerEditText.getText().toString());
+                account.saveBankAccountToUser((isSaved -> {
+                    if (isSaved) {
+                        // La cuenta se guardó correctamente
+                        binding.ibanEditText.setError(null);
+//                    requireActivity().recreate();
+                        recargarTabs();
+                    } else {
+                        // La cuenta ya existe o hubo un error al guardar
+                        binding.ibanEditText.setError("This IBAN is already registered!");
+                    }
+                }));
+            }
         });
+    }
+
+    public boolean validateForm() {
+        boolean valid = true;
+        if (TextUtils.isEmpty(binding.ibanEditText.getText().toString())) {
+            binding.ibanEditText.setError("Required.");
+            valid = false;
+        } else {
+            binding.ibanEditText.setError(null);
+        }
+
+        if (TextUtils.isEmpty(binding.ownerEditText.getText().toString())) {
+            binding.ownerEditText.setError("Required.");
+            valid = false;
+        } else {
+            binding.ownerEditText.setError(null);
+        }
+
+        return valid;
     }
 
     private void recargarTabs() {

@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment {
         adapter.fragmentList = fragmentList;
         adapter.notifyDataSetChanged();
         tabLayout.removeAllTabs();
-        for (int i = 0; i < fragmentList.size(); i++) {
+        for (int i = 0; i < fragmentList.size()-1; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
             tabLayout.addTab(tab);
         }
