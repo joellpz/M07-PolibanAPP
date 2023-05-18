@@ -31,6 +31,7 @@ public class LoginFragment extends Fragment {
     NavController navController;
     private FragmentLoginBinding binding;
     private FirebaseAuth mAuth;
+    private AppViewModel appViewModel;
 
 
 
@@ -58,8 +59,8 @@ public class LoginFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
-        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
-        appViewModel.createBankAccounts();
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        //appViewModel.createBankAccounts();
 
     }
 
@@ -72,6 +73,8 @@ public class LoginFragment extends Fragment {
                 //mAuth.signInWithEmailAndPassword(binding.emailEditText.getText().toString(), binding.passwordEditText.getText().toString())
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
+                        //appViewModel.getUserAccounts(mAuth.getCurrentUser());
+                        System.out.println("PAAAASANDO *******************************************");
                         actualizarUI(mAuth.getCurrentUser());
                     } else {
                         Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();

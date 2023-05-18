@@ -73,7 +73,11 @@ public class MapsFragment extends Fragment{
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+        System.out.println("MAPS **************************************************");
         navController = Navigation.findNavController(view);
+        //navController = requireParentFragment().requireView().findgetParentFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main).findNavController();
+
+
 
         binding.goBackBtnMapa.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
     }

@@ -55,11 +55,12 @@ public class RegisterIbanFragment extends Fragment {
             if (validateForm()) {
                 BankAccount account = new BankAccount(user.getUid(), binding.ibanEditText.getText().toString(), binding.ownerEditText.getText().toString());
                 account.saveBankAccountToUser((isSaved -> {
+                    System.out.println("DETRO ^^^****************************************");
                     if (isSaved) {
                         // La cuenta se guardó correctamente
                         binding.ibanEditText.setError(null);
 //                    requireActivity().recreate();
-                        recargarTabs();
+                        //recargarTabs();
                     } else {
                         // La cuenta ya existe o hubo un error al guardar
                         binding.ibanEditText.setError("This IBAN is already registered!");
@@ -88,13 +89,13 @@ public class RegisterIbanFragment extends Fragment {
         return valid;
     }
 
-    private void recargarTabs() {
-        // Obtén una referencia al Fragment que contiene el TabbedLayout
-        Fragment tabbedFragment = getChildFragmentManager().findFragmentById(R.id.tabLayout);
-
-        if (tabbedFragment instanceof HomeFragment) {
-            // Llama a un método personalizado en el Fragment que contiene el TabbedLayout
-            ((HomeFragment) tabbedFragment).recargarTabbedLayout();
-        }
-    }
+//    private void recargarTabs() {
+//        // Obtén una referencia al Fragment que contiene el TabbedLayout
+//        Fragment tabbedFragment = getParentFragment();
+//
+//        if (tabbedFragment instanceof HomeFragment) {
+//            // Llama a un método personalizado en el Fragment que contiene el TabbedLayout
+//            ((HomeFragment) tabbedFragment).recargarTabbedLayout(0);
+//        }
+//    }
 }

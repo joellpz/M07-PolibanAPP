@@ -89,7 +89,7 @@ public class IbanMainFragment extends Fragment {
         mainAdapter = new TransactionsAdapter(bankAccount.getTransactionList());
         binding.recyclerView.setAdapter(mainAdapter);
 
-        transactionsPerMonth = bankAccount.findTransactionPerMonth(new Date());
+        transactionsPerMonth = bankAccount.findTransactionPerMonth(new Date(),2);
 
 
         explicitAdapter = new TransactionsAdapter(transactionsPerMonth);
@@ -116,9 +116,9 @@ public class IbanMainFragment extends Fragment {
         binding.bizumButton.setOnClickListener(l -> ActivityMainBinding.inflate(getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
         binding.creditButton.setOnClickListener(l -> ActivityMainBinding.inflate(getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
 
-        binding.deleteAcoountBtn.setOnClickListener(l -> {
-            Objects.requireNonNull(home).removeFragment();
-        });
+//        binding.deleteAcoountBtn.setOnClickListener(l -> {
+//            Objects.requireNonNull(home).removeFragment();
+//        });
     }
 
 
@@ -201,7 +201,7 @@ public class IbanMainFragment extends Fragment {
         } else {
             revenueTimeLabel.setText(R.string.lastMonth);
             expenditureTimeLabel.setText(R.string.lastMonth);
-            filteredTransactionList = bankAccount.findTransactionPerMonth(new Date());
+            filteredTransactionList = bankAccount.findTransactionPerMonth(new Date(),2);
         }
 
         for (Transaction transaction : filteredTransactionList) {
@@ -298,7 +298,7 @@ public class IbanMainFragment extends Fragment {
                     binding.calendarExplicitIbanFragment.linearcalendarViewExplicit.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
                 }
 
-                transactionsPerMonth = bankAccount.findTransactionPerMonth(firstDayOfNewMonth);
+                transactionsPerMonth = bankAccount.findTransactionPerMonth(firstDayOfNewMonth,2);
                 explicitAdapter = new TransactionsAdapter(transactionsPerMonth);
                 binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
 

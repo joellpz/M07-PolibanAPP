@@ -1,10 +1,8 @@
 package m07.joellpz.poliban.model;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class BankAccount implements Serializable {
+public class BankAccount {
     private String userId;
     private String iban;
     private String owner;
@@ -40,8 +38,19 @@ public class BankAccount implements Serializable {
         this.iban = iban;
         this.owner = owner;
         this.transactionList = new ArrayList<>();
+//        for (int i = 0; i < 2; i++) {
+//            Date randomDate = new Date(ThreadLocalRandom.current()
+//                    .nextLong(1669852148000L, 1677538800000L));
+//            Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
+//            transactionList.add(transaction);
+//        }
         this.futureTransactions = new ArrayList<>();
         this.walletCardList = new ArrayList<>();
+
+//        WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+//        WalletCard walletCard1 = new WalletCard((float) (Math.random() * 158), "5241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+//        walletCardList.add(walletCard);
+//        walletCardList.add(walletCard1);
     }
 
     public BankAccount(String userId, String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<WalletCard> walletCardList) {
@@ -135,7 +144,7 @@ public class BankAccount implements Serializable {
         this.walletCardList = walletCardList;
     }
 
-    public List<Transaction> findTransactionPerMonth(Date firstDayOfNewMonth) {
+    public List<Transaction> findTransactionPerMonth(Date firstDayOfNewMonth, int repetitionCount) {
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTime(firstDayOfNewMonth);
@@ -151,9 +160,9 @@ public class BankAccount implements Serializable {
         }
 
         //Si no tiene nada este mes te muestra el anterior.
-        if (filteredTransactions.size() == 0) {
+        if (filteredTransactions.size() == 0 && repetitionCount < 2) {
             calendar.add(Calendar.MONTH, -1);
-            filteredTransactions = findTransactionPerMonth(calendar.getTime());
+            filteredTransactions = findTransactionPerMonth(calendar.getTime(), repetitionCount + 1);
         }
         return filteredTransactions;
     }
@@ -190,9 +199,11 @@ public class BankAccount implements Serializable {
                     if (accounts.contains(getIban())) {
                         callback.accept(false);
                     } else {
+                        callback.accept(true);
                         BankAccount account = new BankAccount(getUserId(), getIban(), getOwner());
-                        System.out.println(account.getIban()+"*****************************************************");
+                        System.out.println("Registered IBAN: " + account.getIban() + " --- Registered IBAN ----");
                         FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()).set(account);
+                        //docSnap.getReference().update("bankAccounts", FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()));
                         docSnap.getReference().update("bankAccounts", FieldValue.arrayUnion(account.getIban()));
                     }
                 });

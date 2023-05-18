@@ -71,7 +71,7 @@ public class RegisterFragment extends Fragment {
 
 
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
-        appViewModel.createBankAccounts();
+        //appViewModel.createBankAccounts();
         navController = Navigation.findNavController(view);  // <-----------------
 
         registerForm = view.findViewById(R.id.registerForm);
