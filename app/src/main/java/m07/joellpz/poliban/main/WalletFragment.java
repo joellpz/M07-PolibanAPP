@@ -94,7 +94,7 @@ public class WalletFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull WalletAdapter.WalletViewHolder holder, int position) {
             BankAccount currentItem = bankAccounts.get(position);
-            CardAdapter cardAdapter = new CardAdapter(currentItem.getWalletCardList());
+            //CardAdapter cardAdapter = new CardAdapter(currentItem.getWalletCardList());
 
             holder.bindingWallet.whoseAccountText.setText(currentItem.getOwner());
             holder.bindingWallet.numAccountText.setText(". . . .  " + currentItem.getIban().split(" ")[currentItem.getIban().split(" ").length - 1]);
@@ -107,7 +107,7 @@ public class WalletFragment extends Fragment {
                 holder.bindingWallet.bankLogoWallet.setImageResource(R.drawable.logo_santander);
             }
 
-            holder.bindingWallet.cardRecyclerView.setAdapter(cardAdapter);
+            //holder.bindingWallet.cardRecyclerView.setAdapter(cardAdapter);
 
         }
 

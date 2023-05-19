@@ -1,15 +1,21 @@
 package m07.joellpz.poliban.model;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class BankAccount {
@@ -18,6 +24,8 @@ public class BankAccount {
     private String owner;
     private String cif;
     private float balance;
+
+    private CollectionReference collectionReference;
     private List<Transaction> transactionList;
     private List<Transaction> futureTransactions;
     private List<WalletCard> walletCardList;
@@ -29,14 +37,17 @@ public class BankAccount {
 
     /**
      * Constructor to save and register an account to an user.
+     *
      * @param userId Id of the owner
-     * @param iban IBAN of the account
-     * @param owner Name of the owner
+     * @param iban   IBAN of the account
+     * @param owner  Name of the owner
      */
     public BankAccount(String userId, String iban, String owner) {
         this.userId = userId;
         this.iban = iban;
         this.owner = owner;
+        createSubcollection("walletCard");
+
         this.transactionList = new ArrayList<>();
 //        for (int i = 0; i < 2; i++) {
 //            Date randomDate = new Date(ThreadLocalRandom.current()
@@ -69,11 +80,21 @@ public class BankAccount {
         this.owner = owner;
         this.cif = cif;
         this.balance = balance;
+
         this.transactionList = transactionList;
         this.futureTransactions = futureTransactionList;
         this.walletCardList = walletCardList;
     }
 
+
+    private void createSubcollection(String name) {
+        collectionReference = FirebaseFirestore.getInstance().collection(this.getClass().getName().toLowerCase())
+                .document(getIban()).collection(name);
+
+        WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+        collectionReference.add(walletCard);
+
+    }
 
     public String getIban() {
         return iban;
@@ -114,7 +135,6 @@ public class BankAccount {
     }
 
     public List<Transaction> getTransactionList() {
-
         transactionList.sort(new Comparator<Transaction>() {
             @Override
             public int compare(Transaction o1, Transaction o2) {
@@ -217,7 +237,7 @@ public class BankAccount {
                 ", owner='" + owner + '\'' +
                 ", cif='" + cif + '\'' +
                 ", balance=" + balance +
-                ", transactionList=" + transactionList +
+                //", transactionList=" + transactionList +
                 '}';
     }
 }
