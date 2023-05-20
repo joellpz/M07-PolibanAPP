@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.viewHolders;
+package m07.joellpz.poliban.adapter.viewHolders;
 
 import static android.content.ContentValues.TAG;
 
@@ -7,7 +7,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -15,12 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -31,13 +33,14 @@ import java.util.List;
 import java.util.Locale;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.adapter.BankAccountAdapter;
 import m07.joellpz.poliban.adapter.TransactionsAdapter;
 import m07.joellpz.poliban.adapter.TransactionsCardAdapter;
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
+import m07.joellpz.poliban.main.HomeFragment;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
-import m07.joellpz.poliban.view.IbanMainFragment;
 
 public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     private final ViewholderBankAccountBinding binding;
@@ -54,7 +57,6 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     public BankAccountViewHolder(ViewholderBankAccountBinding binding,Fragment parentFragment) {
         super(binding.getRoot());
         this.binding = binding;
-
         this.parentFragment = parentFragment;
     }
 
@@ -67,29 +69,36 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
 
         //Bank info Introduce
         setMainInfo();
-        //mainAdapter = new TransactionsAdapter(bankAccount.getTransactionList(), parentFragment);
-        //binding.recyclerView.setAdapter(mainAdapter);
+        Query qTransactions = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").orderBy("date");
+        FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>()
+                .setQuery(qTransactions, Transaction.class)
+                .setLifecycleOwner(parentFragment.getParentFragment())
+                .build();
 
-//        transactionsPerMonth = bankAccount.findTransactionPerMonth(new Date(), 2);
-//
-//
-//        //explicitAdapter = new TransactionsAdapter(transactionsPerMonth, parentFragment);
-//        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
-//
-//        //explicitFutureAdapter = new TransactionsAdapter(bankAccount.getFutureTransactions(), parentFragment);
-//        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(explicitFutureAdapter);
-//
-//        transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
-//        binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
-//
-//
-//        bankAccount.getFutureTransactions().forEach(transaction -> totalComeMonth += transaction.getValue());
-//        binding.calendarExplicitIbanFragment.textToComeCalendarExp.setText(df.format(totalComeMonth));
+        binding.recyclerView.setAdapter(new TransactionsAdapter(options, parentFragment,false));
+
+
+
+        //transactionsPerMonth = bankAccount.findTransactionPerMonth(new Date(), 2);
+
+
+        //explicitAdapter = new TransactionsAdapter(transactionsPerMonth, parentFragment);
+        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
+
+        //explicitFutureAdapter = new TransactionsAdapter(bankAccount.getFutureTransactions(), parentFragment);
+        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(explicitFutureAdapter);
+
+        transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
+        binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
+
+
+        bankAccount.getFutureTransactions().forEach(transaction -> totalComeMonth += transaction.getValue());
+        binding.calendarExplicitIbanFragment.textToComeCalendarExp.setText(df.format(totalComeMonth));
 
 
         //Sets Charts Info And Calendar Events
-        //setChartsInfo("");
-        //setCalendarViewAppearance(parentFragment.getView());
+        setChartsInfo("");
+        setCalendarViewAppearance(parentFragment.getView());
 
         binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
         binding.mapImageContainer.setOnClickListener(l -> Navigation.findNavController(parentFragment.getView()).navigate(R.id.mapsFragment));
@@ -218,13 +227,13 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         binding.calendarExplicitIbanFragment.monthTextExplicit.setText(dateFormatForMonth.format(binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.getFirstDayOfCurrentMonth()));
 
         for (Transaction transaction : bankAccount.getTransactionList()) {
-            binding.compactcalendarView.addEvent(transaction.getTransactionEvent());
-            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.getTransactionEvent());
+            binding.compactcalendarView.addEvent(transaction.obtenerTransactionEvent());
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.obtenerTransactionEvent());
         }
 
         for (Transaction transaction : bankAccount.getFutureTransactions()) {
-            binding.compactcalendarView.addEvent(transaction.getTransactionEvent());
-            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.getTransactionEvent());
+            binding.compactcalendarView.addEvent(transaction.obtenerTransactionEvent());
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.obtenerTransactionEvent());
         }
         CompactCalendarView.CompactCalendarViewListener compactCalendarViewListener = new CompactCalendarView.CompactCalendarViewListener() {
             @Override

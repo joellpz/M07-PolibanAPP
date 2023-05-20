@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.viewHolders;
+package m07.joellpz.poliban.adapter.viewHolders;
 
 import android.text.TextUtils;
 
@@ -27,15 +27,16 @@ public class RegisterBankAccountViewHolder extends RecyclerView.ViewHolder {
     public void bind() {
         binding.acceptButton.setOnClickListener(l -> {
             if (validateForm()) {
-                BankAccount account = new BankAccount(user.getUid(), binding.ibanEditText.getText().toString(), binding.ownerEditText.getText().toString());
-                account.saveBankAccountToUser((isSaved -> {
+                //BankAccount account = new BankAccount(user.getUid(), binding.ibanEditText.getText().toString(), binding.ownerEditText.getText().toString());
+                BankAccount account = new BankAccount(user.getUid(), Math.random()*100000000+"", "hola");
+                BankAccount.saveBankAccountToUser(account,(isSaved -> {
                     if (isSaved) {
                         // La cuenta se guardó correctamente
                         binding.ibanEditText.setError(null);
                         //TODO MIRAR ESTO para que haga redireccion al nuevo
                         //TODO Tambien mirar como marcar que una List<Transacionts> sea una nueva coleccion dentro de un documento.
-                        RecyclerView recyclerView = parentFragment.getView().findViewById(R.id.recyclerViewHome);
-                        recyclerView.scrollToPosition(2);
+//                        RecyclerView recyclerView = parentFragment.getView().findViewById(R.id.recyclerViewHome);
+//                        recyclerView.scrollToPosition(2);
                     } else {
                         // La cuenta ya existe o hubo un error al guardar
                         binding.ibanEditText.setError("This IBAN is already registered!");

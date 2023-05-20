@@ -89,7 +89,7 @@ public class Transaction{
         this.date = date;
     }
 
-    public Event getTransactionEvent() {
+    public Event obtenerTransactionEvent() {
         if (getValue() > 0) {
             if (isFuture()) return new Event(Color.parseColor("#502EAB15"), getDate().getTime(), this);
             else return new Event(Color.GREEN, getDate().getTime(), this);

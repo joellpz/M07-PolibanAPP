@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentLoginBinding;
+import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.tools.ChargingImage;
 import m07.joellpz.poliban.model.AppViewModel;
 
@@ -75,6 +76,7 @@ public class LoginFragment extends Fragment {
                     if (task.isSuccessful()) {
                         //appViewModel.getUserAccounts(mAuth.getCurrentUser());
                         System.out.println("PAAAASANDO *******************************************");
+                        //BankAccount.saveBankAccountToUser(new BankAccount(mAuth.getCurrentUser().getUid(),"null",null), isSaved -> {});
                         actualizarUI(mAuth.getCurrentUser());
                     } else {
                         Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();

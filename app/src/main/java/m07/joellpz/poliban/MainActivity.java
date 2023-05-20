@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.Objects;
 
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
+import m07.joellpz.poliban.model.BankAccount;
 
 
 public class MainActivity extends AppCompatActivity {

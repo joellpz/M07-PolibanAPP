@@ -1,7 +1,6 @@
 package m07.joellpz.poliban.main;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +27,9 @@ import com.google.firebase.firestore.Query;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.BankAccountAdapter;
 import m07.joellpz.poliban.databinding.FragmentHomeBinding;
-import m07.joellpz.poliban.databinding.ViewholderRegisterBankAccountBinding;
-import m07.joellpz.poliban.model.AppViewModel;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.tools.ChargingImage;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment #newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     public NavController navController;
@@ -89,7 +81,6 @@ public class HomeFragment extends Fragment {
             }
         };
         snapHelper.attachToRecyclerView(binding.recyclerViewHome);
-        FirebaseFirestore.getInstance().collection("bankAccount").whereEqualTo("userId", user.getUid()).get().addOnSuccessListener(docSnap -> docSnap.forEach(System.out::println));
         Query q = FirebaseFirestore.getInstance().collection("bankAccount").whereEqualTo("userId", user.getUid());
         FirestoreRecyclerOptions<BankAccount> options = new FirestoreRecyclerOptions.Builder<BankAccount>()
                 .setQuery(q, BankAccount.class)

@@ -1,17 +1,14 @@
 package m07.joellpz.poliban.model;
 
-import androidx.annotation.NonNull;
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -19,13 +16,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class BankAccount {
+    private final List<String> subCollections = new ArrayList<>(Arrays.asList("transaction", "walletCard"));
     private String userId;
     private String iban;
     private String owner;
     private String cif;
     private float balance;
-
-    private CollectionReference collectionReference;
     private List<Transaction> transactionList;
     private List<Transaction> futureTransactions;
     private List<WalletCard> walletCardList;
@@ -46,7 +42,7 @@ public class BankAccount {
         this.userId = userId;
         this.iban = iban;
         this.owner = owner;
-        createSubcollection("walletCard");
+        subCollections.forEach(this::createSubcollection);
 
         this.transactionList = new ArrayList<>();
 //        for (int i = 0; i < 2; i++) {
@@ -88,13 +84,21 @@ public class BankAccount {
 
 
     private void createSubcollection(String name) {
-        collectionReference = FirebaseFirestore.getInstance().collection(this.getClass().getName().toLowerCase())
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(this.getClass().getSimpleName().toLowerCase().charAt(0) + this.getClass().getSimpleName().substring(1))
                 .document(getIban()).collection(name);
 
-        WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
-        collectionReference.add(walletCard);
-
+        if (name.equals("walletCard")) {
+            WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
+            collectionReference.add(walletCard);
+        } else {
+            for (int i = 0; i < 25; i++) {
+                Date randomDate = new Date(ThreadLocalRandom.current().nextLong(1669852148000L, 1677538800000L));
+                Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
+                collectionReference.add(transaction);
+            }
+        }
     }
+
 
     public String getIban() {
         return iban;
@@ -212,15 +216,14 @@ public class BankAccount {
         this.userId = userId;
     }
 
-    public void saveBankAccountToUser(final Consumer<Boolean> callback) {
+    public static void saveBankAccountToUser(BankAccount account, final Consumer<Boolean> callback) {
         FirebaseFirestore.getInstance().collection("users")
-                .document(getUserId()).get().addOnSuccessListener(docSnap -> {
+                .document(account.getUserId()).get().addOnSuccessListener(docSnap -> {
                     List<String> accounts = (List<String>) docSnap.get("bankAccounts");
-                    if (accounts.contains(getIban())) {
+                    if (accounts.contains(account.getIban())) {
                         callback.accept(false);
                     } else {
                         callback.accept(true);
-                        BankAccount account = new BankAccount(getUserId(), getIban(), getOwner());
                         System.out.println("Registered IBAN: " + account.getIban() + " --- Registered IBAN ----");
                         FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()).set(account);
                         //docSnap.getReference().update("bankAccounts", FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()));

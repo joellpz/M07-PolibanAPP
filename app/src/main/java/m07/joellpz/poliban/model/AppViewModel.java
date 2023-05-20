@@ -64,21 +64,6 @@ public class AppViewModel extends AndroidViewModel {
         }).start();
     }
 
-//    AsyncTask.execute(() -> {
-//        bankAccountList = new ArrayList<>();
-//        try {
-//            Tasks.await(FirebaseFirestore.getInstance().collection("bankAccount")
-//                    .whereEqualTo("userId", user.getUid()).get().addOnSuccessListener(docSnap -> {
-//                        docSnap.forEach(bank -> bankAccountList.add(bank.toObject(BankAccount.class)));
-//                        myCallback.onCallback(bankAccountList);
-//                    }));
-//        } catch (ExecutionException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//    });
-
     private void addToBankAccount(BankAccount account) {
         bankAccountList.add(account);
     }

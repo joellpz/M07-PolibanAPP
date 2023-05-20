@@ -1,4 +1,4 @@
-package m07.joellpz.poliban.viewHolders;
+package m07.joellpz.poliban.adapter.viewHolders;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
