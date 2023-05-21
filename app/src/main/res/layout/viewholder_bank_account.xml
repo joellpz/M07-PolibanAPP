@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginStart="5dp"
-                        android:text="@string/€_symbol"
+                        android:text="@string/euro_symbol"
                         android:textColor="@color/white"
                         android:textSize="32sp" />
                 </LinearLayout>
@@ -89,7 +89,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxWidth="190dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:ignore="RelativeOverlap">
 
                         <TextView
                             android:id="@+id/ownerWord"
@@ -235,10 +236,12 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="20dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="-10dp"
                                         android:text="@string/revenue"
                                         android:textColor="@color/white"
-                                        android:textSize="18sp" />
+                                        android:textSize="18sp"
+                                        tools:ignore="TooDeepLayout" />
 
                                     <TextView
                                         android:id="@+id/revenueTimeLabel"
@@ -272,7 +275,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
                                     android:layout_marginStart="5dp"
-                                    android:text="@string/€_symbol"
+                                    android:text="@string/euro_symbol"
                                     android:textColor="@color/white"
                                     android:textSize="28sp" />
                             </LinearLayout>
@@ -354,7 +357,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
                                     android:layout_marginStart="5dp"
-                                    android:text="@string/€_symbol"
+                                    android:text="@string/euro_symbol"
                                     android:textColor="@color/white"
                                     android:textSize="28sp" />
                             </LinearLayout>

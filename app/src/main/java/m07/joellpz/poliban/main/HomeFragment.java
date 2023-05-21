@@ -83,12 +83,13 @@ public class HomeFragment extends Fragment {
         };
         snapHelper.attachToRecyclerView(binding.recyclerViewHome);
         binding.recyclerViewHome.setNestedScrollingEnabled(false);
+
         Query q = FirebaseFirestore.getInstance().collection("bankAccount").whereEqualTo("userId", Objects.requireNonNull(user).getUid());
         FirestoreRecyclerOptions<BankAccount> options = new FirestoreRecyclerOptions.Builder<BankAccount>()
                 .setQuery(q, BankAccount.class)
                 .setLifecycleOwner(this)
                 .build();
-        binding.recyclerViewHome.setAdapter(new BankAccountAdapter(options, this, user));
+        binding.recyclerViewHome.setAdapter(new BankAccountAdapter(options, this, user, false));
 
         toolbar = requireActivity().findViewById(R.id.toolbar);
         toolbar.findViewById(R.id.profileAppBarImage).setOnClickListener(l -> navController.navigate(R.id.profileFragment));

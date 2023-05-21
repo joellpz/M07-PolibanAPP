@@ -15,11 +15,11 @@ import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
 import m07.joellpz.poliban.model.Transaction;
 
-public class TransactionsAdapter extends FirestoreRecyclerAdapter<Transaction, RecyclerView.ViewHolder> {
+public class TransactionAdapter extends FirestoreRecyclerAdapter<Transaction, RecyclerView.ViewHolder> {
     private final Fragment parentFragment;
     private final boolean isCard;
 
-    public TransactionsAdapter(@NonNull FirestoreRecyclerOptions<Transaction> options, Fragment parentFragment, boolean isCard) {
+    public TransactionAdapter(@NonNull FirestoreRecyclerOptions<Transaction> options, Fragment parentFragment, boolean isCard) {
         super(options);
         this.parentFragment = parentFragment;
         this.isCard = isCard;

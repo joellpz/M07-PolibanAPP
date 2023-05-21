@@ -85,7 +85,7 @@
     <string name="laterallogo">lateralLogo</string>
     <string name="iban_example">ES79 2100 0813 6101 2345 6789</string>
     <string name="balance_example">1.640</string>
-    <string name="€_symbol">€</string>
+    <string name="euro_symbol">€</string>
     <string name="username_example">UserName</string>
     <string name="cif">CIF</string>
     <string name="banklogo">bankLogo</string>
@@ -94,4 +94,9 @@
     <string name="date_example">may 2023</string>
     <string name="iconmaps">iconMaps</string>
     <string name="future">FUTURE</string>
+    <string name="bttnaddwalletcard">bttnAddWalletCard</string>
+    <string name="balance_card_noshow">* * * *. * * €</string>
+    <string name="ibanNoShow">* * * * * * * * * * * * * * * *</string>
+    <string name="cvvNoShow">***</string>
+    <string name="dateNoShow">**/**</string>
 </resources>

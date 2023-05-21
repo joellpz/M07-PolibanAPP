@@ -4,12 +4,10 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -34,10 +32,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.adapter.TransactionsAdapter;
+import m07.joellpz.poliban.adapter.TransactionAdapter;
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
 import m07.joellpz.poliban.model.BankAccount;
@@ -66,52 +63,17 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         transaction.replace(R.id.map, new MapsFragment());
         transaction.commit();
 
-        binding.deleteAcoountBtn.setOnClickListener(v -> {
-            new AlertDialog.Builder(parentFragment.getContext())
-                    .setTitle("Delete entry")
-                    .setMessage("Are you sure you want to delete this entry?")
+        binding.deleteAcoountBtn.setOnClickListener(v -> new AlertDialog.Builder(parentFragment.getContext())
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
 
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> bankAccount.deleteAccount())
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> bankAccount.deleteAccount())
 
-                    // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-
-//                AlertDialog.Builder builder = new AlertDialog.Builder(parentFragment.getContext());
-//                builder.setView(R.layout.dialog_confirm);
-//
-//                AlertDialog dialog = builder.create();
-//
-//                Button btnYes = dialog.findViewById(R.id.btn_confirm_yes);
-//                Button btnNo = dialog.findViewById(R.id.btn_confirm_no);
-//
-////                btnYes.setOnClickListener(new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        // Lógica para eliminar el elemento
-////                        dialog.dismiss(); // Cierra el diálogo
-////                    }
-////                });
-////
-////                btnNo.setOnClickListener(new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        dialog.dismiss(); // Cierra el diálogo sin realizar ninguna acción
-////                    }
-////                });
-//
-//                dialog.show();
-//
-//                parentFragment.requireView().findViewById(R.id.btn_confirm_yes).setOnClickListener(l -> {
-//                    bankAccount.deleteAccount();
-//                    dialog.dismiss();
-//                });
-//                parentFragment.requireView().findViewById(R.id.btn_confirm_no).setOnClickListener(l -> {
-//                    dialog.dismiss();
-//                });
-        });
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .show());
 
         binding.hScrollBA.setOnTouchListener((v, event) -> {
             binding.hScrollBA.getParent().getParent().requestDisallowInterceptTouchEvent(true);
@@ -134,13 +96,13 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         Query qTransactionsAll = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").orderBy("date", Query.Direction.DESCENDING);
         options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsAll, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
 
-        binding.recyclerView.setAdapter(new TransactionsAdapter(options, parentFragment, false));
+        binding.recyclerView.setAdapter(new TransactionAdapter(options, parentFragment, false));
 
         setCalendarForMonth(null);
 
         Query qTransactionsFuture = Transaction.getQueryTransactions("month", null, bankAccount).whereEqualTo("future", true).orderBy("date", Query.Direction.DESCENDING);
         options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsFuture, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
-        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(new TransactionsAdapter(options, parentFragment, false));
+        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(new TransactionAdapter(options, parentFragment, false));
 
         //Sets Charts Info And Calendar Events
         setChartsInfo("month");
@@ -300,7 +262,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
                 if (binding.compactcalendarView.getEvents(dateClicked).size() != 0) {
                     Query qTransactionsDay = Transaction.getQueryTransactions("day", dateClicked, bankAccount).orderBy("date", Query.Direction.DESCENDING);
                     FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
-                    binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(new TransactionsAdapter(options, parentFragment, true));
+                    binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, parentFragment, true));
                     binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
                     Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + binding.compactcalendarView.getEvents(dateClicked));
                 }
@@ -351,7 +313,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     private void setCalendarForMonth(Date firstDayOfNewMonth) {
         Query qTransactionsMonth = Transaction.getQueryTransactions("month", firstDayOfNewMonth, bankAccount).orderBy("date", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsMonth, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
-        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(new TransactionsAdapter(options, parentFragment, false));
+        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(new TransactionAdapter(options, parentFragment, false));
 
         qTransactionsMonth.get().addOnSuccessListener(ts -> {
             List<Transaction> transactions = ts.toObjects(Transaction.class);

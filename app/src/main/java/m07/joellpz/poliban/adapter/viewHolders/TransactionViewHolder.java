@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.adapter.TransactionsAdapter;
+import m07.joellpz.poliban.adapter.TransactionAdapter;
 import m07.joellpz.poliban.databinding.ViewholderTransactionBinding;
 import m07.joellpz.poliban.model.Transaction;
 
@@ -46,7 +46,7 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
                             .build();
 
                     RecyclerView rvTransactionCards = parentFragment.requireView().findViewById(R.id.recyclerview_transactionCards);
-                    rvTransactionCards.setAdapter(new TransactionsAdapter(options, parentFragment, true));
+                    rvTransactionCards.setAdapter(new TransactionAdapter(options, parentFragment, true));
 
                     parentFragment.requireView().findViewById(R.id.fragmentTransactionCards).setVisibility(View.VISIBLE);
                 }

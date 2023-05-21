@@ -24,7 +24,6 @@ public class BankAccount {
     private String owner;
     private String cif;
     private float balance;
-    private List<WalletCard> walletCardList;
 
 
     public BankAccount() {
@@ -43,31 +42,14 @@ public class BankAccount {
         this.iban = iban;
         this.owner = owner;
         subCollections.forEach(this::createSubcollection);
-
-        this.walletCardList = new ArrayList<>();
-
-//        WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
-//        WalletCard walletCard1 = new WalletCard((float) (Math.random() * 158), "5241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
-//        walletCardList.add(walletCard);
-//        walletCardList.add(walletCard1);
     }
 
-    public BankAccount(String userId, String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<WalletCard> walletCardList) {
+    public BankAccount(String userId, String iban, String owner, String cif, float balance) {
         this.userId = userId;
         this.iban = iban;
         this.owner = owner;
         this.cif = cif;
         this.balance = balance;
-        this.walletCardList = walletCardList;
-    }
-
-    public BankAccount(String userId, String iban, String owner, String cif, float balance, List<Transaction> transactionList, List<Transaction> futureTransactionList, List<WalletCard> walletCardList) {
-        this.userId = userId;
-        this.iban = iban;
-        this.owner = owner;
-        this.cif = cif;
-        this.balance = balance;
-        this.walletCardList = walletCardList;
     }
 
 
@@ -76,8 +58,9 @@ public class BankAccount {
                 .document(getIban()).collection(name);
 
         if (name.equals("walletCard")) {
-            WalletCard walletCard = new WalletCard((float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, new Date(), true);
-            collectionReference.add(walletCard);
+            //WalletCard walletCard = new WalletCard(this,(float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, "05/09", true);
+
+            collectionReference.add(new WalletCard(this));
         } else {
             for (int i = 0; i < 25; i++) {
                 Date randomDate = new Date(ThreadLocalRandom.current().nextLong(1681077600000L, 1686348000000L));
@@ -125,14 +108,6 @@ public class BankAccount {
 
     public void setBalance(float balance) {
         this.balance = balance;
-    }
-
-    public List<WalletCard> getWalletCardList() {
-        return walletCardList;
-    }
-
-    public void setWalletCardList(List<WalletCard> walletCardList) {
-        this.walletCardList = walletCardList;
     }
 
     public String getUserId() {

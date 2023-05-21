@@ -5,16 +5,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.adapter.TransactionsAdapter;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
-import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
 public class TransactionCardViewHolder extends RecyclerView.ViewHolder {
