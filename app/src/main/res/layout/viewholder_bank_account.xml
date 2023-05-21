@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -50,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="ES79 2100 0813 6101 2345 6789"
+                    android:text="@string/iban_example"
                     android:textColor="@color/white"
                     android:textSize="22sp" />
 
@@ -64,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="1.640"
+                        android:text="@string/balance_example"
                         android:textColor="@color/white"
                         android:textSize="32sp" />
 
@@ -73,8 +74,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginLeft="5dp"
-                        android:text="€"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/€_symbol"
                         android:textColor="@color/white"
                         android:textSize="32sp" />
                 </LinearLayout>
@@ -87,6 +88,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:maxWidth="190dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -106,7 +108,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal|center_vertical"
-                                android:text="DanielProfe"
+                                android:text="@string/username_example"
                                 android:textColor="@color/white"
                                 android:textSize="18sp" />
 
@@ -115,7 +117,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
-                                android:text="CIF"
+                                android:text="@string/cif"
                                 android:textAppearance="@style/lettersDataBank" />
                         </LinearLayout>
                     </LinearLayout>
@@ -125,11 +127,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
-                        android:contentDescription="bankLogo"
+                        android:contentDescription="@string/banklogo"
                         android:src="@drawable/icon_pay" />
                 </RelativeLayout>
 
@@ -163,7 +163,8 @@
                     android:drawableLeft="@drawable/icon_bizum"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    app:cornerRadius="15dp" />
+                    app:cornerRadius="15dp"
+                    tools:ignore="RtlHardcoded" />
 
                 <Button
                     android:id="@+id/creditButton"
@@ -178,7 +179,8 @@
                     android:paddingRight="10dp"
                     android:text="@string/credit"
                     android:textSize="16sp"
-                    app:cornerRadius="15dp" />
+                    app:cornerRadius="15dp"
+                    tools:ignore="RtlHardcoded" />
 
                 <Button
                     android:id="@+id/investButton"
@@ -188,7 +190,8 @@
                     android:layout_marginStart="5dp"
                     android:backgroundTint="@color/white"
                     android:drawableLeft="@drawable/icon_invest"
-                    app:cornerRadius="15dp" />
+                    app:cornerRadius="15dp"
+                    tools:ignore="RtlHardcoded" />
 
                 <HorizontalScrollView
                     android:id="@+id/hScrollBA"
@@ -216,7 +219,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingStart="20dp">
+                                android:layout_marginStart="20dp">
 
                                 <ImageView
                                     android:layout_width="wrap_content"
@@ -232,9 +235,8 @@
 
                                     <TextView
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="-10dp"
-                                        android:text="Revenue"
+                                        android:layout_height="20dp"
+                                        android:text="@string/revenue"
                                         android:textColor="@color/white"
                                         android:textSize="18sp" />
 
@@ -261,7 +263,7 @@
                                     android:layout_marginBottom="-10dp"
                                     android:paddingStart="20dp"
                                     android:paddingEnd="0dp"
-                                    android:text="WINS"
+                                    android:text="@string/balance_example"
                                     android:textColor="@color/white"
                                     android:textSize="28sp" />
 
@@ -269,8 +271,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="€"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/€_symbol"
                                     android:textColor="@color/white"
                                     android:textSize="28sp" />
                             </LinearLayout>
@@ -298,14 +300,14 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingStart="20dp">
+                                android:layout_marginStart="20dp">
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="10dp"
                                     android:src="@drawable/icon_expenditure"
-                                    android:contentDescription="iconExpenditure" />
+                                    android:contentDescription="@string/iconexpenditure" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -343,7 +345,7 @@
                                     android:layout_marginBottom="-10dp"
                                     android:paddingStart="20dp"
                                     android:paddingEnd="0dp"
-                                    android:text="LOSES"
+                                    android:text="@string/balance_example"
                                     android:textColor="@color/white"
                                     android:textSize="28sp" />
 
@@ -351,8 +353,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="€"
+                                    android:layout_marginStart="5dp"
+                                    android:text="@string/€_symbol"
                                     android:textColor="@color/white"
                                     android:textSize="28sp" />
                             </LinearLayout>
@@ -403,6 +405,7 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
+                        android:id="@+id/calArrowBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -413,12 +416,13 @@
                         android:id="@+id/monthText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="50dp"
-                        android:paddingRight="50dp"
-                        android:text="Hola"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/date_example"
                         android:textSize="20sp" />
 
                     <ImageView
+                        android:id="@+id/calArrowNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -455,7 +459,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-
+                android:id="@+id/mapCard"
                 android:layout_width="285dp"
                 android:layout_height="330dp"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -466,12 +470,12 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="12dp">
 
-<!--                <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"-->
-<!--                    android:id="@+id/map"-->
-<!--                    android:name="m07.joellpz.poliban.view.MapsFragment"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    />-->
+                <FrameLayout
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <!--                    app:defaultNavHost="true"-->
+                <!--                    app:navGraph="@navigation/form_menu" />-->
 
 
                 <ImageView
@@ -481,7 +485,7 @@
                     android:layout_gravity="top|end"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_googlemaps"
-                    android:contentDescription="iconMaps" />
+                    android:contentDescription="@string/iconmaps" />
 
             </androidx.cardview.widget.CardView>
 

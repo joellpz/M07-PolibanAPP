@@ -19,12 +19,12 @@ public class TransactionsAdapter extends FirestoreRecyclerAdapter<Transaction, R
     private final Fragment parentFragment;
     private final boolean isCard;
 
-    public TransactionsAdapter(@NonNull FirestoreRecyclerOptions<Transaction> options, Fragment parentFragment,boolean isCard) {
+    public TransactionsAdapter(@NonNull FirestoreRecyclerOptions<Transaction> options, Fragment parentFragment, boolean isCard) {
         super(options);
         this.parentFragment = parentFragment;
         this.isCard = isCard;
-
     }
+
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull Transaction model) {
         if (isCard) ((TransactionCardViewHolder) holder).bind(model);

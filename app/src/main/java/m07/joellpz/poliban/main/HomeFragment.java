@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Objects;
+
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.BankAccountAdapter;
 import m07.joellpz.poliban.databinding.FragmentHomeBinding;
@@ -81,7 +83,7 @@ public class HomeFragment extends Fragment {
         };
         snapHelper.attachToRecyclerView(binding.recyclerViewHome);
         binding.recyclerViewHome.setNestedScrollingEnabled(false);
-        Query q = FirebaseFirestore.getInstance().collection("bankAccount").whereEqualTo("userId", user.getUid());
+        Query q = FirebaseFirestore.getInstance().collection("bankAccount").whereEqualTo("userId", Objects.requireNonNull(user).getUid());
         FirestoreRecyclerOptions<BankAccount> options = new FirestoreRecyclerOptions.Builder<BankAccount>()
                 .setQuery(q, BankAccount.class)
                 .setLifecycleOwner(this)
@@ -111,7 +113,7 @@ public class HomeFragment extends Fragment {
                     bottomMenu.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     binding.mainView.setVisibility(View.VISIBLE);
-                    binding.customImageProgressBar.setVisibility(View.GONE);
+//                    binding.customImageProgressBar.setVisibility(View.GONE);
                 });
     }
 

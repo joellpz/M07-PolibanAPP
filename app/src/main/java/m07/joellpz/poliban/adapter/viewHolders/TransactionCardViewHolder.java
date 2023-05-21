@@ -3,6 +3,8 @@ package m07.joellpz.poliban.adapter.viewHolders;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,21 +13,15 @@ import java.util.Locale;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionsAdapter;
-import m07.joellpz.poliban.adapter.TransactionsCardAdapter;
 import m07.joellpz.poliban.databinding.ViewholderTransactionCardBinding;
+import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
 public class TransactionCardViewHolder extends RecyclerView.ViewHolder {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", new Locale("es", "ES"));
     private final ViewholderTransactionCardBinding binding;
     private final Fragment parentFragment;
-    TransactionsAdapter mainAdapter, explicitAdapter, explicitFutureAdapter;
 
-    float totalBalanceMonth, totalComeMonth;
-    List<Transaction> transactionsPerMonth = new ArrayList<>();
-    DecimalFormat df = new DecimalFormat("#.##");
-
-    List<Transaction> transactionsToCards = new ArrayList<>();
     public TransactionCardViewHolder(ViewholderTransactionCardBinding binding,Fragment parentFragment) {
         super(binding.getRoot());
         this.binding = binding;
@@ -55,6 +51,8 @@ public class TransactionCardViewHolder extends RecyclerView.ViewHolder {
 
         binding.valoracion.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
             if (fromUser) {
+                FirebaseFirestore.getInstance().collection("bankAccount").document(currentItem.getBankId()).collection("transaction")
+                                .document(currentItem.getTransactionId()).update("opinion",rating);
                 currentItem.setOpinion(rating);
             }
         });

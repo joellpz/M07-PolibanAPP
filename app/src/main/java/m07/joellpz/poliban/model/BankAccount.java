@@ -81,8 +81,8 @@ public class BankAccount {
         } else {
             for (int i = 0; i < 25; i++) {
                 Date randomDate = new Date(ThreadLocalRandom.current().nextLong(1681077600000L, 1686348000000L));
-                Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate);
-                collectionReference.add(transaction);
+                Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate, this);
+                collectionReference.add(transaction).addOnSuccessListener(docRef -> docRef.update("transactionId", docRef.getId()));
             }
         }
     }
@@ -157,6 +157,12 @@ public class BankAccount {
                         docSnap.getReference().update("bankAccounts", FieldValue.arrayUnion(account.getIban()));
                     }
                 });
+    }
+
+    public void deleteAccount(){
+        FirebaseFirestore.getInstance().collection("bankAccount").document(getIban()).delete();
+        FirebaseFirestore.getInstance().collection("users").document(userId).update("bankAccounts",FieldValue.arrayRemove(getIban()));
+        System.out.println("Cuenta: "+getIban()+" Eliminada!");
     }
 
     @NonNull

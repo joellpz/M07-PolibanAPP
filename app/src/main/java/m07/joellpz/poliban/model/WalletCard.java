@@ -35,6 +35,14 @@ public class WalletCard {
         return balance;
     }
 
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
+
+    public void makeTransaction(float value) {
+        this.balance += value;
+    }
+
     public String getCardNum() {
         return cardNum;
     }
@@ -48,7 +56,6 @@ public class WalletCard {
     }
 
     public String getExpDateToCard() {
-
         return new SimpleDateFormat("MM/yy", new Locale("es", "ES")).format(expDate);
     }
 

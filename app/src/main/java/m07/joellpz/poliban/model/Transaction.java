@@ -11,10 +11,14 @@ import com.google.firebase.firestore.Query;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Transaction {
+    private String bankId;
+    private String transactionId;
     private String from;
     private float value;
     private String subject;
@@ -25,12 +29,13 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String from, boolean future, float value, String subject, Date date) {
+    public Transaction(String from, boolean future, float value, String subject, Date date, BankAccount bankAccount) {
         this.from = from;
         this.future = future;
         this.value = value;
         this.subject = subject;
         this.date = date;
+        this.bankId = bankAccount.getIban();
     }
 
     public Transaction(String from, boolean future, float value, String subject, Date date, float opinion) {
@@ -40,6 +45,22 @@ public class Transaction {
         this.subject = subject;
         this.date = date;
         this.opinion = opinion;
+    }
+
+    public String getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(String bankId) {
+        this.bankId = bankId;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     public float getOpinion() {
@@ -111,21 +132,33 @@ public class Transaction {
     }
 
     @Exclude
+    public String getDateFormatted(){
+        return new SimpleDateFormat("dd MMM yyyy", new Locale("es", "ES")).format(getDate());
+    }
+
+    @Exclude
     public static Query getQueryTransactions(String time, Date firstDayOfNewMonth, BankAccount bankAccount) {
         Calendar calendar = Calendar.getInstance();
         Date firstDay;
 
-        if (time.equals("week")) {
+        if (time.equals("day")) {
+            firstDay = firstDayOfNewMonth;
+            calendar.setTime(firstDay);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        } else if (time.equals("week")) {
             calendar.setFirstDayOfWeek(Calendar.MONDAY);
             calendar.add(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek() - calendar.get(Calendar.DAY_OF_WEEK) - 8);
             firstDay = calendar.getTime();
+            calendar.add(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek() - calendar.get(Calendar.DAY_OF_WEEK) + 6);
         } else {
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             if (firstDayOfNewMonth == null) firstDay = calendar.getTime();
-            else firstDay = firstDayOfNewMonth;
+            else {
+                firstDay = firstDayOfNewMonth;
+                calendar.setTime(firstDayOfNewMonth);
+            }
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
-        System.out.println(firstDay.getTime() + "++++++++++++++++++++++++++++");
         System.out.println(calendar.getTime());
         return FirebaseFirestore.getInstance()
                 .collection("bankAccount")

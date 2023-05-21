@@ -1,6 +1,7 @@
 package m07.joellpz.poliban.adapter;
 
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.viewHolders.BankAccountViewHolder;
@@ -33,34 +36,26 @@ public class BankAccountAdapter extends FirestoreRecyclerAdapter<BankAccount, Re
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE_ADD_ACCOUNT)
-            return new RegisterBankAccountViewHolder(ViewholderRegisterBankAccountBinding.inflate(parentFragment.getLayoutInflater(), parent, false), parentFragment, user);
+            return new RegisterBankAccountViewHolder(ViewholderRegisterBankAccountBinding.inflate(parentFragment.getLayoutInflater(), parent, false), user);
         else
             return new BankAccountViewHolder(ViewholderBankAccountBinding.inflate(parentFragment.getLayoutInflater(), parent, false), parentFragment);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == ITEM_TYPE_ADD_ACCOUNT) ((RegisterBankAccountViewHolder) holder).bind();
+        if (getItemViewType(position) == ITEM_TYPE_ADD_ACCOUNT){
+            ((RegisterBankAccountViewHolder) holder).bind();
+            if (getItemCount()==1){
+                parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.GONE);
+            }
+        }
         else super.onBindViewHolder(holder, position);
     }
 
-//    @NonNull
-//    @Override
-//    public BankAccount getItem(int position) {
-//        System.out.println(getItemCount());
-//        if (getItemCount() == 1) return super.getItem(position);
-//        else if (position == getItemCount() - 1) return super.getItem(position - 1);
-//        else return super.getItem(position);
-//    }
     @Override
     protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull BankAccount bankAccount) {
-        if (getItemViewType(position) == ITEM_TYPE_ADD_ACCOUNT) {
-            System.out.println(position + "Registrer");
-            ((RegisterBankAccountViewHolder) holder).bind();
-        } else {
-            System.out.println(position + "BankAccounts");
-            ((BankAccountViewHolder) holder).bind(bankAccount);
-        }
+        System.out.println(position + "BankAccounts");
+        ((BankAccountViewHolder) holder).bind(bankAccount);
     }
 
     @Override
@@ -77,7 +72,7 @@ public class BankAccountAdapter extends FirestoreRecyclerAdapter<BankAccount, Re
     @Override
     public void onDataChanged() {
         super.onDataChanged();
-        RecyclerView recyclerView = parentFragment.getView().findViewById(R.id.recyclerViewHome);
+        RecyclerView recyclerView = parentFragment.requireView().findViewById(R.id.recyclerViewHome);
         recyclerView.scrollToPosition(0);
     }
 }

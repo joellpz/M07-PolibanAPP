@@ -83,4 +83,15 @@
     <string name="lastWeek">Last Week</string>
     <string name="lastMonth">Last Month</string>
     <string name="laterallogo">lateralLogo</string>
+    <string name="iban_example">ES79 2100 0813 6101 2345 6789</string>
+    <string name="balance_example">1.640</string>
+    <string name="€_symbol">€</string>
+    <string name="username_example">UserName</string>
+    <string name="cif">CIF</string>
+    <string name="banklogo">bankLogo</string>
+    <string name="revenue">Revenue</string>
+    <string name="iconexpenditure">iconExpenditure</string>
+    <string name="date_example">may 2023</string>
+    <string name="iconmaps">iconMaps</string>
+    <string name="future">FUTURE</string>
 </resources>

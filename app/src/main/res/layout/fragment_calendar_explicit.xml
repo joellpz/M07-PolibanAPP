@@ -42,6 +42,7 @@
                     android:paddingBottom="10dp">
 
                     <ImageView
+                        android:id="@+id/calExpArrowBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -52,12 +53,13 @@
                         android:id="@+id/monthTextExplicit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="50dp"
-                        android:paddingRight="50dp"
-                        android:text="Hola"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/date_example"
                         android:textSize="20sp" />
 
                     <ImageView
+                        android:id="@+id/calExpArrowNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -148,7 +150,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:text="-337"
+                            android:text="@string/balance_example"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -172,7 +174,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:text="-337"
+                            android:text="@string/balance_example"
                             android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -198,13 +200,13 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="arrowPre" />
+                        android:contentDescription="@string/back" />
 
                     <TextView
                         android:id="@+id/textFutureCalendarExp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="FUTURE"
+                        android:text="@string/future"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -221,7 +223,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="arrowPost" />
+                        android:contentDescription="@string/forward" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

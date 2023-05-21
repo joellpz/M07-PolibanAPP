@@ -4,14 +4,17 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +24,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -32,21 +34,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionsAdapter;
-import m07.joellpz.poliban.adapter.TransactionsCardAdapter;
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
+import m07.joellpz.poliban.view.MapsFragment;
 
 public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     private final ViewholderBankAccountBinding binding;
     private BankAccount bankAccount;
     private final Fragment parentFragment;
     DecimalFormat df = new DecimalFormat("#.##");
-    List<Transaction> transactionsToCards = new ArrayList<>();
 
     public BankAccountViewHolder(ViewholderBankAccountBinding binding,Fragment parentFragment) {
         super(binding.getRoot());
@@ -58,6 +60,58 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     public void bind(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
         FirestoreRecyclerOptions<Transaction> options;
+        parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.VISIBLE);
+
+        FragmentTransaction transaction = parentFragment.requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.map, new MapsFragment());
+        transaction.commit();
+
+        binding.deleteAcoountBtn.setOnClickListener(v -> {
+            new AlertDialog.Builder(parentFragment.getContext())
+                    .setTitle("Delete entry")
+                    .setMessage("Are you sure you want to delete this entry?")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> bankAccount.deleteAccount())
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+
+//                AlertDialog.Builder builder = new AlertDialog.Builder(parentFragment.getContext());
+//                builder.setView(R.layout.dialog_confirm);
+//
+//                AlertDialog dialog = builder.create();
+//
+//                Button btnYes = dialog.findViewById(R.id.btn_confirm_yes);
+//                Button btnNo = dialog.findViewById(R.id.btn_confirm_no);
+//
+////                btnYes.setOnClickListener(new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        // Lógica para eliminar el elemento
+////                        dialog.dismiss(); // Cierra el diálogo
+////                    }
+////                });
+////
+////                btnNo.setOnClickListener(new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        dialog.dismiss(); // Cierra el diálogo sin realizar ninguna acción
+////                    }
+////                });
+//
+//                dialog.show();
+//
+//                parentFragment.requireView().findViewById(R.id.btn_confirm_yes).setOnClickListener(l -> {
+//                    bankAccount.deleteAccount();
+//                    dialog.dismiss();
+//                });
+//                parentFragment.requireView().findViewById(R.id.btn_confirm_no).setOnClickListener(l -> {
+//                    dialog.dismiss();
+//                });
+        });
 
         binding.hScrollBA.setOnTouchListener((v, event) -> {
             binding.hScrollBA.getParent().getParent().requestDisallowInterceptTouchEvent(true);
@@ -78,20 +132,14 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         //Bank info Introduce
         setMainInfo();
         Query qTransactionsAll = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").orderBy("date", Query.Direction.DESCENDING);
-        options = new FirestoreRecyclerOptions.Builder<Transaction>()
-                .setQuery(qTransactionsAll, Transaction.class)
-                .setLifecycleOwner(parentFragment.getParentFragment())
-                .build();
+        options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsAll, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
 
         binding.recyclerView.setAdapter(new TransactionsAdapter(options, parentFragment, false));
 
         setCalendarForMonth(null);
 
-        Query qTransactionsFuture = Transaction.getQueryTransactions("month", null, bankAccount).whereEqualTo("future", true).orderBy("date");
-        options = new FirestoreRecyclerOptions.Builder<Transaction>()
-                .setQuery(qTransactionsFuture, Transaction.class)
-                .setLifecycleOwner(parentFragment.getParentFragment())
-                .build();
+        Query qTransactionsFuture = Transaction.getQueryTransactions("month", null, bankAccount).whereEqualTo("future", true).orderBy("date", Query.Direction.DESCENDING);
+        options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsFuture, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
         binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(new TransactionsAdapter(options, parentFragment, false));
 
         //Sets Charts Info And Calendar Events
@@ -168,9 +216,9 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             }
 
             binding.revenuePrice.setText(df.format(totalRev));
-            setChartInformation("Revenue", transactions, binding.chartRevenue);
+            setChartData("Revenue", transactions, binding.chartRevenue);
             binding.expenditurePrice.setText(df.format(totalExp));
-            setChartInformation("Expenditure", transactions, binding.chartExped);
+            setChartData("Expenditure", transactions, binding.chartExped);
         });
 
         binding.chartRevenueLayout.setOnClickListener(l -> {
@@ -191,7 +239,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
      * @param tList     List of Transactions
      * @param lineChart LineChart of the Graph
      */
-    private void setChartInformation(String name, @NonNull List<Transaction> tList, LineChart lineChart) {
+    private void setChartData(String name, @NonNull List<Transaction> tList, LineChart lineChart) {
         List<Entry> tEntrys = new ArrayList<>();
         LineDataSet dataSet;
 
@@ -216,6 +264,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
                 name.equals("Expenditure") ? R.color.red_less : R.color.green));
 
         lineChart.setData(new LineData(dataSet));
+        System.out.println("Cambio de Graph ***************************");
     }
 
     /**
@@ -248,17 +297,12 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         CompactCalendarView.CompactCalendarViewListener compactCalendarViewListener = new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
-                if (events.size() > 0) {
-                    transactionsToCards.clear();
-                    for (Event event : events) {
-                        transactionsToCards.add((Transaction) event.getData());
-                    }
-                    //TODO CAMBIAR ESTE ADAPTADOR
-                    TransactionsCardAdapter adapter = new TransactionsCardAdapter(transactionsToCards,parentFragment);
-                    binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(adapter);
+                if (binding.compactcalendarView.getEvents(dateClicked).size() != 0) {
+                    Query qTransactionsDay = Transaction.getQueryTransactions("day", dateClicked, bankAccount).orderBy("date", Query.Direction.DESCENDING);
+                    FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
+                    binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(new TransactionsAdapter(options, parentFragment, true));
                     binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
-                    Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + events);
+                    Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + binding.compactcalendarView.getEvents(dateClicked));
                 }
             }
 
@@ -283,23 +327,36 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         binding.compactcalendarView.setListener(compactCalendarViewListener);
         binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setListener(compactCalendarViewListener);
 
+        binding.calArrowBack.setOnClickListener(l -> binding.compactcalendarView.scrollLeft());
+        binding.calendarExplicitIbanFragment.calExpArrowBack.setOnClickListener(l -> {
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.scrollLeft();
+            parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.VISIBLE);
+        });
+
+        binding.calArrowNext.setOnClickListener(l -> binding.compactcalendarView.scrollRight());
+        binding.calendarExplicitIbanFragment.calExpArrowNext.setOnClickListener(l -> {
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.scrollRight();
+            parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.VISIBLE);
+        });
+
         binding.linearcalendarView.setOnClickListener(l -> {
             binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.VISIBLE);
-            binding.hScrollBA.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+            RecyclerView recyclerView = parentFragment.requireView().findViewById(R.id.recyclerViewHome);
+            recyclerView.setNestedScrollingEnabled(true);
+
         });
         binding.calendarExplicitIbanFragment.goBackBtn.setOnClickListener(l -> binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.INVISIBLE));
     }
 
     private void setCalendarForMonth(Date firstDayOfNewMonth) {
-        Query qTransactionsMonth = Transaction.getQueryTransactions("month", firstDayOfNewMonth, bankAccount).orderBy("date", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>()
-                .setQuery(qTransactionsMonth, Transaction.class)
-                .setLifecycleOwner(parentFragment.getParentFragment())
-                .build();
+        Query qTransactionsMonth = Transaction.getQueryTransactions("month", firstDayOfNewMonth, bankAccount).orderBy("date", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsMonth, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
         binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(new TransactionsAdapter(options, parentFragment, false));
 
         qTransactionsMonth.get().addOnSuccessListener(ts -> {
             List<Transaction> transactions = ts.toObjects(Transaction.class);
+            binding.compactcalendarView.removeAllEvents();
+            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.removeAllEvents();
             int future = 0, balance = 0;
             for (Transaction t : transactions) {
                 if (t.isFuture()) future += t.getValue();
@@ -309,12 +366,11 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             }
             binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(balance));
             binding.calendarExplicitIbanFragment.textToComeCalendarExp.setText(df.format(future));
+
+            parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.GONE);
         });
 
         binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setCurrentDate(firstDayOfNewMonth == null ? binding.compactcalendarView.getFirstDayOfCurrentMonth() : firstDayOfNewMonth);
         binding.compactcalendarView.setCurrentDate(firstDayOfNewMonth == null ? binding.compactcalendarView.getFirstDayOfCurrentMonth() : firstDayOfNewMonth);
     }
-
-    //TODO TAMBIEN AL CAMBIAR DE MES NO SE PONEN LOS PUNTITOS PERTINENTES
-
 }
