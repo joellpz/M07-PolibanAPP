@@ -33,7 +33,6 @@ import m07.joellpz.poliban.tools.ChargingImage;
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     public NavController navController;
-    private FirebaseUser user;
     private Toolbar toolbar;
     private BottomNavigationView bottomMenu;
 
@@ -43,11 +42,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         navController = Navigation.findNavController(view);
 
 
-        binding.recyclerViewHome.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerViewHome.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
         binding.recyclerViewHome.setHasFixedSize(true);
         LinearSnapHelper snapHelper = new LinearSnapHelper() {
             @Override
@@ -81,6 +80,7 @@ public class HomeFragment extends Fragment {
             }
         };
         snapHelper.attachToRecyclerView(binding.recyclerViewHome);
+        binding.recyclerViewHome.setNestedScrollingEnabled(false);
         Query q = FirebaseFirestore.getInstance().collection("bankAccount").whereEqualTo("userId", user.getUid());
         FirestoreRecyclerOptions<BankAccount> options = new FirestoreRecyclerOptions.Builder<BankAccount>()
                 .setQuery(q, BankAccount.class)
@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return (binding = FragmentHomeBinding.inflate(inflater, container, false)).getRoot();
     }

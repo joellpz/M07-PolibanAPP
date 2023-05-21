@@ -2,21 +2,28 @@ package m07.joellpz.poliban.model;
 
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
+
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class Transaction{
-
-    private int bankId;
+public class Transaction {
     private String from;
     private float value;
     private String subject;
     private Date date;
     private float opinion;
     private boolean future;
+
+    public Transaction() {
+    }
 
     public Transaction(String from, boolean future, float value, String subject, Date date) {
         this.from = from;
@@ -63,6 +70,7 @@ public class Transaction{
         return value;
     }
 
+    @Exclude
     public String getValueString() {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
@@ -89,15 +97,45 @@ public class Transaction{
         this.date = date;
     }
 
-    public Event obtenerTransactionEvent() {
+    @Exclude
+    public Event getTransactionEvent() {
         if (getValue() > 0) {
-            if (isFuture()) return new Event(Color.parseColor("#502EAB15"), getDate().getTime(), this);
+            if (isFuture())
+                return new Event(Color.parseColor("#502EAB15"), getDate().getTime(), this);
             else return new Event(Color.GREEN, getDate().getTime(), this);
         } else {
-            if (isFuture()) return new Event(Color.parseColor("#50D40000"), getDate().getTime(), this);
+            if (isFuture())
+                return new Event(Color.parseColor("#50D40000"), getDate().getTime(), this);
             else return new Event(Color.RED, getDate().getTime(), this);
         }
     }
+
+    @Exclude
+    public static Query getQueryTransactions(String time, Date firstDayOfNewMonth, BankAccount bankAccount) {
+        Calendar calendar = Calendar.getInstance();
+        Date firstDay;
+
+        if (time.equals("week")) {
+            calendar.setFirstDayOfWeek(Calendar.MONDAY);
+            calendar.add(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek() - calendar.get(Calendar.DAY_OF_WEEK) - 8);
+            firstDay = calendar.getTime();
+        } else {
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            if (firstDayOfNewMonth == null) firstDay = calendar.getTime();
+            else firstDay = firstDayOfNewMonth;
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        }
+        System.out.println(firstDay.getTime() + "++++++++++++++++++++++++++++");
+        System.out.println(calendar.getTime());
+        return FirebaseFirestore.getInstance()
+                .collection("bankAccount")
+                .document(bankAccount.getIban())
+                .collection("transaction")
+                .whereGreaterThanOrEqualTo("date", firstDay)
+                .whereLessThanOrEqualTo("date", calendar.getTime());
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "Transaction{" +

@@ -2,6 +2,7 @@ package m07.joellpz.poliban.adapter.viewHolders;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -33,35 +34,42 @@ import java.util.List;
 import java.util.Locale;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.adapter.BankAccountAdapter;
 import m07.joellpz.poliban.adapter.TransactionsAdapter;
 import m07.joellpz.poliban.adapter.TransactionsCardAdapter;
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
-import m07.joellpz.poliban.main.HomeFragment;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
 public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     private final ViewholderBankAccountBinding binding;
     private BankAccount bankAccount;
-    private Fragment parentFragment;
-
-    TransactionsAdapter mainAdapter, explicitAdapter, explicitFutureAdapter;
-
-    float totalBalanceMonth, totalComeMonth;
-    List<Transaction> transactionsPerMonth = new ArrayList<>();
+    private final Fragment parentFragment;
     DecimalFormat df = new DecimalFormat("#.##");
-
     List<Transaction> transactionsToCards = new ArrayList<>();
+
     public BankAccountViewHolder(ViewholderBankAccountBinding binding,Fragment parentFragment) {
         super(binding.getRoot());
         this.binding = binding;
         this.parentFragment = parentFragment;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void bind(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
+        FirestoreRecyclerOptions<Transaction> options;
+
+        binding.hScrollBA.setOnTouchListener((v, event) -> {
+            binding.hScrollBA.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+            parentFragment.requireView().findViewById(R.id.recyclerViewHome).setNestedScrollingEnabled(false);
+            return false;
+        });
+
+        binding.linearcalendarView.setOnTouchListener((v, event) -> {
+            binding.hScrollBA.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+
 
         df.setRoundingMode(RoundingMode.CEILING);
 
@@ -69,44 +77,37 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
 
         //Bank info Introduce
         setMainInfo();
-        Query qTransactions = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").orderBy("date");
-        FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>()
-                .setQuery(qTransactions, Transaction.class)
+        Query qTransactionsAll = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").orderBy("date", Query.Direction.DESCENDING);
+        options = new FirestoreRecyclerOptions.Builder<Transaction>()
+                .setQuery(qTransactionsAll, Transaction.class)
                 .setLifecycleOwner(parentFragment.getParentFragment())
                 .build();
 
-        binding.recyclerView.setAdapter(new TransactionsAdapter(options, parentFragment,false));
+        binding.recyclerView.setAdapter(new TransactionsAdapter(options, parentFragment, false));
 
+        setCalendarForMonth(null);
 
-
-        //transactionsPerMonth = bankAccount.findTransactionPerMonth(new Date(), 2);
-
-
-        //explicitAdapter = new TransactionsAdapter(transactionsPerMonth, parentFragment);
-        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
-
-        //explicitFutureAdapter = new TransactionsAdapter(bankAccount.getFutureTransactions(), parentFragment);
-        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(explicitFutureAdapter);
-
-        transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
-        binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
-
-
-        bankAccount.getFutureTransactions().forEach(transaction -> totalComeMonth += transaction.getValue());
-        binding.calendarExplicitIbanFragment.textToComeCalendarExp.setText(df.format(totalComeMonth));
-
+        Query qTransactionsFuture = Transaction.getQueryTransactions("month", null, bankAccount).whereEqualTo("future", true).orderBy("date");
+        options = new FirestoreRecyclerOptions.Builder<Transaction>()
+                .setQuery(qTransactionsFuture, Transaction.class)
+                .setLifecycleOwner(parentFragment.getParentFragment())
+                .build();
+        binding.calendarExplicitIbanFragment.recyclerViewFutureCalendarExp.setAdapter(new TransactionsAdapter(options, parentFragment, false));
 
         //Sets Charts Info And Calendar Events
-        setChartsInfo("");
-        setCalendarViewAppearance(parentFragment.getView());
+        setChartsInfo("month");
+        setCalendarViewAppearance();
 
         binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
-        binding.mapImageContainer.setOnClickListener(l -> Navigation.findNavController(parentFragment.getView()).navigate(R.id.mapsFragment));
+        binding.mapImageContainer.setOnClickListener(l -> Navigation.findNavController(parentFragment.requireView()).navigate(R.id.mapsFragment));
 
         binding.bizumButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
         binding.creditButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
     }
 
+    /**
+     * Defines the main information of the Bank Account
+     */
     private void setMainInfo() {
         // Aquí puedes enlazar los datos de la cuenta bancaria con las vistas del item
         binding.ibanNumber.setText(bankAccount.getIban());
@@ -137,62 +138,40 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             }
         }
     }
-    private void setChartsInfo(String time) {
-        ArrayList<Entry> expenditureList = new ArrayList<>();
-        ArrayList<Entry> revenueList = new ArrayList<>();
-        List<Transaction> filteredTransactionList;
-        int totalRevenue = 0, totalExpenditure = 0;
 
-        setChartProperties(binding.chartExped);
-        setChartProperties(binding.chartRevenue);
+    /**
+     * Lets define what information goes inside each Chart.
+     *
+     * @param time Time Filter
+     */
+    private void setChartsInfo(@NonNull String time) {
+        Query qTransaction;
+
+        setChartVisualitzation(binding.chartRevenue);
+        setChartVisualitzation(binding.chartExped);
 
         if (time.equals("week")) {
             binding.revenueTimeLabel.setText(R.string.lastWeek);
             binding.expenditureTimeLabel.setText(R.string.lastWeek);
-            filteredTransactionList = bankAccount.findTransactionPerWeek(new Date());
         } else {
             binding.revenueTimeLabel.setText(R.string.lastMonth);
             binding.expenditureTimeLabel.setText(R.string.lastMonth);
-            filteredTransactionList = bankAccount.findTransactionPerMonth(new Date(),2);
         }
+        qTransaction = Transaction.getQueryTransactions(time, null, bankAccount);
 
-        for (Transaction transaction : filteredTransactionList) {
-            if (transaction.getValue() > 0) {
-                revenueList.add(new Entry(revenueList.size() + 1, transaction.getValue()));
-                totalRevenue += transaction.getValue();
-            } else {
-                expenditureList.add(new Entry(expenditureList.size() + 1, transaction.getValue() * (-1)));
-                totalExpenditure += transaction.getValue();
+        qTransaction.get().addOnSuccessListener(ts -> {
+            List<Transaction> transactions = ts.toObjects(Transaction.class);
+            int totalRev = 0, totalExp = 0;
+            for (int i = 0; i < transactions.size(); i++) {
+                if (transactions.get(i).getValue() > 0) totalRev += transactions.get(i).getValue();
+                else totalExp += transactions.get(i).getValue();
             }
-        }
 
-
-        binding.expenditurePrice.setText(df.format(totalExpenditure));
-        binding.revenuePrice.setText(df.format(totalRevenue));
-
-        LineDataSet expenditure = new LineDataSet(expenditureList, "Expenditure");
-        LineDataSet revenue = new LineDataSet(revenueList, "Revenue");
-        revenue.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        expenditure.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-
-        revenue.setLineWidth(1.5f);
-        revenue.setDrawFilled(true);
-        revenue.setDrawCircles(false);
-        revenue.setDrawValues(false);
-
-        expenditure.setLineWidth(1.5f);
-        expenditure.setDrawFilled(true);
-        expenditure.setDrawCircles(false);
-        expenditure.setDrawValues(false);
-
-        expenditure.setFillColor(ContextCompat.getColor(binding.chartExped.getContext(), R.color.red_light));
-        expenditure.setColor(ContextCompat.getColor(binding.chartExped.getContext(), R.color.red_less));
-
-        revenue.setFillColor(ContextCompat.getColor(binding.chartRevenue.getContext(), R.color.green_light));
-        revenue.setColor(ContextCompat.getColor(binding.chartRevenue.getContext(), R.color.green));
-
-        binding.chartExped.setData(new LineData(expenditure));
-        binding.chartRevenue.setData(new LineData(revenue));
+            binding.revenuePrice.setText(df.format(totalRev));
+            setChartInformation("Revenue", transactions, binding.chartRevenue);
+            binding.expenditurePrice.setText(df.format(totalExp));
+            setChartInformation("Expenditure", transactions, binding.chartExped);
+        });
 
         binding.chartRevenueLayout.setOnClickListener(l -> {
             if (time.equals("week")) setChartsInfo("month");
@@ -204,19 +183,60 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             else setChartsInfo("week");
         });
     }
-    private void setChartProperties(LineChart chart) {
-        chart.setDragEnabled(false);
-        chart.setScaleEnabled(false);
-        chart.getDescription().setEnabled(false);
-        chart.setTouchEnabled(false);
-        chart.setDrawGridBackground(false);
-        chart.getXAxis().setEnabled(false);
-        chart.getAxisLeft().setEnabled(false);
-        chart.getAxisRight().setEnabled(false);
-        chart.getLegend().setEnabled(false);
+
+    /**
+     * Defines the information that goes inside the Linear Chart
+     *
+     * @param name      Name of the Graph
+     * @param tList     List of Transactions
+     * @param lineChart LineChart of the Graph
+     */
+    private void setChartInformation(String name, @NonNull List<Transaction> tList, LineChart lineChart) {
+        List<Entry> tEntrys = new ArrayList<>();
+        LineDataSet dataSet;
+
+        for (Transaction transaction : tList) {
+            tEntrys.add(new Entry(tEntrys.size() + 1, transaction.getValue() < 0 ? transaction.getValue() : transaction.getValue() * (-1)));
+        }
+
+        if (tList.size() == 0) {
+            tEntrys.add(new Entry(tEntrys.size() + 1, 0));
+        }
+
+        dataSet = new LineDataSet(tEntrys, name);
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setLineWidth(1.5f);
+        dataSet.setDrawFilled(true);
+        dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(false);
+
+        dataSet.setFillColor(ContextCompat.getColor(lineChart.getContext(),
+                name.equals("Expenditure") ? R.color.red_light : R.color.green_light));
+        dataSet.setColor(ContextCompat.getColor(lineChart.getContext(),
+                name.equals("Expenditure") ? R.color.red_less : R.color.green));
+
+        lineChart.setData(new LineData(dataSet));
     }
 
-    private void setCalendarViewAppearance(@NonNull View view) {
+    /**
+     * Defines the visualization of the Linear Chart
+     *
+     * @param lineChart LineChart to Configure
+     */
+    private void setChartVisualitzation(@NonNull LineChart lineChart) {
+        lineChart.setDragEnabled(false);
+        lineChart.setScaleEnabled(false);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setTouchEnabled(false);
+        lineChart.setDrawGridBackground(false);
+        lineChart.getXAxis().setEnabled(false);
+        lineChart.getAxisLeft().setEnabled(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getLegend().setEnabled(false);
+    }
+
+
+    private void setCalendarViewAppearance() {
         Date today = new Date();
         SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", new Locale("es", "ES"));
 
@@ -225,16 +245,6 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
 
         binding.monthText.setText(dateFormatForMonth.format(binding.compactcalendarView.getFirstDayOfCurrentMonth()));
         binding.calendarExplicitIbanFragment.monthTextExplicit.setText(dateFormatForMonth.format(binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.getFirstDayOfCurrentMonth()));
-
-        for (Transaction transaction : bankAccount.getTransactionList()) {
-            binding.compactcalendarView.addEvent(transaction.obtenerTransactionEvent());
-            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.obtenerTransactionEvent());
-        }
-
-        for (Transaction transaction : bankAccount.getFutureTransactions()) {
-            binding.compactcalendarView.addEvent(transaction.obtenerTransactionEvent());
-            binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(transaction.obtenerTransactionEvent());
-        }
         CompactCalendarView.CompactCalendarViewListener compactCalendarViewListener = new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
@@ -244,6 +254,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
                     for (Event event : events) {
                         transactionsToCards.add((Transaction) event.getData());
                     }
+                    //TODO CAMBIAR ESTE ADAPTADOR
                     TransactionsCardAdapter adapter = new TransactionsCardAdapter(transactionsToCards,parentFragment);
                     binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(adapter);
                     binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
@@ -260,22 +271,50 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
                     binding.linearcalendarView.setBackgroundTintList(ColorStateList.valueOf(parentFragment.getResources().getColor(R.color.white, parentFragment.requireActivity().getTheme())));
                     binding.calendarExplicitIbanFragment.linearcalendarViewExplicit.setBackgroundTintList(ColorStateList.valueOf(parentFragment.getResources().getColor(R.color.white, parentFragment.requireActivity().getTheme())));
                 }
+                setCalendarForMonth(firstDayOfNewMonth);
 
-                transactionsPerMonth = bankAccount.findTransactionPerMonth(firstDayOfNewMonth, 2);
-                explicitAdapter = new TransactionsAdapter(transactionsPerMonth,parentFragment);
-                binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(explicitAdapter);
 
-                totalComeMonth = 0;
-                totalBalanceMonth = 0;
-                transactionsPerMonth.forEach(transaction -> totalBalanceMonth += transaction.getValue());
-                binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(totalBalanceMonth));
-
-                binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setCurrentDate(firstDayOfNewMonth);
-                binding.compactcalendarView.setCurrentDate(firstDayOfNewMonth);
                 binding.monthText.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 binding.calendarExplicitIbanFragment.monthTextExplicit.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
             }
         };
+
+        binding.compactcalendarView.setListener(compactCalendarViewListener);
+        binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setListener(compactCalendarViewListener);
+
+        binding.linearcalendarView.setOnClickListener(l -> {
+            binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.VISIBLE);
+            binding.hScrollBA.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+        });
+        binding.calendarExplicitIbanFragment.goBackBtn.setOnClickListener(l -> binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.INVISIBLE));
     }
+
+    private void setCalendarForMonth(Date firstDayOfNewMonth) {
+        Query qTransactionsMonth = Transaction.getQueryTransactions("month", firstDayOfNewMonth, bankAccount).orderBy("date", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>()
+                .setQuery(qTransactionsMonth, Transaction.class)
+                .setLifecycleOwner(parentFragment.getParentFragment())
+                .build();
+        binding.calendarExplicitIbanFragment.recyclerViewCalendarExp.setAdapter(new TransactionsAdapter(options, parentFragment, false));
+
+        qTransactionsMonth.get().addOnSuccessListener(ts -> {
+            List<Transaction> transactions = ts.toObjects(Transaction.class);
+            int future = 0, balance = 0;
+            for (Transaction t : transactions) {
+                if (t.isFuture()) future += t.getValue();
+                else balance += t.getValue();
+                binding.compactcalendarView.addEvent(t.getTransactionEvent());
+                binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.addEvent(t.getTransactionEvent());
+            }
+            binding.calendarExplicitIbanFragment.textBalanceCalendarExp.setText(df.format(balance));
+            binding.calendarExplicitIbanFragment.textToComeCalendarExp.setText(df.format(future));
+        });
+
+        binding.calendarExplicitIbanFragment.compactcalendarViewExplicit.setCurrentDate(firstDayOfNewMonth == null ? binding.compactcalendarView.getFirstDayOfCurrentMonth() : firstDayOfNewMonth);
+        binding.compactcalendarView.setCurrentDate(firstDayOfNewMonth == null ? binding.compactcalendarView.getFirstDayOfCurrentMonth() : firstDayOfNewMonth);
+    }
+
+    //TODO TAMBIEN AL CAMBIAR DE MES NO SE PONEN LOS PUNTITOS PERTINENTES
+
 }

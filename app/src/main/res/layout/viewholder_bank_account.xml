@@ -191,6 +191,7 @@
                     app:cornerRadius="15dp" />
 
                 <HorizontalScrollView
+                    android:id="@+id/hScrollBA"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
