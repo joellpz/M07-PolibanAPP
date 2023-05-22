@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="start"
@@ -13,7 +14,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <!--below widget is for image of bot-->
         <ImageView
@@ -21,7 +23,7 @@
             android:layout_height="25dp"
             android:layout_margin="10dp"
             android:src="@drawable/icon_poliban"
-            android:contentDescription="botLogo" />
+            android:contentDescription="@string/botlogo" />
 
         <!--below widget is for
             displaying message of bot-->
@@ -32,7 +34,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
             android:padding="3dp"
-            android:text="Bot message"
+            android:text="@string/bot_message"
             android:textColor="@color/black" />
 
     </LinearLayout>

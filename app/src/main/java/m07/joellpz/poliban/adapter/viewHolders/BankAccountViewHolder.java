@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,11 +34,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionAdapter;
-import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
+import m07.joellpz.poliban.main.HomeFragment;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.view.MapsFragment;
@@ -59,9 +62,9 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         FirestoreRecyclerOptions<Transaction> options;
         parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.VISIBLE);
 
-        FragmentTransaction transaction = parentFragment.requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.map, new MapsFragment());
-        transaction.commit();
+        FragmentTransaction mapFragment = parentFragment.requireActivity().getSupportFragmentManager().beginTransaction();
+        mapFragment.replace(R.id.map, new MapsFragment(Navigation.findNavController(parentFragment.requireView())));
+        mapFragment.commit();
 
         binding.deleteAcoountBtn.setOnClickListener(v -> new AlertDialog.Builder(parentFragment.getContext())
                 .setTitle("Delete entry")
@@ -93,7 +96,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
 
         //Bank info Introduce
         setMainInfo();
-        Query qTransactionsAll = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").orderBy("date", Query.Direction.DESCENDING);
+        Query qTransactionsAll = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").whereEqualTo("future", false).orderBy("date", Query.Direction.DESCENDING);
         options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsAll, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
 
         binding.recyclerView.setAdapter(new TransactionAdapter(options, parentFragment, false));
@@ -111,8 +114,8 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
         binding.mapImageContainer.setOnClickListener(l -> Navigation.findNavController(parentFragment.requireView()).navigate(R.id.mapsFragment));
 
-        binding.bizumButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
-        binding.creditButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
+        binding.bizumButton.setOnClickListener(l -> ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment));
+        binding.creditButton.setOnClickListener(l -> ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment));
     }
 
     /**

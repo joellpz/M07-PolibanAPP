@@ -1,8 +1,11 @@
 package m07.joellpz.poliban.adapter.viewHolders;
 
 import android.annotation.SuppressLint;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -37,6 +40,42 @@ public class WalletViewHolder extends RecyclerView.ViewHolder {
         } else if (bankAccount.getIban().split(" ")[1].equals("0049")) {
             binding.bankLogoWallet.setImageResource(R.drawable.logo_santander);
         }
+
+        binding.cardRecyclerView.setLayoutManager(new LinearLayoutManager(parentFragment.requireContext(), RecyclerView.HORIZONTAL, false));
+        binding.cardRecyclerView.setHasFixedSize(true);
+        LinearSnapHelper snapHelper = new LinearSnapHelper() {
+            @Override
+            public int findTargetSnapPosition(RecyclerView.LayoutManager lm, int velocityX, int velocityY) {
+                View centerView = findSnapView(lm);
+                if (centerView == null)
+                    return RecyclerView.NO_POSITION;
+
+                int position = lm.getPosition(centerView);
+                int targetPosition = -1;
+                if (lm.canScrollHorizontally()) {
+                    if (velocityX < 0) {
+                        targetPosition = position - 1;
+                    } else {
+                        targetPosition = position + 1;
+                    }
+                }
+
+                if (lm.canScrollVertically()) {
+                    if (velocityY < 0) {
+                        targetPosition = position - 1;
+                    } else {
+                        targetPosition = position + 1;
+                    }
+                }
+
+                final int firstItem = 0;
+                final int lastItem = lm.getItemCount() - 1;
+                targetPosition = Math.min(lastItem, Math.max(targetPosition, firstItem));
+                return targetPosition;
+            }
+        };
+        snapHelper.attachToRecyclerView(binding.cardRecyclerView);
+        binding.cardRecyclerView.setNestedScrollingEnabled(false);
 
         Query qWalletCard = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("walletCard");
         FirestoreRecyclerOptions<WalletCard> options = new FirestoreRecyclerOptions.Builder<WalletCard>().setQuery(qWalletCard, WalletCard.class).setLifecycleOwner(parentFragment.getParentFragment()).build();

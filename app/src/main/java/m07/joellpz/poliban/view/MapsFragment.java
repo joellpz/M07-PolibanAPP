@@ -28,6 +28,13 @@ public class MapsFragment extends Fragment{
     private GoogleMap mMap;
     private FragmentMapsBinding binding;
     private NavController navController;
+
+    public MapsFragment (){
+
+    }
+    public MapsFragment (NavController navController){
+        this.navController = navController;
+    }
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -74,7 +81,9 @@ public class MapsFragment extends Fragment{
             mapFragment.getMapAsync(callback);
         }
         System.out.println("MAPS **************************************************");
-        navController = Navigation.findNavController(view);
+        if (navController == null){
+            navController = Navigation.findNavController(view);
+        }
         //navController = requireParentFragment().requireView().findgetParentFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main).findNavController();
 
 

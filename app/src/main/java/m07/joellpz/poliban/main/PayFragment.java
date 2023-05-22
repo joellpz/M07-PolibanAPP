@@ -14,13 +14,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentPayBinding;
 import m07.joellpz.poliban.databinding.ViewholderContactBinding;
+import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Contact;
+import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.tools.ChargingImage;
 
 /**
@@ -33,6 +42,7 @@ public class PayFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private FragmentPayBinding binding;
+    private String status;
     public PayFragment() {
         // Required empty public constructor
     }
@@ -43,7 +53,7 @@ public class PayFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return (binding = FragmentPayBinding.inflate(inflater, container, false)).getRoot();
@@ -52,10 +62,17 @@ public class PayFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.status = "transfer";
 
-        System.out.println(getParentFragment());
+        FirebaseFirestore.getInstance().collection("bankAccount")
+                .whereEqualTo("userId", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .get()
+                .addOnSuccessListener(docSnap -> binding.spinner.setItems(docSnap.toObjects(BankAccount.class)));
+        binding.spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<BankAccount>) (view1, position, id, item) ->
+                Snackbar.make(view1, "Clicked " + item, Snackbar.LENGTH_LONG).show());
+
+
         List<Contact> contacts = new ArrayList<>();
-
         for (int i = 0; i < 5; i++) {
             contacts.add(new Contact("Jordi Herna" + i, "+34 123 456 789"));
         }
@@ -78,59 +95,76 @@ public class PayFragment extends Fragment {
 
         binding.sendButton.setOnClickListener(l -> {
             binding.customImageProgressBar.setVisibility(View.VISIBLE);
-            new Handler().postDelayed(() -> {
+            Transaction t = new Transaction(
+                    status.equals("bizum") ? "Bizum Jordi" : status,
+                    false,
+                    status.equals("credit") ? Float.parseFloat(binding.thirdEditTextPay.getText().toString()) : Float.parseFloat(binding.thirdEditTextPay.getText().toString()) * -1,
+                    (status.equals("credit") ? "Credit: " + binding.secondEditTextPay.getText().toString() : "") + binding.secondEditTextPay.getText().toString(),
+                    new Date(),
+                    (BankAccount) binding.spinner.getItems().get(binding.spinner.getSelectedIndex()));
+
+            Transaction.makeTransaction(t).addOnSuccessListener(o -> {
                 binding.customImageProgressBar.setVisibility(View.GONE);
-                binding.sendButton.setText("ACCEPTED");
+                binding.sendButton.setText(R.string.accepted);
                 binding.sendButton.setBackgroundColor(getResources().getColor(R.color.green));
-            }, 2000);
-            new Handler().postDelayed(() -> {
-                binding.sendButton.setText("SEND");
-                binding.sendButton.setBackgroundColor(getResources().getColor(R.color.orange_light));
-            }, 4000);
+
+                binding.firstEditText.setText("");
+                binding.secondEditTextPay.setText("");
+                binding.thirdEditTextPay.setText("");
+
+                new Handler().postDelayed(() -> {
+                    binding.sendButton.setText(R.string.send);
+                    binding.sendButton.setBackgroundColor(getResources().getColor(R.color.orange_light));
+                }, 2000);
+            });
         });
-        //binding.investButtonPay.setOnClickListener(l ->);
     }
 
     private void definePaymentPane(String button) {
+        this.status = button;
+        binding.firstEditText.setText("");
+        binding.secondEditTextPay.setText("");
+        binding.thirdEditTextPay.setText("");
+
         switch (button) {
             case "bizum":
                 binding.layoutRecyclerView.setVisibility(View.VISIBLE);
-                binding.infotextView.setText("How many money do you need?");
+                binding.infotextView.setText(R.string.money_you_need);
 
                 binding.firstEditText.setVisibility(View.GONE);
                 binding.secondEditTextPay.setHint("Subject*");
 
-                binding.sendButton.setText("SEND");
+                binding.sendButton.setText(R.string.send);
                 break;
 
             case "credit":
                 binding.layoutRecyclerView.setVisibility(View.GONE);
-                binding.infotextView.setText("How many money do you need?");
+                binding.infotextView.setText(R.string.money_you_need);
 
                 binding.firstEditText.setVisibility(View.VISIBLE);
                 binding.firstEditText.setHint("Months to be returned*");
                 binding.firstEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 binding.secondEditTextPay.setHint("Reason*");
 
-                binding.sendButton.setText("REQUEST");
+                binding.sendButton.setText(R.string.request);
                 break;
 
             case "transfer":
                 binding.layoutRecyclerView.setVisibility(View.GONE);
-                binding.infotextView.setText("Make a transfer in the easiest way!");
+                binding.infotextView.setText(R.string.make_a_transfer_in_the_easiest_way);
 
                 binding.firstEditText.setVisibility(View.VISIBLE);
                 binding.firstEditText.setHint("IBAN*");
                 binding.firstEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                 binding.secondEditTextPay.setHint("Reason*");
 
-                binding.sendButton.setText("SEND");
+                binding.sendButton.setText(R.string.send);
                 break;
         }
     }
 
     class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
-        private List<Contact> mExampleList;
+        private final List<Contact> mExampleList;
 
         public ContactsAdapter(List<Contact> exampleList) {
             mExampleList = exampleList;
@@ -138,13 +172,12 @@ public class PayFragment extends Fragment {
 
         @NonNull
         @Override
-        public ContactsAdapter.ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ContactsAdapter.ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new ContactsAdapter.ContactViewHolder(ViewholderContactBinding.inflate(getLayoutInflater(), parent, false));
         }
 
         @Override
         public void onBindViewHolder(@NonNull ContactsAdapter.ContactViewHolder holder, int position) {
-            Contact currentItem = mExampleList.get(position);
             if (position % 2 == 0) {
                 holder.bindingContact.mainLayout.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_light)));
             }

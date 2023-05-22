@@ -17,7 +17,7 @@ import m07.joellpz.poliban.adapter.viewHolders.BankAccountViewHolder;
 import m07.joellpz.poliban.adapter.viewHolders.RegisterBankAccountViewHolder;
 import m07.joellpz.poliban.adapter.viewHolders.WalletViewHolder;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
-import m07.joellpz.poliban.databinding.ViewholderRegisterBankAccountBinding;
+import m07.joellpz.poliban.databinding.ViewholderBankAccountRegisterBinding;
 import m07.joellpz.poliban.databinding.ViewholderWalletBinding;
 import m07.joellpz.poliban.model.BankAccount;
 
@@ -39,7 +39,7 @@ public class BankAccountAdapter extends FirestoreRecyclerAdapter<BankAccount, Re
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE_ADD_ACCOUNT)
-            return new RegisterBankAccountViewHolder(ViewholderRegisterBankAccountBinding.inflate(parentFragment.getLayoutInflater(), parent, false), user);
+            return new RegisterBankAccountViewHolder(ViewholderBankAccountRegisterBinding.inflate(parentFragment.getLayoutInflater(), parent, false), user);
         else if (isForWallet) {
             return new WalletViewHolder(ViewholderWalletBinding.inflate(parentFragment.getLayoutInflater(), parent, false), parentFragment);
         } else

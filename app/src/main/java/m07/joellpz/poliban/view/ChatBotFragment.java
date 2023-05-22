@@ -1,6 +1,6 @@
 package m07.joellpz.poliban.view;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,7 +79,7 @@ public class ChatBotFragment extends Fragment {
             // by user is empty or not.
             if (userMsgEdt.getText().toString().isEmpty()) {
                 // if the edit text is empty display a toast message.
-                Toast.makeText(getActivity().getApplicationContext(), "Introduce tu mensaje", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity().getApplicationContext(), "Introduce tu mensaje", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -92,10 +92,10 @@ public class ChatBotFragment extends Fragment {
         });
 
         // on below line we are initializing our adapter class and passing our array list to it.
-        messageRVAdapter = new MessageRVAdapter(messageModalArrayList, getActivity().getApplicationContext());
+        messageRVAdapter = new MessageRVAdapter(messageModalArrayList);
 
         // below line we are creating a variable for our linear layout manager.
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity().getApplicationContext(), RecyclerView.VERTICAL, false);
 
         // below line is to set layout
         // manager to our recycler view.
@@ -117,6 +117,7 @@ public class ChatBotFragment extends Fragment {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void sendMessage(String userMsg) {
         // below line is to pass message to our
         // array list which is entered by the user.
@@ -194,12 +195,10 @@ public class ChatBotFragment extends Fragment {
 
         // variable for our array list and context.
         private final ArrayList<MessageModal> messageModalArrayList;
-        private final Context context;
 
         // constructor class.
-        public MessageRVAdapter(ArrayList<MessageModal> messageModalArrayList, Context context) {
+        public MessageRVAdapter(ArrayList<MessageModal> messageModalArrayList) {
             this.messageModalArrayList = messageModalArrayList;
-            this.context = context;
         }
 
         @NonNull
@@ -208,17 +207,13 @@ public class ChatBotFragment extends Fragment {
             View view;
             // below code is to switch our
             // layout type along with view holder.
-            switch (viewType) {
-                case 0:
-                    // below line we are inflating user message layout.
-                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_msg_chatbot, parent, false);
-                    return new UserViewHolder(view);
-                case 1:
-                    // below line we are inflating bot message layout.
-                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bot_msg_chatbot, parent, false);
-                    return new BotViewHolder(view);
+            if (viewType == 0) {// below line we are inflating user message layout.
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_chatbot_user_msg, parent, false);
+                return new UserViewHolder(view);
+            } else {// below line we are inflating bot message layout.
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_chatbot_bot_msg, parent, false);
+                return new BotViewHolder(view);
             }
-            return null;
         }
 
         @Override
@@ -256,7 +251,7 @@ public class ChatBotFragment extends Fragment {
             }
         }
 
-        public class UserViewHolder extends RecyclerView.ViewHolder {
+        public static class UserViewHolder extends RecyclerView.ViewHolder {
 
             // creating a variable
             // for our text view.
@@ -269,7 +264,7 @@ public class ChatBotFragment extends Fragment {
             }
         }
 
-        public class BotViewHolder extends RecyclerView.ViewHolder {
+        public static class BotViewHolder extends RecyclerView.ViewHolder {
 
             // creating a variable
             // for our text view.

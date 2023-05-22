@@ -77,8 +77,8 @@
     <string name="balance">BALANCE:</string>
     <string name="to_come">TO COME:</string>
     <string name="text_ejemplo">Text Ejemplo</string>
-    <string name="toText">\"To: \"</string>
-    <string name="fromText">\"From: \"</string>
+    <string name="toText">To: </string>
+    <string name="fromText">From: </string>
     <string name="futureText">F:</string>
     <string name="lastWeek">Last Week</string>
     <string name="lastMonth">Last Month</string>
@@ -99,4 +99,14 @@
     <string name="ibanNoShow">* * * * * * * * * * * * * * * *</string>
     <string name="cvvNoShow">***</string>
     <string name="dateNoShow">**/**</string>
+    <string name="make_a_transfer_in_the_easiest_way">Make a transfer in the easiest way!</string>
+    <string name="user_message">User message</string>
+    <string name="usericon">userIcon</string>
+    <string name="botlogo">botLogo</string>
+    <string name="bot_message">Bot message</string>
+    <string name="reason">Reason*</string>
+    <string name="quantity">Quantity*</string>
+    <string name="accepted">ACCEPTED</string>
+    <string name="money_you_need">How many money do you need?</string>
+    <string name="request">REQUEST</string>
 </resources>

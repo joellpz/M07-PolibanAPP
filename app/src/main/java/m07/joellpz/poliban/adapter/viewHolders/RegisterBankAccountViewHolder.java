@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
 
-import m07.joellpz.poliban.databinding.ViewholderRegisterBankAccountBinding;
+import m07.joellpz.poliban.databinding.ViewholderBankAccountRegisterBinding;
 import m07.joellpz.poliban.model.BankAccount;
 
 public class RegisterBankAccountViewHolder extends RecyclerView.ViewHolder {
-    private final ViewholderRegisterBankAccountBinding binding;
+    private final ViewholderBankAccountRegisterBinding binding;
     private final FirebaseUser user;
 
-    public RegisterBankAccountViewHolder(ViewholderRegisterBankAccountBinding binding, FirebaseUser user) {
+    public RegisterBankAccountViewHolder(ViewholderBankAccountRegisterBinding binding, FirebaseUser user) {
         super(binding.getRoot());
         this.user = user;
         this.binding = binding;

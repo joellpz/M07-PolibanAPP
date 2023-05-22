@@ -121,14 +121,12 @@ public class BankAccount {
     public static void saveBankAccountToUser(BankAccount account, final Consumer<Boolean> callback) {
         FirebaseFirestore.getInstance().collection("users")
                 .document(account.getUserId()).get().addOnSuccessListener(docSnap -> {
-                    List<String> accounts = (List<String>) docSnap.get("bankAccounts");
-                    if (Objects.requireNonNull(accounts).contains(account.getIban())) {
+                    if (Objects.requireNonNull((List<String>) docSnap.get("bankAccounts")).contains(account.getIban())) {
                         callback.accept(false);
                     } else {
                         callback.accept(true);
                         System.out.println("Registered IBAN: " + account.getIban() + " --- Registered IBAN ----");
                         FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()).set(account);
-                        //docSnap.getReference().update("bankAccounts", FirebaseFirestore.getInstance().collection("bankAccount").document(account.getIban()));
                         docSnap.getReference().update("bankAccounts", FieldValue.arrayUnion(account.getIban()));
                     }
                 });
@@ -140,14 +138,21 @@ public class BankAccount {
         System.out.println("Cuenta: "+getIban()+" Eliminada!");
     }
 
+
     @NonNull
     @Override
     public String toString() {
+        return iban;
+    }
+
+    @NonNull
+    public String toStringComplete() {
         return "BankAccount{" +
-                "iban='" + iban + '\'' +
-                ", owner='" + owner + '\'' +
-                ", cif='" + cif + '\'' +
-                ", balance=" + balance +
+                ", userId='" + getUserId() + '\'' +
+                ", iban='" + getIban() + '\'' +
+                ", owner='" + getOwner() + '\'' +
+                ", cif='" + getCif() + '\'' +
+                ", balance=" + getBalanceString() +
                 '}';
     }
 }

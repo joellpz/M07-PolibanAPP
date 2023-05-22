@@ -5,6 +5,7 @@ import android.graphics.Color;
 import androidx.annotation.NonNull;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -14,6 +15,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Transaction {
@@ -25,6 +27,7 @@ public class Transaction {
     private Date date;
     private float opinion;
     private boolean future;
+    private BankAccount bankAccount;
 
     public Transaction() {
     }
@@ -35,6 +38,7 @@ public class Transaction {
         this.value = value;
         this.subject = subject;
         this.date = date;
+        this.bankAccount = bankAccount;
         this.bankId = bankAccount.getIban();
     }
 
@@ -119,6 +123,11 @@ public class Transaction {
     }
 
     @Exclude
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    @Exclude
     public Event getTransactionEvent() {
         if (getValue() > 0) {
             if (isFuture())
@@ -166,6 +175,17 @@ public class Transaction {
                 .collection("transaction")
                 .whereGreaterThanOrEqualTo("date", firstDay)
                 .whereLessThanOrEqualTo("date", calendar.getTime());
+    }
+
+    public static Task makeTransaction(Transaction t) {
+        return FirebaseFirestore.getInstance().collection("bankAccount")
+                .document(t.getBankId())
+                .collection("transaction")
+                .add(t).addOnSuccessListener(docRef -> {
+                    docRef.update("transactionId", docRef.getId());
+                    FirebaseFirestore.getInstance().collection("bankAccount").document(t.getBankId()).update("balance", t.getBankAccount().getBalance() + t.value);
+                });
+
     }
 
     @NonNull
