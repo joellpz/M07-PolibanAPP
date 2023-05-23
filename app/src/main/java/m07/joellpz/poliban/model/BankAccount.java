@@ -11,6 +11,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -57,16 +58,27 @@ public class BankAccount {
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(this.getClass().getSimpleName().toLowerCase().charAt(0) + this.getClass().getSimpleName().substring(1))
                 .document(getIban()).collection(name);
 
-        if (name.equals("walletCard")) {
-            //WalletCard walletCard = new WalletCard(this,(float) (Math.random() * 158), "4241 3373 0328 3409", "Joel Lopez", 739, "05/09", true);
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.add(Calendar.MONTH, -2);
 
+        if (name.equals("walletCard")) {
             collectionReference.add(new WalletCard(this));
         } else {
-            for (int i = 0; i < 25; i++) {
-                Date randomDate = new Date(ThreadLocalRandom.current().nextLong(1681077600000L, 1686348000000L));
-                Transaction transaction = new Transaction("Titus", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate, this);
+            for (int i = 0; i < 20; i++) {
+
+
+                Date randomDate = new Date(ThreadLocalRandom.current().nextLong(calendar.getTimeInMillis(), today.getTime()));
+                Transaction transaction = new Transaction("Cosas", false, (float) (Math.random() * 158) - 79, "La Fiesta", randomDate, this);
                 collectionReference.add(transaction).addOnSuccessListener(docRef -> docRef.update("transactionId", docRef.getId()));
             }
+            calendar.add(Calendar.MONTH, 3);
+            Transaction t1 = new Transaction("El Puig SL",true,(float)(Math.random() * 158),"NOmina",calendar.getTime(),this);
+            collectionReference.add(t1).addOnSuccessListener(docRef -> docRef.update("transactionId", docRef.getId()));
+            calendar.add(Calendar.DAY_OF_WEEK, -8);
+            Transaction t2 = new Transaction("Nedesa",true,(float)(Math.random() * 158) - 158,"Luh, agua y ga",calendar.getTime(),this);
+            collectionReference.add(t2).addOnSuccessListener(docRef -> docRef.update("transactionId", docRef.getId()));
         }
     }
 

@@ -53,7 +53,8 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/iban_example"
                     android:textColor="@color/white"
-                    android:textSize="22sp" />
+                    android:layout_gravity="center"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -446,18 +447,6 @@
                     app:compactCalendarMultiEventIndicatorColor="@color/orange_poliban"
                     app:compactCalendarTextColor="#6C6B6B"
                     app:compactCalendarTextSize="12sp" />
-
-                <!--        <CalendarView-->
-                <!--            android:id="@+id/calendarView"-->
-                <!--            android:layout_width="300dp"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:layout_marginTop="15dp"-->
-                <!--            android:background="@drawable/border_radius"-->
-                <!--            android:dateTextAppearance="@style/CalenderViewDateCustomText"-->
-                <!--            android:maxDate="12/31/2023"-->
-                <!--            android:minDate="12/01/2022"-->
-                <!--            android:theme="@style/CalenderViewCustom"-->
-                <!--            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"-->
 
             </LinearLayout>
 
