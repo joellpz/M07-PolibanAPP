@@ -109,4 +109,5 @@
     <string name="accepted">ACCEPTED</string>
     <string name="money_you_need">How many money do you need?</string>
     <string name="request">REQUEST</string>
+    <string name="enter_message">Enter Message</string>
 </resources>

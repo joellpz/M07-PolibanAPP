@@ -37,12 +37,11 @@
 
         <ImageButton
             android:id="@+id/chatbotBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/chatbot_btn"
-            android:backgroundTint="@color/white"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/transparent"
             android:contentDescription="@string/chatbot"
             android:src="@drawable/icon_chatbot"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,17 +49,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--    <ScrollView-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:fillViewport="true"-->
-    <!--        android:id="@+id/mainView">-->
-
-    <!--        <TextView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="@string/hello_blank_fragment" />-->
-    <!--    </ScrollView>-->
 
     <com.mrtyvz.archedimageprogress.ArchedImageProgressBar
         android:id="@+id/custom_imageProgressBar"

@@ -15,7 +15,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class Transaction {
@@ -30,6 +29,7 @@ public class Transaction {
     private BankAccount bankAccount;
 
     public Transaction() {
+
     }
 
     public Transaction(String from, boolean future, float value, String subject, Date date, BankAccount bankAccount) {
@@ -177,7 +177,7 @@ public class Transaction {
                 .whereLessThanOrEqualTo("date", calendar.getTime());
     }
 
-    public static Task makeTransaction(Transaction t) {
+    public static Task<?> makeTransaction(Transaction t) {
         return FirebaseFirestore.getInstance().collection("bankAccount")
                 .document(t.getBankId())
                 .collection("transaction")

@@ -21,49 +21,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/idRVChats"
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/idLLMessage"
-        app:layout_constraintBottom_toTopOf="@id/idLLMessage"
-        app:layout_constraintTop_toBottomOf="@id/goBackBtn"
-        tools:layout_editor_absoluteX="2dp" />
+        android:layout_above="@+id/idRLMsg"
+        app:layout_constraintBottom_toTopOf="@+id/idRLMsg"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-    <LinearLayout
-        android:id="@+id/idLLMessage"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/idRVChats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:weightSum="5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:id="@+id/idRLMsg">
 
-        <!--edit text to enter message-->
         <EditText
             android:id="@+id/idEdtMessage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:hint="@string/introduce_tu_mensaje"
-            android:autofillHints="@string/introduce_tu_mensaje"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="3dp"
+            android:layout_toStartOf="@id/idFABSend"
+            android:hint="@string/enter_message"
+            android:paddingStart="25dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="25dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/orange_light"
+            android:textSize="20sp"
+            android:importantForAutofill="no"
             android:inputType="text" />
 
-        <!--button to send message-->
-        <ImageButton
-            android:id="@+id/idIBSend"
-            android:layout_width="0dp"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/idFABSend"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/orange_light"
+            android:layout_width="wrap_content"
             android:src="@android:drawable/ic_menu_send"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="4dp"
+            android:backgroundTint="@color/orange_light"
+            app:fabCustomSize="45dp"
             app:tint="@color/white"
-            android:contentDescription="sendBtn" />
+            android:contentDescription="@string/send" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <ImageButton
         android:id="@+id/goBackBtn"
@@ -71,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/chatbot_btn"
+        android:background="@drawable/rounded_btn"
         android:contentDescription="@string/chatbot"
         android:src="@drawable/arrow_back"
         app:layout_constraintEnd_toEndOf="parent"

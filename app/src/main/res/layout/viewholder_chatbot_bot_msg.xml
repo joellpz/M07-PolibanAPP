@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="start"
+    android:layout_gravity="end"
+    android:backgroundTint="@color/blue_poliban"
     android:layout_margin="5dp"
     android:elevation="8dp"
     app:cardCornerRadius="8dp"
@@ -35,7 +36,7 @@
             android:layout_margin="5dp"
             android:padding="3dp"
             android:text="@string/bot_message"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
