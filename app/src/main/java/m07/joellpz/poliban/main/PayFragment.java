@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -106,7 +107,7 @@ public class PayFragment extends Fragment {
             Transaction.makeTransaction(t).addOnSuccessListener(o -> {
                 binding.customImageProgressBar.setVisibility(View.GONE);
                 binding.sendButton.setText(R.string.accepted);
-                binding.sendButton.setBackgroundColor(getResources().getColor(R.color.green));
+                binding.sendButton.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.green));
 
                 binding.firstEditText.setText("");
                 binding.secondEditTextPay.setText("");
@@ -114,7 +115,7 @@ public class PayFragment extends Fragment {
 
                 new Handler().postDelayed(() -> {
                     binding.sendButton.setText(R.string.send);
-                    binding.sendButton.setBackgroundColor(getResources().getColor(R.color.orange_light));
+                    binding.sendButton.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.orange_light));
                 }, 2000);
             });
         });
@@ -179,7 +180,7 @@ public class PayFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ContactsAdapter.ContactViewHolder holder, int position) {
             if (position % 2 == 0) {
-                holder.bindingContact.mainLayout.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_light)));
+                holder.bindingContact.mainLayout.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.blue_light)));
             }
 
             holder.bindingContact.mainLayout.setOnClickListener(l -> {

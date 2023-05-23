@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentLoginBinding;
-import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.tools.ChargingImage;
 import m07.joellpz.poliban.model.AppViewModel;
 
@@ -32,8 +31,6 @@ public class LoginFragment extends Fragment {
     NavController navController;
     private FragmentLoginBinding binding;
     private FirebaseAuth mAuth;
-    private AppViewModel appViewModel;
-
 
 
     public LoginFragment() {}
@@ -60,7 +57,7 @@ public class LoginFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
-        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         //appViewModel.createBankAccounts();
 
     }

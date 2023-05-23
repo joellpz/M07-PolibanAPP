@@ -72,7 +72,7 @@ public class ChatRVAdapter extends Adapter<ViewHolder> {
 
     // ViewHolder -> Describes an item view and metadata about its place within the RecyclerView.
     public static class UserViewHolder extends ViewHolder {
-        TextView userTv;
+        final TextView userTv;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,7 +82,7 @@ public class ChatRVAdapter extends Adapter<ViewHolder> {
 
     // ViewHolder -> Describes an item view and metadata about its place within the RecyclerView.
     public static class BotViewHolder extends ViewHolder {
-        TextView botMsgTv;
+        final TextView botMsgTv;
 
         public BotViewHolder(@NonNull View itemView) {
             super(itemView);

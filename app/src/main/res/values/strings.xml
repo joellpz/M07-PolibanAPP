@@ -2,17 +2,8 @@
     <string name="app_name">Poliban</string>
     <string name="logo">logo</string>
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
 
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="AppNameUpp">POLIBAN</string>
     <string name="login_with_email_password">Login with email/password</string>
     <string name="email">Email</string>
@@ -36,9 +27,7 @@
     <string name="credit">Credit</string>
     <string name="chatbot">ChatBot</string>
     <string name="chatBotTitle">Chat con Poliban</string>
-    <string name="introduce_tu_mensaje">Introduce tu mensaje</string>
     <string name="exp_date">Exp. Date:</string>
-    <string name="wasted_balance">Wasted Balance</string>
     <string name="infoBtn">infoBtn</string>
     <string name="deleteBtn">deleteBtn</string>
     <string name="payBtn">payBtn</string>
@@ -62,7 +51,6 @@
     <string name="delete_account_from_database">Delete account from database!</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
@@ -70,10 +58,6 @@
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="balance">BALANCE:</string>
     <string name="to_come">TO COME:</string>
     <string name="text_ejemplo">Text Ejemplo</string>
@@ -110,4 +94,17 @@
     <string name="money_you_need">How many money do you need?</string>
     <string name="request">REQUEST</string>
     <string name="enter_message">Enter Message</string>
+    <string name="date_example_short">09/26</string>
+    <string name="balance_example_card">125.00 €</string>
+    <string name="numExampleCard">* * * * * * * * * * * * 2230</string>
+    <string name="imagecontact">ImageContact</string>
+    <string name="jordi_l_pez">Jordi López</string>
+    <string name="example_phoneNum">+34 123 456 789</string>
+    <string name="tickcontact">tickContact</string>
+    <string name="inorouttransaction_icon">inOrOutTransaction</string>
+    <string name="bizum">Bizum</string>
+    <string name="date_12_oct_2022">12 Oct 2022</string>
+    <string name="balance_transaction">+ 19</string>
+    <string name="puig_castellar">Puig Castellar</string>
+    <string name="opinion">opinion</string>
 </resources>

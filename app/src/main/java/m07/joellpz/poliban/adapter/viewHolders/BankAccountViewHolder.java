@@ -10,11 +10,9 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionAdapter;
@@ -48,7 +45,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     private final ViewholderBankAccountBinding binding;
     private BankAccount bankAccount;
     private final Fragment parentFragment;
-    DecimalFormat df = new DecimalFormat("#.##");
+    final DecimalFormat df = new DecimalFormat("#.##");
 
     public BankAccountViewHolder(ViewholderBankAccountBinding binding,Fragment parentFragment) {
         super(binding.getRoot());

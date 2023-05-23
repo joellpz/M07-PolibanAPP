@@ -12,7 +12,7 @@
         android:layout_height="56dp"
         android:background="@drawable/border_radius"
         android:backgroundTint="@color/blue_poliban"
-        android:contentDescription="ImageContact"
+        android:contentDescription="@string/imagecontact"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -24,7 +24,7 @@
         android:layout_height="53dp"
         android:layout_margin="5dp"
         android:background="@drawable/border_radius"
-        android:contentDescription="ImageContact"
+        android:contentDescription="@string/imagecontact"
         android:padding="5dp"
         android:src="@drawable/icon_contact"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="23dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:text="Jordi Herna"
+        android:text="@string/jordi_l_pez"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:text="+34 123 456 789"
+        android:text="@string/example_phoneNum"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@id/contactName" />
 
@@ -60,6 +60,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="tickContact" />
+        android:contentDescription="@string/tickcontact" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

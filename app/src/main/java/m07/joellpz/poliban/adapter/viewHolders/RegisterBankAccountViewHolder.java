@@ -55,7 +55,7 @@ public class RegisterBankAccountViewHolder extends RecyclerView.ViewHolder {
         if (TextUtils.isEmpty(iban)) {
             binding.ibanEditText.setError("Required.");
             valid = false;
-        } else if (iban.length() != 24 || !iban.matches("[a-zA-Z0-9]+") || !iban.matches(regex)) {
+        } else if (iban.length() != 24 || !iban.matches("[a-zA-Z\\d]+") || !iban.matches(regex)) {
             binding.ibanEditText.setError("Bad format.");
             valid = false;
         } else binding.ibanEditText.setError(null);

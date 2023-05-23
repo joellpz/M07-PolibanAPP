@@ -18,7 +18,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class BankAccount {
-    private final List<String> subCollections = new ArrayList<>(Arrays.asList("transaction", "walletCard"));
     private String userId;
     private String iban;
     private String owner;
@@ -41,6 +40,7 @@ public class BankAccount {
         this.userId = userId;
         this.iban = iban;
         this.owner = owner;
+        List<String> subCollections = new ArrayList<>(Arrays.asList("transaction", "walletCard"));
         subCollections.forEach(this::createSubcollection);
     }
 

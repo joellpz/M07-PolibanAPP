@@ -149,25 +149,27 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <Button
+                    android:id="@+id/cancelButtonProfile"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/blue_light"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white" />
+                <Button
                     android:id="@+id/updateButtonProfile"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:backgroundTint="@color/orange_light"
                     android:text="@string/update"
                     android:textColor="@color/white" />
 
 
-                <Button
-                    android:id="@+id/cancelButtonProfile"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:backgroundTint="@color/blue_light"
-                    android:text="@string/cancel"
-                    android:textColor="@color/white" />
+
             </LinearLayout>
 
         </com.google.android.flexbox.FlexboxLayout>

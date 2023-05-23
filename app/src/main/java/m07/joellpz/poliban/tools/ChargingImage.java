@@ -11,7 +11,7 @@ import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 import m07.joellpz.poliban.R;
 
 public class ChargingImage {
-    ArchedImageProgressBar polibanArcProgress;
+    final ArchedImageProgressBar polibanArcProgress;
 
     public ChargingImage(ArchedImageProgressBar polibanArcProgress, Fragment fragment) {
         this.polibanArcProgress = polibanArcProgress;

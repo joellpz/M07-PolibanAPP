@@ -1,9 +1,7 @@
 package m07.joellpz.poliban.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 
 public class User {

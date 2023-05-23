@@ -26,14 +26,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mrtyvz.archedimageprogress.ArchedImageProgressBar;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import com.bumptech.glide.Glide;
 
 import m07.joellpz.poliban.R;
-import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.User;
 import m07.joellpz.poliban.tools.UpdateProfileImage;
 import m07.joellpz.poliban.model.AppViewModel;

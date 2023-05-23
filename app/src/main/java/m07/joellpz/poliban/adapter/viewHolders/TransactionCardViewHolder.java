@@ -42,9 +42,9 @@ public class TransactionCardViewHolder extends RecyclerView.ViewHolder {
 
         binding.dateTransaction.setText(dateFormat.format(currentItem.getDate()));
         binding.priceTransaction.setText(currentItem.getValueString());
-        binding.valoracion.setRating(currentItem.getOpinion());
+        binding.opinion.setRating(currentItem.getOpinion());
 
-        binding.valoracion.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+        binding.opinion.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
             if (fromUser) {
                 FirebaseFirestore.getInstance().collection("bankAccount").document(currentItem.getBankId()).collection("transaction")
                                 .document(currentItem.getTransactionId()).update("opinion",rating);

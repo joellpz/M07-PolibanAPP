@@ -23,7 +23,6 @@ import m07.joellpz.poliban.model.BankAccount;
 
 public class BankAccountAdapter extends FirestoreRecyclerAdapter<BankAccount, RecyclerView.ViewHolder> {
     private static final int ITEM_TYPE_ADD_ACCOUNT = 1;
-    private static final int ITEM_TYPE_WALLET = 2;
     private final Fragment parentFragment;
     private final FirebaseUser user;
     private final boolean isForWallet;

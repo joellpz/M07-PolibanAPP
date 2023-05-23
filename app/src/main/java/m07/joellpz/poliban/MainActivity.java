@@ -10,7 +10,6 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.Objects;
 
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
-import m07.joellpz.poliban.model.BankAccount;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.appBarMain.toolbar.setTitle("");
-//        binding.appBarMain.toolbar.setVisibility(View.GONE);
-//        binding.appBarMain.contentMain.bottomMainMenu.setVisibility(View.GONE);
 
         NavController navController = ((NavHostFragment) Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main))).getNavController();
         binding.appBarMain.toolbar.findViewById(R.id.profileAppBarImage).setOnClickListener(l -> navController.navigate(R.id.profileFragment));
