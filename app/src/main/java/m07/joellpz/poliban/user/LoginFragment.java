@@ -21,9 +21,7 @@ import m07.joellpz.poliban.tools.ChargingImage;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment #newInstance} factory method to
- * create an instance of this fragment.
- * <p>
+ * Use the {@link LoginFragment #newInstance} factory method to create an instance of this fragment.
  * This fragment handles user login functionality.
  */
 public class LoginFragment extends Fragment {
@@ -90,12 +88,10 @@ public class LoginFragment extends Fragment {
      */
     private void accederConEmail() {
         binding.signInForm.setVisibility(View.GONE);
-        //signInProgressBar.setVisibility(View.VISIBLE);
         binding.customImageProgressBar.setVisibility(View.VISIBLE);
 
-        //TODO CAMBIAR ESTO
-        mAuth.signInWithEmailAndPassword("joel@gmail.com", "joel2001")
-                //mAuth.signInWithEmailAndPassword(binding.emailEditText.getText().toString(), binding.passwordEditText.getText().toString())
+
+        mAuth.signInWithEmailAndPassword(binding.emailEditText.getText().toString(), binding.passwordEditText.getText().toString())
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
                         actualizarUI(mAuth.getCurrentUser());
