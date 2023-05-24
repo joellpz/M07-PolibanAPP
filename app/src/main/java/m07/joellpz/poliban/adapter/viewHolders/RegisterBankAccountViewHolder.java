@@ -10,15 +10,31 @@ import m07.joellpz.poliban.databinding.ViewholderBankAccountRegisterBinding;
 import m07.joellpz.poliban.model.BankAccount;
 
 public class RegisterBankAccountViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * View binding for the fragment.
+     */
     private final ViewholderBankAccountRegisterBinding binding;
+    /**
+     * User
+     */
     private final FirebaseUser user;
 
+
+    /**
+     * Constructs a new BankAccountViewHolder.
+     *
+     * @param binding          The ViewholderRegisterBankAccountBinding object associated with this ViewHolder.
+     * @param user   The User from we want to search the data.
+     */
     public RegisterBankAccountViewHolder(ViewholderBankAccountRegisterBinding binding, FirebaseUser user) {
         super(binding.getRoot());
         this.user = user;
         this.binding = binding;
     }
 
+    /**
+     * Binds the ViewHolder to the data.
+     */
     public void bind() {
         binding.acceptButton.setOnClickListener(l -> {
             if (validateForm()) {
@@ -46,6 +62,10 @@ public class RegisterBankAccountViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
+    /**
+     * Check the format of the answers of the From.
+     * @return isValid
+     */
     public boolean validateForm() {
         boolean valid = true;
         String regex = "^ES\\d{22}$";

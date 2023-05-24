@@ -1,5 +1,6 @@
 package m07.joellpz.poliban.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,85 +12,170 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.maps.android.clustering.ClusterManager;
+
+import java.util.Objects;
 
 import m07.joellpz.poliban.R;
+import m07.joellpz.poliban.adapter.TransactionAdapter;
 import m07.joellpz.poliban.databinding.FragmentMapsBinding;
+import m07.joellpz.poliban.model.BankAccount;
+import m07.joellpz.poliban.model.Transaction;
 
-public class MapsFragment extends Fragment{
+/**
+ * The MapsFragment class represents a fragment that displays a map with markers representing transactions.
+ * It allows users to view transactions and interact with them.
+ */
+public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    //TODO Para poner los puntitos en el Maps
-    // https://github.com/googlemaps/android-maps-utils
-    private GoogleMap mMap;
+    /**
+     * The bank account to be displayed on the map.
+     */
+    private BankAccount bankAccount;
+
+    /**
+     * The ClusterManager instance for managing clustered markers.
+     */
+    private ClusterManager<Transaction> clusterManager;
+
+    /**
+     * The binding object for accessing views in the fragment.
+     */
     private FragmentMapsBinding binding;
+
+    /**
+     * The NavController instance for navigating between destinations.
+     */
     private NavController navController;
 
-    public MapsFragment (){
+    /**
+     * Constructs a new instance of MapsFragment with a specified bank account.
+     *
+     * @param bankAccount the bank account to display on the map
+     */
+    public MapsFragment(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    /**
+     * Constructs a new instance of MapsFragment.
+     */
+    public MapsFragment() {
 
     }
-    public MapsFragment (NavController navController){
-        this.navController = navController;
+
+    /**
+     * Called when the map is ready to be used.
+     *
+     * @param googleMap the GoogleMap instance representing the map
+     */
+    @SuppressLint("PotentialBehaviorOverride")
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setZoomGesturesEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
+
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(41.455775193431435, 2.201906692392249)));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+        clusterManager = new ClusterManager<>(requireContext(), googleMap);
+
+        addMarkers();
+
+        googleMap.setOnCameraIdleListener(clusterManager);
+        googleMap.setOnMarkerClickListener(clusterManager);
+
+        clusterManager.setOnClusterItemClickListener(clusterManager -> {
+            Query qTransactionsDay = FirebaseFirestore.getInstance()
+                    .collection("bankAccount")
+                    .document(clusterManager.getBankId())
+                    .collection("transaction")
+                    .whereEqualTo("transactionId", clusterManager.getTransactionId());
+            FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(this).build();
+            binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, this, true));
+            binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
+            return true;
+        });
+
+        binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
     }
-    private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.getUiSettings().setZoomGesturesEnabled(true);
-            mMap.getUiSettings().setCompassEnabled(true);
+    /**
+     * Called when a marker is clicked on the map.
+     *
+     * @param marker the clicked marker
+     * @return true if the click event is consumed, false otherwise
+     */
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        System.out.println(marker.getTag());
+        return false;
+    }
 
+    /**
+     * Adds markers to the map representing transactions.
+     */
+    private void addMarkers() {
+        Transaction.getQueryTransactions("month", null, bankAccount).get().addOnSuccessListener(docSnap -> {
+            for (Transaction t : docSnap.toObjects(Transaction.class)) {
+                if (t.getValue() < 0 && t.getUbi() != null) {
+                    System.out.println(t);
+                    clusterManager.addItem(t);
+                }
+            }
+        });
+    }
 
-            LatLng badalona = new LatLng(41.455775193431435, 2.201906692392249);
-            googleMap.addMarker(new MarkerOptions().position(badalona).title("El Puig"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(badalona));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        }
-
-
-    };
-
+    /**
+     * Creates the view for the fragment.
+     *
+     * @param inflater           the layout inflater
+     * @param container          the container for the fragment
+     * @param savedInstanceState the saved instance state
+     * @return the fragment view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        if (bankAccount == null)
+            this.bankAccount = (BankAccount) requireArguments().getSerializable("bankAccount");
         return (binding = FragmentMapsBinding.inflate(inflater, container, false)).getRoot();
     }
 
+    /**
+     * Called after the view has been created.
+     *
+     * @param view               the created view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
+            mapFragment.getMapAsync(this);
         }
-        System.out.println("MAPS **************************************************");
-        if (navController == null){
+        if (navController == null) {
             navController = Navigation.findNavController(view);
         }
-        //navController = requireParentFragment().requireView().findgetParentFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main).findNavController();
-
-
 
         binding.goBackBtnMapa.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
     }
-
-
 }

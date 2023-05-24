@@ -2,6 +2,7 @@ package m07.joellpz.poliban;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,9 +12,26 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
+/**
+ * The SplashScreen class represents the activity that is displayed when the application starts.
+ * It shows a splash screen with logos fading in before redirecting to the main activity.
+ */
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends AppCompatActivity {
-    ImageView logo, logo_bank;
+    /**
+     * ImageView for the company logo
+     */
+    private ImageView logo;
+    /**
+     * ImageView for the bank logo
+     */
+    private ImageView logo_bank;
 
+    /**
+     * Creates and initializes the activity.
+     *
+     * @param savedInstanceState the saved instance state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +44,15 @@ public class SplashScreen extends AppCompatActivity {
         logo_bank.setVisibility(View.GONE);
 
         new Handler().postDelayed(() -> {
-            Animation fadeInAll = new AlphaAnimation(0, 1);  // the 1, 0 here notifies that we want the opacity to go from opaque (1) to transparent (0)
-            Animation fadeInBank = new AlphaAnimation(0, 1);  // the 1, 0 here notifies that we want the opacity to go from opaque (1) to transparent (0)
+            Animation fadeInAll = new AlphaAnimation(0, 1); // Animation to fade in both logos
+            Animation fadeInBank = new AlphaAnimation(0, 1); // Animation to fade in bank logo
 
             fadeInAll.setInterpolator(new AccelerateInterpolator());
             fadeInBank.setInterpolator(new AccelerateInterpolator());
 
-            fadeInAll.setStartOffset(900); // Start fading out after 500 milli seconds
-            fadeInAll.setDuration(800);
-            fadeInBank.setDuration(800);
+            fadeInAll.setStartOffset(900); // Delay before fading in logos
+            fadeInAll.setDuration(800); // Duration of fade animation
+            fadeInBank.setDuration(800); // Duration of bank logo fade animation
 
             logo_bank.setVisibility(View.VISIBLE);
             logo.setVisibility(View.VISIBLE);
@@ -45,6 +63,6 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Intent i = new Intent(SplashScreen.this, MainActivity.class);
             startActivity(i);
-        },3200);
+        }, 3200); // Delay before redirecting to the main activity
     }
 }

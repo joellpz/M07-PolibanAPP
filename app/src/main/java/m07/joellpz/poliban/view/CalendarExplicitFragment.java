@@ -33,16 +33,31 @@ import m07.joellpz.poliban.R;
  */
 public class CalendarExplicitFragment extends Fragment {
 
+    /**
+     * Constructs a new instance of CalendarExplicitFragment.
+     */
     public CalendarExplicitFragment() {
         // Required empty public constructor
     }
 
-
+    /**
+     * Called when the fragment is created.
+     *
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Creates the view for the fragment.
+     *
+     * @param inflater           the layout inflater
+     * @param container          the container for the fragment
+     * @param savedInstanceState the saved instance state
+     * @return the fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +65,12 @@ public class CalendarExplicitFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_calendar_explicit, container, false);
     }
 
+    /**
+     * Called after the view has been created.
+     *
+     * @param view               the created view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -89,12 +110,13 @@ public class CalendarExplicitFragment extends Fragment {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                if (firstDayOfNewMonth.after(today)) calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
-                else calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
+                if (firstDayOfNewMonth.after(today))
+                    calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B1B1B1")));
+                else
+                    calendarLinearView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white, requireActivity().getTheme())));
                 monthText.setText(dateFormatForMonth.format(firstDayOfNewMonth));
                 Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
             }
         });
-
     }
 }

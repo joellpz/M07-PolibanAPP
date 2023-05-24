@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -19,26 +18,54 @@ import com.google.firebase.auth.FirebaseUser;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.databinding.FragmentLoginBinding;
 import m07.joellpz.poliban.tools.ChargingImage;
-import m07.joellpz.poliban.model.AppViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment #newInstance} factory method to
  * create an instance of this fragment.
+ * <p>
+ * This fragment handles user login functionality.
  */
 public class LoginFragment extends Fragment {
 
-    NavController navController;
+    /**
+     * Navigation controller for navigating between fragments.
+     */
+    private NavController navController;
+    /**
+     * View binding for the fragment.
+     */
     private FragmentLoginBinding binding;
+    /**
+     * Firebase Authenticator.
+     */
     private FirebaseAuth mAuth;
 
+    /**
+     * Default constructor for LoginFragment.
+     */
+    public LoginFragment() {
+    }
 
-    public LoginFragment() {}
-
+    /**
+     * Inflates the fragment view.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return The inflated view for the fragment.
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return (binding = FragmentLoginBinding.inflate(inflater, container, false)).getRoot();
     }
+
+    /**
+     * Called when the view creation is complete.
+     *
+     * @param view               The created view
+     * @param savedInstanceState The saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -56,38 +83,38 @@ public class LoginFragment extends Fragment {
         binding.loginButton.setOnClickListener(view1 -> accederConEmail());
 
         mAuth = FirebaseAuth.getInstance();
-
-        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
-        //appViewModel.createBankAccounts();
-
     }
 
+    /**
+     * Logs in the user with email and password.
+     */
     private void accederConEmail() {
         binding.signInForm.setVisibility(View.GONE);
         //signInProgressBar.setVisibility(View.VISIBLE);
         binding.customImageProgressBar.setVisibility(View.VISIBLE);
 
+        //TODO CAMBIAR ESTO
         mAuth.signInWithEmailAndPassword("joel@gmail.com", "joel2001")
                 //mAuth.signInWithEmailAndPassword(binding.emailEditText.getText().toString(), binding.passwordEditText.getText().toString())
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        //appViewModel.getUserAccounts(mAuth.getCurrentUser());
-                        System.out.println("PAAAASANDO *******************************************");
-                        //BankAccount.saveBankAccountToUser(new BankAccount(mAuth.getCurrentUser().getUid(),"null",null), isSaved -> {});
                         actualizarUI(mAuth.getCurrentUser());
                     } else {
                         Snackbar.make(requireView(), "Error: " + task.getException(), Snackbar.LENGTH_LONG).show();
                     }
                     binding.signInForm.setVisibility(View.VISIBLE);
-//                    signInProgressBar.setVisibility(View.GONE);
                     binding.customImageProgressBar.setVisibility(View.GONE);
                 });
     }
 
+    /**
+     * Updates the UI based on the current user.
+     *
+     * @param currentUser The current user
+     */
     private void actualizarUI(FirebaseUser currentUser) {
         if (currentUser != null) {
             navController.navigate(R.id.homeFragment);
         }
     }
-
 }

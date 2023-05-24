@@ -12,8 +12,17 @@ import java.util.Objects;
 import m07.joellpz.poliban.databinding.ActivityMainBinding;
 
 
+/**
+ * The MainActivity class represents the main activity of the application.
+ * It serves as the entry point for the app and hosts the navigation graph.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Creates and initializes the activity.
+     *
+     * @param savedInstanceState the saved instance state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //TO DO Fondo delete account
-    //TO DO Margin IbanMain
+    // TO DO: Implement background for delete account
+    // TO DO: Adjust margin in IbanMain
 
-    
-    //TODO Invest Page
-    //TO DO Make fragment pay good
-    //TO DO Connect Buttons From Iban to Pay fragment
-    //TO DO Connectar MapFragment al hacer click largo en Map
-    //TODO Permitir poner Tarjeta en el Wallet
-    //TO DO Lista de Futures en BankAccount y Mostrarlos en el Calendar Explicits
+    // TODO: Implement Invest Page
+    // TO DO: Improve pay fragment layout
+    // TO DO: Connect buttons from Iban to Pay fragment
+    // TO DO: Connect MapFragment on long click on map
+    // TO DO: Allow adding cards to the Wallet
+    // TO DO: Implement list of futures in BankAccount and display them in the calendar
+    // TO DO: Implement to see the Transactions in the Map and let see the info from that Transaction https://github.com/googlemaps/android-maps-utils
 
-
-    // https://www.geeksforgeeks.org/flexbox-layout-in-android/
-    // https://stackoverflow.com/questions/31250174/css-flexbox-difference-between-align-items-and-align-content
+    // Useful resources:
+    // - Flexbox layout in Android: https://www.geeksforgeeks.org/flexbox-layout-in-android/
+    // - Difference between align-items and align-content in CSS flexbox: https://stackoverflow.com/questions/31250174/css-flexbox-difference-between-align-items-and-align-content
 }

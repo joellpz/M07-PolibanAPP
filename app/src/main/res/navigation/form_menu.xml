@@ -51,10 +51,16 @@
         android:name="m07.joellpz.poliban.view.CalendarExplicitFragment"
         android:label="fragment_calendar_explicit"
         tools:layout="@layout/fragment_calendar_explicit" />
+
     <fragment
         android:id="@+id/mapsFragment"
         android:name="m07.joellpz.poliban.view.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps">
+
+        <argument
+            android:name="bankAccount"
+            app:argType="m07.joellpz.poliban.model.BankAccount" />
+    </fragment>
 
 </navigation>

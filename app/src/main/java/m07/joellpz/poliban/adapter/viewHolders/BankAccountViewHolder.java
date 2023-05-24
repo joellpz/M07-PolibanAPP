@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -36,23 +37,45 @@ import java.util.Locale;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionAdapter;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
+import m07.joellpz.poliban.databinding.ViewholderWalletCardRegisterBinding;
 import m07.joellpz.poliban.main.HomeFragment;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 import m07.joellpz.poliban.view.MapsFragment;
 
 public class BankAccountViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * View binding for the fragment.
+     */
     private final ViewholderBankAccountBinding binding;
-    private BankAccount bankAccount;
+    /**
+     * Parent Fragment
+     */
     private final Fragment parentFragment;
+    /**
+     * Bank Account to define the Objects of the ViewHolder
+     */
+    private BankAccount bankAccount;
+    /**
+     * Decimal Format
+     */
     final DecimalFormat df = new DecimalFormat("#.##");
 
+    /**
+     * Constructs a new BankAccountViewHolder.
+     *
+     * @param binding          The ViewholderBankAccountBinding object associated with this ViewHolder.
+     * @param parentFragment   The parent Fragment that holds the RecyclerView.
+     */
     public BankAccountViewHolder(ViewholderBankAccountBinding binding,Fragment parentFragment) {
         super(binding.getRoot());
         this.binding = binding;
         this.parentFragment = parentFragment;
     }
 
+    /**
+     * Binds the ViewHolder to the data.
+     */
     @SuppressLint("ClickableViewAccessibility")
     public void bind(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
@@ -60,7 +83,7 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         parentFragment.requireView().findViewById(R.id.custom_imageProgressBar).setVisibility(View.VISIBLE);
 
         FragmentTransaction mapFragment = parentFragment.requireActivity().getSupportFragmentManager().beginTransaction();
-        mapFragment.replace(R.id.map, new MapsFragment(Navigation.findNavController(parentFragment.requireView())));
+        mapFragment.replace(R.id.map, new MapsFragment(bankAccount));
         mapFragment.commit();
 
         binding.deleteAcoountBtn.setOnClickListener(v -> new AlertDialog.Builder(parentFragment.getContext())
@@ -109,7 +132,11 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         setCalendarViewAppearance();
 
         binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
-        binding.mapImageContainer.setOnClickListener(l -> Navigation.findNavController(parentFragment.requireView()).navigate(R.id.mapsFragment));
+        binding.mapImageContainer.setOnClickListener(l -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("bankAccount", bankAccount);
+            Navigation.findNavController(parentFragment.requireView()).navigate(R.id.mapsFragment, bundle);
+        });
 
         binding.bizumButton.setOnClickListener(l -> ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment));
         binding.creditButton.setOnClickListener(l -> ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment));
@@ -247,6 +274,9 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
     }
 
 
+    /**
+     * Configures and Defines the visualization of the Calendars from the main view.
+     */
     private void setCalendarViewAppearance() {
         Date today = new Date();
         SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", new Locale("es", "ES"));
@@ -310,6 +340,10 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         binding.calendarExplicitIbanFragment.goBackBtn.setOnClickListener(l -> binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.INVISIBLE));
     }
 
+    /**
+     * Makes a query to define the Transactions inside the calendar per Month,
+     * @param firstDayOfNewMonth First day of the Month we search for
+     */
     private void setCalendarForMonth(Date firstDayOfNewMonth) {
         Query qTransactionsMonth = Transaction.getQueryTransactions("month", firstDayOfNewMonth, bankAccount).orderBy("date", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsMonth, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();

@@ -18,21 +18,42 @@ import m07.joellpz.poliban.databinding.ViewholderWalletBinding;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.WalletCard;
 
+/**
+ * ViewHolder class for Wallet items in a RecyclerView.
+ */
 public class WalletViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * View binding for the fragment.
+     */
     private final ViewholderWalletBinding binding;
+    /**
+     * Parent Fragment
+     */
     private final Fragment parentFragment;
 
+    /**
+     * Constructs a new WalletViewHolder.
+     *
+     * @param binding        The ViewholderWalletBinding object associated with this ViewHolder.
+     * @param parentFragment The parent Fragment that holds the RecyclerView.
+     */
     public WalletViewHolder(ViewholderWalletBinding binding, Fragment parentFragment) {
         super(binding.getRoot());
         this.binding = binding;
         this.parentFragment = parentFragment;
     }
 
+    /**
+     * Binds a BankAccount object to the ViewHolder.
+     *
+     * @param bankAccount The BankAccount object to bind.
+     */
     @SuppressLint("SetTextI18n")
     public void bind(BankAccount bankAccount) {
         binding.whoseAccountText.setText(bankAccount.getOwner());
         binding.numAccountText.setText(". . . .  " + bankAccount.getIban().split(" ")[bankAccount.getIban().split(" ").length - 1]);
 
+        // Set the bank logo based on the IBAN number
         if (bankAccount.getIban().split(" ")[1].equals("2100")) {
             binding.bankLogoWallet.setImageResource(R.drawable.logo_lacaixa);
         } else if (bankAccount.getIban().split(" ")[1].equals("0057")) {
@@ -41,8 +62,11 @@ public class WalletViewHolder extends RecyclerView.ViewHolder {
             binding.bankLogoWallet.setImageResource(R.drawable.logo_santander);
         }
 
+        // Set up the RecyclerView for WalletCard items
         binding.cardRecyclerView.setLayoutManager(new LinearLayoutManager(parentFragment.requireContext(), RecyclerView.HORIZONTAL, false));
         binding.cardRecyclerView.setHasFixedSize(true);
+
+        // Attach a LinearSnapHelper to enable snapping behavior in the RecyclerView
         LinearSnapHelper snapHelper = new LinearSnapHelper() {
             @Override
             public int findTargetSnapPosition(RecyclerView.LayoutManager lm, int velocityX, int velocityY) {
@@ -77,8 +101,14 @@ public class WalletViewHolder extends RecyclerView.ViewHolder {
         snapHelper.attachToRecyclerView(binding.cardRecyclerView);
         binding.cardRecyclerView.setNestedScrollingEnabled(false);
 
+        // Set up FirestoreRecyclerOptions for querying WalletCard items from Firestore
         Query qWalletCard = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("walletCard");
-        FirestoreRecyclerOptions<WalletCard> options = new FirestoreRecyclerOptions.Builder<WalletCard>().setQuery(qWalletCard, WalletCard.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
-        binding.cardRecyclerView.setAdapter(new WalletCardAdapter(options, parentFragment,bankAccount));
+        FirestoreRecyclerOptions<WalletCard> options = new FirestoreRecyclerOptions.Builder<WalletCard>()
+                .setQuery(qWalletCard, WalletCard.class)
+                .setLifecycleOwner(parentFragment.getParentFragment())
+                .build();
+
+        // Set the WalletCardAdapter for the RecyclerView
+        binding.cardRecyclerView.setAdapter(new WalletCardAdapter(options, parentFragment, bankAccount));
     }
 }

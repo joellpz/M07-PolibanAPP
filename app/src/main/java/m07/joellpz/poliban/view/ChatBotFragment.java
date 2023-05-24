@@ -35,31 +35,64 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatBotFragment #newInstance} factory method to
- * create an instance of this fragment.
+ * The ChatBotFragment class represents a fragment that allows users to chat with a chatbot.
+ * It sends user messages to a chatbot API and displays the responses in a RecyclerView.
+ * Bot AI - <a href="https://brainshop.ai">Brainshop.ai</a>
  */
 public class ChatBotFragment extends Fragment {
-    //IA lINK: https://brainshop.ai/brain/172691/settingss
 
+    /**
+     * RecyclerView for displaying chat messages
+     */
     private RecyclerView chatsRv;
+    /**
+     * EditText for entering user messages
+     */
     private EditText userMsgEdt;
+    /**
+     * Key for identifying bot messages
+     */
     private final String BOT_KEY = "bot";
+    /**
+     * ArrayList for storing chat messages
+     */
     private ArrayList<ChatsModal> ChatsModalArrayList;
+    /**
+     * RecyclerView adapter for chat messages
+     */
     private ChatRVAdapter ChatRVAdapter;
+    /**
+     * Navigation controller for fragment navigation
+     */
     private NavController navController;
 
+    /**
+     * Constructs a new instance of ChatBotFragment.
+     */
     public ChatBotFragment() {
         // Required empty public constructor
     }
 
-
+    /**
+     * Creates the view for the fragment.
+     *
+     * @param inflater           the layout inflater
+     * @param container          the container for the fragment
+     * @param savedInstanceState the saved instance state
+     * @return the fragment view
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         requireActivity().findViewById(R.id.bottomMainMenu).setVisibility(View.GONE);
         return inflater.inflate(R.layout.fragment_chat_bot, container, false);
     }
 
+    /**
+     * Called after the view has been created.
+     *
+     * @param view               the created view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -67,19 +100,19 @@ public class ChatBotFragment extends Fragment {
 
         view.findViewById(R.id.goBackBtn).setOnClickListener(l -> navController.popBackStack());
 
-        chatsRv = view.findViewById(R.id.idRVChats);
-        userMsgEdt = view.findViewById(R.id.idEdtMessage);
-        FloatingActionButton sendMsgFAB = view.findViewById(R.id.idFABSend);
+        chatsRv = view.findViewById(R.id.idRVChats); // Initialize the RecyclerView for chat messages
+        userMsgEdt = view.findViewById(R.id.idEdtMessage); // Initialize the EditText for user messages
+        FloatingActionButton sendMsgFAB = view.findViewById(R.id.idFABSend); // Initialize the send message FAB
 
-        ChatsModalArrayList = new ArrayList<>();
-        ChatRVAdapter = new ChatRVAdapter(ChatsModalArrayList);
+        ChatsModalArrayList = new ArrayList<>(); // Create an empty ArrayList for chat messages
+        ChatRVAdapter = new ChatRVAdapter(ChatsModalArrayList); // Create a new RecyclerView adapter
 
         // LinearLayoutManager -> Provides similar function to listView.
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         manager.setStackFromEnd(true);
-        chatsRv.setLayoutManager(manager);
+        chatsRv.setLayoutManager(manager); // Set the layout manager for the RecyclerView
         chatsRv.setItemAnimator(new DefaultItemAnimator());
-        chatsRv.setAdapter(ChatRVAdapter);
+        chatsRv.setAdapter(ChatRVAdapter); // Set the adapter for the RecyclerView
 
         sendMsgFAB.setOnClickListener(v -> {
             if (userMsgEdt.getText().toString().isEmpty()) {
@@ -92,6 +125,11 @@ public class ChatBotFragment extends Fragment {
 
     }
 
+    /**
+     * Sends the user message to the chatbot API and retrieves the response.
+     *
+     * @param message the user message
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void getResponse(String message) {
         String USER_KEY = "user";
@@ -131,4 +169,3 @@ public class ChatBotFragment extends Fragment {
         });
     }
 }
-
