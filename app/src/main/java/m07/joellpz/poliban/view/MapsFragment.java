@@ -106,12 +106,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     .collection("transaction")
                     .whereEqualTo("transactionId", clusterManager.getTransactionId());
             FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(this).build();
-            binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, this, true));
-            binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
+            binding.fragmentTransactionCardsMaps.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, this, true));
+            binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.VISIBLE);
             return true;
         });
 
-        binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
+        binding.fragmentTransactionCardsMaps.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.INVISIBLE));
     }
 
     /**

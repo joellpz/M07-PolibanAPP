@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/fragmentTransactionCards"
+        android:id="@+id/fragmentTransactionCardsMaps"
         layout="@layout/fragment_transaction_cards"
         android:visibility="gone" />
 

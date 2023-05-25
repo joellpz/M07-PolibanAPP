@@ -1,6 +1,7 @@
 package m07.joellpz.poliban.user;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,9 @@ public class LoginFragment extends Fragment {
         new ChargingImage(binding.customImageProgressBar, this);
         binding.customImageProgressBar.setVisibility(View.GONE);
 
-        binding.loginButton.setOnClickListener(view1 -> accederConEmail());
+        binding.loginButton.setOnClickListener(view1 -> {
+            if (validarFormulario()) accederConEmail();
+        });
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -89,7 +92,6 @@ public class LoginFragment extends Fragment {
     private void accederConEmail() {
         binding.signInForm.setVisibility(View.GONE);
         binding.customImageProgressBar.setVisibility(View.VISIBLE);
-
 
         mAuth.signInWithEmailAndPassword(binding.emailEditText.getText().toString(), binding.passwordEditText.getText().toString())
                 .addOnCompleteListener(requireActivity(), task -> {
@@ -113,4 +115,30 @@ public class LoginFragment extends Fragment {
             navController.navigate(R.id.homeFragment);
         }
     }
+
+    /**
+     * Validates the registration form by checking if all required fields are filled.
+     *
+     * @return True if the form is valid, false otherwise.
+     */
+    private boolean validarFormulario() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(binding.emailEditText.getText().toString())) {
+            binding.emailEditText.setError("Required.");
+            valid = false;
+        } else {
+            binding.emailEditText.setError(null);
+        }
+
+        if (TextUtils.isEmpty(binding.passwordEditText.getText().toString())) {
+            binding.passwordEditText.setError("Required.");
+            valid = false;
+        } else {
+            binding.passwordEditText.setError(null);
+        }
+
+        return valid;
+    }
+
 }

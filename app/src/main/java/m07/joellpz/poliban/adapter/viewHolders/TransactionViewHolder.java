@@ -54,25 +54,19 @@ public class TransactionViewHolder extends RecyclerView.ViewHolder {
         binding.dateTransaction.setText(currentItem.getDateFormatted());
         binding.priceTransaction.setText(currentItem.getValueString());
 
+
         // Set click listener to show transaction details
-        binding.mainTransactionLayout.setOnClickListener(l -> {
-            // Query Firestore for transaction details
-            Query qTransactionsOne = FirebaseFirestore.getInstance()
+        binding.getRoot().setOnClickListener(l -> {
+            System.out.println(currentItem.getTransactionId());
+            Query qTransactionsDay = FirebaseFirestore.getInstance()
                     .collection("bankAccount")
                     .document(currentItem.getBankId())
                     .collection("transaction")
                     .whereEqualTo("transactionId", currentItem.getTransactionId());
-            FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>()
-                    .setQuery(qTransactionsOne, Transaction.class)
-                    .setLifecycleOwner(parentFragment.getParentFragment())
-                    .build();
-
-            // Set TransactionAdapter for the RecyclerView
-            RecyclerView rvTransactionCards = parentFragment.requireView().findViewById(R.id.recyclerview_transactionCards);
-            rvTransactionCards.setAdapter(new TransactionAdapter(options, parentFragment, true));
-
-            // Show the transaction details fragment
-            parentFragment.requireView().findViewById(R.id.fragmentTransactionCards).setVisibility(View.VISIBLE);
+            FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
+            parentFragment.requireView().findViewById(R.id.chatbotBtn).setVisibility(View.INVISIBLE);
+            ((RecyclerView) parentFragment.requireView().findViewById(R.id.fragmentTransactionCardsBank).findViewById(R.id.recyclerview_transactionCards)).setAdapter(new TransactionAdapter(options, parentFragment.getParentFragment(), true));
+            parentFragment.requireView().findViewById(R.id.fragmentTransactionCardsBank).setVisibility(View.VISIBLE);
         });
     }
 }

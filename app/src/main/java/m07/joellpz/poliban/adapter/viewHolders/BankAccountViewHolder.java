@@ -112,8 +112,6 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
 
         df.setRoundingMode(RoundingMode.CEILING);
 
-        //TODO PONER MARCADORES DE COLORES EN EL MAPA
-
         //Bank info Introduce
         setMainInfo();
         Query qTransactionsAll = FirebaseFirestore.getInstance().collection("bankAccount").document(bankAccount.getIban()).collection("transaction").whereEqualTo("future", false).orderBy("date", Query.Direction.DESCENDING);
@@ -131,7 +129,10 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
         setChartsInfo("month");
         setCalendarViewAppearance();
 
-        binding.fragmentTransactionCards.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCards.getRoot().setVisibility(View.INVISIBLE));
+        binding.fragmentTransactionCardsBank.goBackBtnCards.setOnClickListener(l -> {
+            parentFragment.requireView().findViewById(R.id.chatbotBtn).setVisibility(View.VISIBLE);
+            binding.fragmentTransactionCardsBank.getRoot().setVisibility(View.INVISIBLE);
+        });
         binding.mapImageContainer.setOnClickListener(l -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("bankAccount", bankAccount);
@@ -292,8 +293,9 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
                 if (binding.compactcalendarView.getEvents(dateClicked).size() != 0) {
                     Query qTransactionsDay = Transaction.getQueryTransactions("day", dateClicked, bankAccount).orderBy("date", Query.Direction.DESCENDING);
                     FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(parentFragment.getParentFragment()).build();
-                    binding.fragmentTransactionCards.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, parentFragment, true));
-                    binding.fragmentTransactionCards.getRoot().setVisibility(View.VISIBLE);
+                    parentFragment.requireView().findViewById(R.id.chatbotBtn).setVisibility(View.INVISIBLE);
+                    binding.fragmentTransactionCardsBank.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, parentFragment, true));
+                    binding.fragmentTransactionCardsBank.getRoot().setVisibility(View.VISIBLE);
                     Log.d(TAG, "Day was clicked: " + dateClicked + " with events " + binding.compactcalendarView.getEvents(dateClicked));
                 }
             }
@@ -335,7 +337,6 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.VISIBLE);
             RecyclerView recyclerView = parentFragment.requireView().findViewById(R.id.recyclerViewHome);
             recyclerView.setNestedScrollingEnabled(true);
-
         });
         binding.calendarExplicitIbanFragment.goBackBtn.setOnClickListener(l -> binding.calendarExplicitIbanFragment.getRoot().setVisibility(View.INVISIBLE));
     }
