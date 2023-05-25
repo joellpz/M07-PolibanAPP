@@ -153,7 +153,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if (bankAccount == null)
+        System.out.println(requireArguments().size());
+        if (bankAccount == null && requireArguments().size() >0)
+
             this.bankAccount = (BankAccount) requireArguments().getSerializable("bankAccount");
         return (binding = FragmentMapsBinding.inflate(inflater, container, false)).getRoot();
     }
