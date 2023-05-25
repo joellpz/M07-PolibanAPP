@@ -37,3 +37,34 @@ Este proyecto es parte de mi ciclo superior de Desarrollo de Aplicaciones Multip
 Si tienes alguna idea o sugerencia para agregar nuevas características o mejorar la funcionalidad existente, no dudes en contactarme o enviar una solicitud de pull en el repositorio de GitHub.
 
 ¡Gracias por tu interés en POLIBAN!
+
+---
+
+# NOT Functional - Study Project
+## POLIBAN - Financial Application
+POLIBAN is a financial application developed as part of the Higher Degree in Multiplatform Application Development. The application aims to provide users with an intuitive and secure platform to manage their personal finances.
+
+## Key Features
+- User Registration: Users can create a personal account using their email address and password.
+- Transaction Management: Users can record and track their financial transactions, including income, expenses, and transfers.
+- Card Management: The application allows the generation and destruction of credit cards associated with registered accounts.
+
+## Data Storage in Firebase
+POLIBAN utilizes Firebase, a mobile application development platform, to store and manage user and bank data. Firebase provides a real-time database and secure authentication services, ensuring that users' financial information is protected and accessible at all times.
+
+## System Requirements
+- Android device running version 6.0 (Marshmallow) or higher.
+- Internet connection to access the features and synchronize data with Firebase.
+
+## Installation and Configuration
+1. Download the APK file of the application from the GitHub repository.
+2. Install the APK on your Android device.
+3. Open the application and follow the instructions to create an account or log in.
+4. Start managing your personal finances efficiently and securely!
+
+## Contributions and Future Improvements
+This project is part of my Higher Degree in Multiplatform Application Development and aims to showcase my skills and knowledge acquired so far. However, I am always open to suggestions and contributions to enhance the application.
+
+If you have any ideas or suggestions to add new features or improve existing functionality, feel free to contact me or submit a pull request on the GitHub repository.
+
+Thank you for your interest in POLIBAN!
