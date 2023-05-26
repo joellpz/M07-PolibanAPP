@@ -100,7 +100,7 @@ public class BankAccount implements Serializable {
         calendar.add(Calendar.MONTH, -2);
 
         if (name.equals("walletCard")) {
-            collectionReference.add(new WalletCard(this));
+            collectionReference.add(new WalletCard(this)).addOnSuccessListener(docRef -> docRef.update("cardId", docRef.getId()));
         } else {
             for (int i = 0; i < 20; i++) {
                 Date randomDate = new Date(ThreadLocalRandom.current().nextLong(calendar.getTimeInMillis(), today.getTime()));
@@ -109,7 +109,7 @@ public class BankAccount implements Serializable {
                 collectionReference.add(transaction).addOnSuccessListener(docRef -> docRef.update("transactionId", docRef.getId()));
             }
             calendar.add(Calendar.MONTH, 3);
-            Transaction t1 = new Transaction("El Puig SL", true, (float) (Math.random() * 158), "NOmina", calendar.getTime(), this);
+            Transaction t1 = new Transaction("El Puig SL", true, (float) (Math.random() * 158), "Nomina", calendar.getTime(), this);
             collectionReference.add(t1).addOnSuccessListener(docRef -> docRef.update("transactionId", docRef.getId()));
             calendar.add(Calendar.DAY_OF_WEEK, -8);
             Transaction t2 = new Transaction("Nedesa", true, (float) (Math.random() * 158) - 158, "Luh, agua y ga", calendar.getTime(), this);

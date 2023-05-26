@@ -153,9 +153,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        System.out.println(requireArguments().size());
-        if (bankAccount == null && requireArguments().size() >0)
+        //TODO Mirar de crear un Fragmetn Chiquito para el BankAccountViewHolder que sea un extends del Grande pero sin NavController.
+        // Alomejor así se soluciona lo de NavController al Girar la Pantalla.
 
+        //TODO Usar MutableLiveData como en los ejemplos para asi guardar el BankAccount que se necesite en AppViewModel.
+        if (bankAccount == null)
             this.bankAccount = (BankAccount) requireArguments().getSerializable("bankAccount");
         return (binding = FragmentMapsBinding.inflate(inflater, container, false)).getRoot();
     }

@@ -36,6 +36,7 @@ import java.util.Locale;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionAdapter;
+import m07.joellpz.poliban.databinding.ActivityMainBinding;
 import m07.joellpz.poliban.databinding.ViewholderBankAccountBinding;
 import m07.joellpz.poliban.databinding.ViewholderWalletCardRegisterBinding;
 import m07.joellpz.poliban.main.HomeFragment;
@@ -139,8 +140,9 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             Navigation.findNavController(parentFragment.requireView()).navigate(R.id.mapsFragment, bundle);
         });
 
-        binding.bizumButton.setOnClickListener(l -> ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment));
-        binding.creditButton.setOnClickListener(l -> ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment));
+        //TODO Al pulsar estos botones hace cosas raras, tanto con esto como con lo anterior de usar el NavController de HomeFragment
+        binding.bizumButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
+        binding.creditButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
     }
 
     /**
