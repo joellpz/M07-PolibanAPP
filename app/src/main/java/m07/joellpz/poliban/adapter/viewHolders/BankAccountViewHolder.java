@@ -140,9 +140,13 @@ public class BankAccountViewHolder extends RecyclerView.ViewHolder {
             Navigation.findNavController(parentFragment.requireView()).navigate(R.id.mapsFragment, bundle);
         });
 
-        //TODO Al pulsar estos botones hace cosas raras, tanto con esto como con lo anterior de usar el NavController de HomeFragment
-        binding.bizumButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
-        binding.creditButton.setOnClickListener(l -> ActivityMainBinding.inflate(parentFragment.getLayoutInflater()).appBarMain.contentMain.bottomMainMenu.findViewById(R.id.payFragment).performClick());
+        //TO DO Al pulsar estos botones hace cosas raras, tanto con esto como con lo anterior de usar el NavController de HomeFragment
+        View.OnClickListener listener = v -> {
+            ((HomeFragment) parentFragment).navController.popBackStack();
+            ((HomeFragment) parentFragment).navController.navigate(R.id.payFragment);
+        };
+        binding.bizumButton.setOnClickListener(listener);
+        binding.creditButton.setOnClickListener(listener);
     }
 
     /**

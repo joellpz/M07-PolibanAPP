@@ -19,12 +19,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.maps.android.clustering.ClusterManager;
-
-import java.util.Objects;
 
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionAdapter;
@@ -65,6 +62,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
      */
     public MapsFragment(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
+        System.out.println("Sync Bank Account: "+ bankAccount+ "++++++++++++++++++++++++++++++++++++++++");
     }
 
     /**
@@ -94,6 +92,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         clusterManager = new ClusterManager<>(requireContext(), googleMap);
 
+
         addMarkers();
 
         googleMap.setOnCameraIdleListener(clusterManager);
@@ -110,6 +109,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.VISIBLE);
             return true;
         });
+
 
         binding.fragmentTransactionCardsMaps.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.INVISIBLE));
     }
@@ -133,8 +133,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         Transaction.getQueryTransactions("month", null, bankAccount).get().addOnSuccessListener(docSnap -> {
             for (Transaction t : docSnap.toObjects(Transaction.class)) {
                 if (t.getValue() < 0 && t.getUbi() != null) {
-                    System.out.println(t);
                     clusterManager.addItem(t);
+                    System.out.println("Marker: " + t+"+++++++++++++++++++++++++++++++++++++++++");
                 }
             }
         });
@@ -157,6 +157,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         // Alomejor así se soluciona lo de NavController al Girar la Pantalla.
 
         //TODO Usar MutableLiveData como en los ejemplos para asi guardar el BankAccount que se necesite en AppViewModel.
+
         if (bankAccount == null)
             this.bankAccount = (BankAccount) requireArguments().getSerializable("bankAccount");
         return (binding = FragmentMapsBinding.inflate(inflater, container, false)).getRoot();
@@ -176,10 +177,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        if (navController == null) {
+        if (navController == null && bankAccount != null) {
             navController = Navigation.findNavController(view);
+            binding.goBackBtnMapa.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
         }
 
-        binding.goBackBtnMapa.setOnClickListener(l -> navController.navigate(R.id.homeFragment));
+
     }
 }

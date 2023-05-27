@@ -83,6 +83,7 @@ public class PayFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        System.out.println("**************** PAY FRAGMENT ****************");
         super.onViewCreated(view, savedInstanceState);
         this.status = "transfer";
 
