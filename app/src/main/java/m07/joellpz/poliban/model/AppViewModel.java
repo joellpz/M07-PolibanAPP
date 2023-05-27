@@ -54,4 +54,6 @@ public class AppViewModel extends AndroidViewModel {
     public void setMediaSeleccionado(Uri uri, String type) {
         mediaSeleccionado.setValue(new Media(uri, type));
     }
+
+    public BankAccount bankAccountBackUp;
 }

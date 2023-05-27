@@ -395,10 +395,17 @@ public class Transaction implements ClusterItem {
      *
      * @return The generated geographical position.
      */
+    @Exclude
     private static GeoPoint getRandomPosition() {
+        double minLat = 41.3879;
+        double maxLat = 41.4655;
+        double minLng = 2.1301;
+        double maxLng = 2.2522;
+
         Random random = new Random();
-        double lat = -90 + random.nextDouble() * 180;
-        double lng = -180 + random.nextDouble() * 360;
+        double lat = minLat + (maxLat - minLat) * random.nextDouble();
+        double lng = minLng + (maxLng - minLng) * random.nextDouble();
+
         return new GeoPoint(lat, lng);
     }
 

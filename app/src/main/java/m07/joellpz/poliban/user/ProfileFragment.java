@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -123,7 +124,10 @@ public class ProfileFragment extends Fragment {
                             binding.phoneEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profilePhone")).toString());
                             binding.directionEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileDirection")).toString());
                             binding.cpEditTextProfile.setText(Objects.requireNonNull(docSnap.get("profileCP")).toString());
-                            Glide.with(requireContext()).load(Objects.requireNonNull(docSnap.get("profilePhoto")).toString()).circleCrop().into(binding.profileImgProfile);
+                            if (docSnap.get("profilePhoto") != null)
+                                Glide.with(requireContext()).load(Objects.requireNonNull(docSnap.get("profilePhoto")).toString()).circleCrop().into(binding.profileImgProfile);
+                            else
+                                Glide.with(requireContext()).load(R.drawable.profile_img).circleCrop().into(binding.profileImgProfile);
                             System.out.println("ENCONTRADO");
                         } else {
                             System.out.println("Documento no encontrado");

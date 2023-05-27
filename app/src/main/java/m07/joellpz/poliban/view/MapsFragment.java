@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -26,6 +27,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import m07.joellpz.poliban.R;
 import m07.joellpz.poliban.adapter.TransactionAdapter;
 import m07.joellpz.poliban.databinding.FragmentMapsBinding;
+import m07.joellpz.poliban.model.AppViewModel;
 import m07.joellpz.poliban.model.BankAccount;
 import m07.joellpz.poliban.model.Transaction;
 
@@ -90,25 +92,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(41.455775193431435, 2.201906692392249)));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
-        clusterManager = new ClusterManager<>(requireContext(), googleMap);
+        clusterManager = new ClusterManager<>(requireActivity(), googleMap);
 
 
-        addMarkers();
+        if (bankAccount != null) {
+            addMarkers();
 
-        googleMap.setOnCameraIdleListener(clusterManager);
-        googleMap.setOnMarkerClickListener(clusterManager);
+            googleMap.setOnCameraIdleListener(clusterManager);
+            googleMap.setOnMarkerClickListener(clusterManager);
 
-        clusterManager.setOnClusterItemClickListener(clusterManager -> {
-            Query qTransactionsDay = FirebaseFirestore.getInstance()
-                    .collection("bankAccount")
-                    .document(clusterManager.getBankId())
-                    .collection("transaction")
-                    .whereEqualTo("transactionId", clusterManager.getTransactionId());
-            FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(this).build();
-            binding.fragmentTransactionCardsMaps.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, this, true));
-            binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.VISIBLE);
-            return true;
-        });
+            clusterManager.setOnClusterItemClickListener(clusterManager -> {
+                Query qTransactionsDay = FirebaseFirestore.getInstance()
+                        .collection("bankAccount")
+                        .document(clusterManager.getBankId())
+                        .collection("transaction")
+                        .whereEqualTo("transactionId", clusterManager.getTransactionId());
+                FirestoreRecyclerOptions<Transaction> options = new FirestoreRecyclerOptions.Builder<Transaction>().setQuery(qTransactionsDay, Transaction.class).setLifecycleOwner(this).build();
+                binding.fragmentTransactionCardsMaps.recyclerviewTransactionCards.setAdapter(new TransactionAdapter(options, this, true));
+                binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.VISIBLE);
+                return true;
+            });
+        }
 
 
         binding.fragmentTransactionCardsMaps.goBackBtnCards.setOnClickListener(l -> binding.fragmentTransactionCardsMaps.getRoot().setVisibility(View.INVISIBLE));
@@ -157,9 +161,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         // Alomejor así se soluciona lo de NavController al Girar la Pantalla.
 
         //TODO Usar MutableLiveData como en los ejemplos para asi guardar el BankAccount que se necesite en AppViewModel.
+        AppViewModel appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
-        if (bankAccount == null)
-            this.bankAccount = (BankAccount) requireArguments().getSerializable("bankAccount");
+        if (bankAccount == null) {
+            if (getArguments() != null) {
+                this.bankAccount = (BankAccount) requireArguments().getSerializable("bankAccount");
+                appViewModel.bankAccountBackUp = bankAccount;
+            }
+        }
+        //}else {
+        //    if (appViewModel.bankAccountBackUp != null) this.bankAccount = appViewModel.bankAccountBackUp;
+        //}
+
+//        //} else
+//            appViewModel.bankAccountBackUp = bankAccount;
         return (binding = FragmentMapsBinding.inflate(inflater, container, false)).getRoot();
     }
 
