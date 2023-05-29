@@ -387,7 +387,16 @@ public class Transaction implements ClusterItem {
         return FirebaseFirestore.getInstance().collection("bankAccount")
                 .document(t.getBankId())
                 .collection("transaction")
-                .add(t);
+                .add(t)
+                .addOnSuccessListener( docRef -> {
+                    docRef.update("transactionId", docRef.getId());
+
+                    FirebaseFirestore.getInstance().collection("bankAccount")
+                            .document(t.getBankId())
+                            .update("balance",t.getBankAccount().getBalance()+t.value);
+                });
+
+
     }
 
     /**

@@ -134,7 +134,7 @@ public class PayFragment extends Fragment {
                 new Handler().postDelayed(() -> {
                     binding.sendButton.setText(R.string.send);
                     binding.sendButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.orange_light));
-                }, 2000);
+                }, 1000);
             });
         });
     }
